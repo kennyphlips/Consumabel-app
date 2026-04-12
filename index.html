@@ -3,26 +3,26 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Magazijn App V2</title>
+    <title>Magazijn App V3.1</title>
     <style>
-        body { font-family: sans-serif; background-color: #f0f2f5; margin: 0; padding: 15px; padding-bottom: 100px; }
+        body { font-family: sans-serif; background-color: #f0f2f5; margin: 0; padding: 15px; padding-bottom: 120px; }
         .container { max-width: 600px; margin: auto; background: white; padding: 20px; border-radius: 12px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
-        h1 { color: #1a73e8; text-align: center; font-size: 24px; }
+        h1 { color: #1a73e8; text-align: center; font-size: 22px; margin: 0; text-transform: uppercase; }
         
-        /* Navigatie */
-        .nav-bar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
-        .back-btn { background: #6c757d; color: white; border: none; padding: 8px 15px; border-radius: 5px; cursor: pointer; display: none; }
+        .nav-bar { display: flex; align-items: center; margin-bottom: 20px; gap: 10px; min-height: 40px; }
+        .back-btn { background: #6c757d; color: white; border: none; padding: 10px 15px; border-radius: 5px; cursor: pointer; font-weight: bold; }
 
-        /* Grid */
-        .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
-        .card { border: 1px solid #eee; padding: 10px; text-align: center; border-radius: 10px; background: #fff; box-shadow: 0 2px 5px rgba(0,0,0,0.05); }
-        .card img { width: 100%; height: 110px; object-fit: cover; border-radius: 5px; }
-        .card p { margin: 10px 0; font-weight: bold; font-size: 14px; }
+        .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+        .card { border: 1px solid #ddd; padding: 20px 10px; text-align: center; border-radius: 10px; background: #fff; 
+                box-shadow: 0 2px 5px rgba(0,0,0,0.05); cursor: pointer; transition: transform 0.1s; display: flex; align-items: center; justify-content: center; min-height: 60px; }
+        .card:active { transform: scale(0.95); background-color: #e8f0fe; }
+        .card p { margin: 0; font-weight: bold; font-size: 13px; text-transform: uppercase; }
         
-        /* Winkelmandje */
+        .card.is-item { border-left: 5px solid #28a745; background-color: #f8fff9; }
+
         .order-list { margin-top: 30px; border-top: 3px solid #1a73e8; padding-top: 15px; }
-        .winkelmand-item { background: #f8f9fa; padding: 10px; margin-bottom: 8px; border-radius: 8px; display: flex; justify-content: space-between; align-items: center; border: 1px solid #ddd; }
-        .delete-btn { background: #dc3545; color: white; border: none; padding: 5px 10px; border-radius: 5px; cursor: pointer; font-weight: bold; }
+        .winkelmand-item { background: #f8f9fa; padding: 10px; margin-bottom: 8px; border-radius: 8px; display: flex; justify-content: space-between; align-items: center; border: 1px solid #ddd; font-size: 14px; }
+        .delete-btn { background: #dc3545; color: white; border: none; padding: 8px 12px; border-radius: 5px; cursor: pointer; }
         
         .footer-btn { position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); width: 90%; max-width: 540px; }
         .send-btn { background: #28a745; color: white; border: none; padding: 15px; font-size: 18px; font-weight: bold; border-radius: 10px; cursor: pointer; width: 100%; box-shadow: 0 4px 10px rgba(0,0,0,0.2); }
@@ -32,12 +32,11 @@
 
 <div class="container">
     <div class="nav-bar">
-        <button id="backBtn" class="back-btn" onclick="toonHoofdmenu()">⬅ Terug</button>
-        <h1 id="titel">Magazijn</h1>
+        <button id="backBtn" class="back-btn" onclick="gaTerug()" style="display: none;">⬅</button>
+        <h1 id="titel">MAGAZIJN</h1>
     </div>
 
-    <div id="itemGrid" class="grid">
-        </div>
+    <div id="itemGrid" class="grid"></div>
 
     <div class="order-list">
         <h3>Mijn Aanvraag:</h3>
@@ -50,77 +49,103 @@
 </div>
 
 <script>
-    // --- DATA STRUCTUUR ---
-const CATEGORIEEN = ["FASTENERS", "ELECTRONICS", "TOOLS", "OTHERS"];
-
-const ARTIKELEN = {
-    "FASTENERS": [
-        "BOLTS",
-        "NUTS",
-        "WASHERS",
-        "SCREWS",
-        "RIVETS",
-        "ANCHORS",
-        "PINS",
-        "RETAINING RINGS"
-    ],
-    "ELECTRONICS": [
-        "FUSES",
-        "LUGS",
-        "SINGLE CORE WIRE",
-        "HEAT SHRINK TUBING",
-        "BATTERY TERMINALS",
-        "PLUGS & CONNECTORS",
-        "CABLE TIES",
-        "RELAYS"
-    ],
-    "TOOLS": [
-        "WRENCHES",
-        "PLIERS",
-        "SCREWDRIVERS",
-        "HAMMERS"
-    ],
-    "OTHERS": [
-        "TAPE",
-        "CLEANER",
-        "LUBRICANT"
-    ]
+    const DATA = {
+        "FASTENERS": {
+            "BOLTS": ["M4 x 20", "M5 x 25", "M6 x 30", "M8 x 40", "M10 x 50"],
+            "NUTS": ["M4", "M5", "M6", "M8", "M10", "M12"],
+            "WASHERS": ["M4", "M5", "M6", "M8", "M10"],
+            "SCREWS": ["3.5 x 16", "4.0 x 30", "5.0 x 50"]
+        },
+        "ELECTRONICS": {
+            "FUSES": {
+                "BLADE FUSES": ["2A", "5A", "7.5A", "10A", "15A", "20A", "30A"],
+                "GLASS FUSES": ["1A", "2A", "5A", "10A"],
+                "MAXI FUSES": ["30A", "40A", "50A", "60A", "80A"]
+            },
+            "LUGS": {
+                "RED (1.5mm)": ["M4", "M5", "M6"],
+                "BLUE (2.5mm)": ["M4", "M5", "M6", "M8"],
+                "YELLOW (6.0mm)": ["M6", "M8", "M10"]
+            },
+            "WIRING": ["SINGLE CORE 1.5mm²", "SINGLE CORE 2.5mm²", "TWIN CORE 2x1.5mm²"],
+            "HEAT SHRINK": ["3mm", "5mm", "8mm", "12mm"],
+            "TERMINALS": ["BATTERY POSITIVE", "BATTERY NEGATIVE"]
+        },
+        "TAPES": {
+            "ELECTRICAL TAPE": ["BLACK", "RED", "BLUE", "YELLOW/GREEN"],
+            "MASKING TAPE": ["19mm", "38mm", "50mm"],
+            "DUCT TAPE": ["SILVER", "BLACK"]
+        },
+        "ADHESIVES": {
+            "LOCTITE": ["243 MEDIUM", "270 STRONG", "401 INSTANT", "577 PIPE SEAL"],
+            "CLEANERS": ["BRAKE CLEANER", "CONTACT CLEANER", "WD-40"]
+        },
+        "ABRASIVES": {
+            "SANDPAPER": ["GRIT 80", "GRIT 120", "GRIT 180", "GRIT 240", "GRIT 400"],
+            "GRINDING": ["METAL GRINDING DISC 125mm", "FLAP DISC P60", "FLAP DISC P80"],
+            "CUTTING": ["METAL CUTTING DISC 125mm", "STAINLESS STEEL CUTTING DISC"]
+        },
+        "DRILLING": {
+            "HSS METAL DRILLS": ["2mm", "3mm", "4mm", "5mm", "6mm", "8mm", "10mm", "12mm"],
+            "MASONRY DRILLS": ["6mm", "8mm", "10mm", "12mm"],
+            "HOLE SAWS": ["20mm", "25mm", "32mm", "40mm", "50mm"]
+        }
     };
 
     let winkelwagen = [];
+    let navigatiePad = [];
 
-    function toonHoofdmenu() {
-        document.getElementById('backBtn').style.display = 'none';
-        document.getElementById('titel').innerText = "Magazijn";
+    function renderMenu() {
         const grid = document.getElementById('itemGrid');
+        const titel = document.getElementById('titel');
+        const backBtn = document.getElementById('backBtn');
         grid.innerHTML = '';
 
-        CATEGORIEEN.forEach(cat => {
-            const div = document.createElement('div');
-            div.className = 'card';
-            div.innerHTML = `<img src="${cat.img}"><p>${cat.naam}</p>`;
-            div.onclick = () => toonCategorie(cat.id, cat.naam);
-            grid.appendChild(div);
+        let huidigeData = DATA;
+        navigatiePad.forEach(stap => {
+            huidigeData = huidigeData[stap];
         });
+
+        if (navigatiePad.length > 0) {
+            titel.innerText = navigatiePad[navigatiePad.length - 1];
+            backBtn.style.display = 'block';
+        } else {
+            titel.innerText = "MAGAZIJN";
+            backBtn.style.display = 'none';
+        }
+
+        if (Array.isArray(huidigeData)) {
+            huidigeData.forEach(item => {
+                const div = document.createElement('div');
+                div.className = 'card is-item';
+                div.innerHTML = `<p>${item}</p>`;
+                div.onclick = () => voegToe(item);
+                grid.appendChild(div);
+            });
+        } else {
+            Object.keys(huidigeData).forEach(sleutel => {
+                const div = document.createElement('div');
+                div.className = 'card';
+                div.innerHTML = `<p>${sleutel}</p>`;
+                div.onclick = () => gaDieper(sleutel);
+                grid.appendChild(div);
+            });
+        }
     }
 
-    function toonCategorie(id, naam) {
-        document.getElementById('backBtn').style.display = 'block';
-        document.getElementById('titel').innerText = naam;
-        const grid = document.getElementById('itemGrid');
-        grid.innerHTML = '';
-
-        ARTIKELEN[id].forEach(item => {
-            const div = document.createElement('div');
-            div.className = 'card';
-            div.innerHTML = `<img src="${item.img}"><p>${item.naam}</p>`;
-            div.onclick = () => voegToe(item.naam);
-            grid.appendChild(div);
-        });
+    function gaDieper(sleutel) {
+        navigatiePad.push(sleutel);
+        renderMenu();
     }
 
-    function voegToe(naam) {
-        winkelwagen.push(naam);
+    function gaTerug() {
+        navigatiePad.pop();
+        renderMenu();
+    }
+
+    function voegToe(maat) {
+        const volledigeNaam = navigatiePad.join(" > ") + " : " + maat;
+        winkelwagen.push(volledigeNaam);
         updateWinkelwagenLayout();
     }
 
@@ -145,13 +170,11 @@ const ARTIKELEN = {
         if (winkelwagen.length === 0) return alert("Je lijst is nog leeg!");
         const lijstTekst = winkelwagen.join("%0D%0A- ");
         const mail = "aankoper@uwbedrijf.be";
-        window.location.href = `mailto:${mail}?subject=Magazijn Aanvraag&body=Ik heb nodig:%0D%0A- ${lijstTekst}`;
+        window.location.href = `mailto:${mail}?subject=Magazijn Aanvraag&body=Ik heb de volgende onderdelen nodig:%0D%0A%0D%0A- ${lijstTekst}`;
     }
 
-    // Start de app
-    toonHoofdmenu();
+    renderMenu();
 </script>
 
 </body>
 </html>
-
