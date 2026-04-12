@@ -3,34 +3,46 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Magazijn Master V7.4</title>
+    <title>Magazijn Master V7.7</title>
 
     <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="#1a73e8">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="mobile-web-app-capable" content="yes">
-    <meta name="theme-color" content="#1a73e8">
     <link rel="apple-touch-icon" href="https://cdn-icons-png.flaticon.com/512/2897/2897830.png">
 
     <style>
-        body { font-family: -apple-system, system-ui, sans-serif; background-color: #f0f2f5; margin: 0; padding: 10px; padding-bottom: 140px; }
-        .container { max-width: 700px; margin: auto; background: white; padding: 15px; border-radius: 12px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
+        :root {
+            --bg-color: #f0f2f5; --container-bg: #ffffff; --text-color: #333; --card-bg: #ffffff;
+            --card-border: #ddd; --input-bg: #ffffff; --nav-bg: #f8f9fa;
+        }
+
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --bg-color: #121212; --container-bg: #1e1e1e; --text-color: #e0e0e0; --card-bg: #2d2d2d;
+                --card-border: #444; --input-bg: #333; --nav-bg: #252525;
+            }
+        }
+
+        body { font-family: -apple-system, system-ui, sans-serif; background-color: var(--bg-color); color: var(--text-color); margin: 0; padding: 10px; padding-bottom: 140px; transition: background 0.3s; }
+        .container { max-width: 700px; margin: auto; background: var(--container-bg); padding: 15px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.3); }
         h1 { color: #1a73e8; text-align: center; font-size: 18px; text-transform: uppercase; border-bottom: 2px solid #1a73e8; padding-bottom: 8px; margin-top: 5px; }
-        .user-info { margin-bottom: 15px; padding: 10px; background: #e8f0fe; border-radius: 8px; border: 1px solid #1a73e8; }
-        .user-info input { width: 100%; padding: 12px; border: 1px solid #ccc; border-radius: 6px; box-sizing: border-box; font-size: 16px; }
-        .nav-bar { display: flex; align-items: center; margin-bottom: 15px; gap: 10px; background: #f8f9fa; padding: 8px; border-radius: 8px; }
+        .user-info { margin-bottom: 15px; padding: 10px; background: rgba(26, 115, 232, 0.1); border-radius: 8px; border: 1px solid #1a73e8; }
+        .user-info input { width: 100%; padding: 12px; border: 1px solid var(--card-border); border-radius: 6px; box-sizing: border-box; font-size: 16px; background: var(--input-bg); color: var(--text-color); }
+        .nav-bar { display: flex; align-items: center; margin-bottom: 15px; gap: 10px; background: var(--nav-bg); padding: 8px; border-radius: 8px; }
         .back-btn { background: #6c757d; color: white; border: none; padding: 12px 18px; border-radius: 6px; cursor: pointer; font-weight: bold; }
         .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
-        .card { border: 1px solid #ddd; padding: 10px; text-align: center; border-radius: 10px; background: #fff; cursor: pointer; }
-        .card img { width: 100%; height: 90px; object-fit: cover; border-radius: 6px; margin-bottom: 8px; background-color: #eee; }
-        .card p { margin: 0; font-weight: bold; font-size: 11px; text-transform: uppercase; }
+        .card { border: 1px solid var(--card-border); padding: 10px; text-align: center; border-radius: 10px; background: var(--card-bg); cursor: pointer; }
+        .card img { width: 100%; height: 90px; object-fit: cover; border-radius: 6px; margin-bottom: 8px; background-color: #444; }
+        .card p { margin: 0; font-weight: bold; font-size: 11px; text-transform: uppercase; color: var(--text-color); }
         .card.is-item { border-left: 6px solid #1a73e8; text-align: left; padding: 12px 10px; }
         .card.is-item p { font-size: 12px; }
-        .card.is-item small { display: block; color: #666; font-size: 9px; margin-top: 4px; font-weight: normal; }
+        .card.is-item small { display: block; color: #aaa; font-size: 9px; margin-top: 4px; font-weight: normal; }
         .order-list { margin-top: 25px; border-top: 3px solid #1a73e8; padding-top: 15px; }
-        .winkelmand-item { background: #f8f9fa; padding: 10px; margin-bottom: 8px; border-radius: 8px; display: flex; justify-content: space-between; border: 1px solid #ddd; align-items: center; font-size: 12px; }
+        .winkelmand-item { background: var(--nav-bg); padding: 10px; margin-bottom: 8px; border-radius: 8px; display: flex; justify-content: space-between; border: 1px solid var(--card-border); align-items: center; font-size: 12px; color: var(--text-color); }
         .delete-btn { background: #dc3545; color: white; border: none; padding: 8px; border-radius: 6px; }
-        .footer-btn { position: fixed; bottom: 15px; left: 50%; transform: translateX(-50%); width: 92%; max-width: 600px; }
-        .send-btn { background: #28a745; color: white; border: none; padding: 18px; font-size: 18px; font-weight: bold; border-radius: 14px; width: 100%; box-shadow: 0 5px 15px rgba(0,0,0,0.3); }
+        .footer-btn { position: fixed; bottom: 15px; left: 50%; transform: translateX(-50%); width: 92%; max-width: 600px; z-index: 1000; }
+        .send-btn { background: #28a745; color: white; border: none; padding: 18px; font-size: 18px; font-weight: bold; border-radius: 14px; width: 100%; box-shadow: 0 5px 15px rgba(0,0,0,0.5); }
+        textarea { background: var(--input-bg); color: var(--text-color); border: 1px solid var(--card-border); font-family: inherit; width:100%; border-radius:8px; padding:10px; box-sizing:border-box; margin-top:10px; }
     </style>
 </head>
 <body>
@@ -46,7 +58,7 @@
     <div id="itemGrid" class="grid"></div>
     <div class="order-list">
         <div id="selectedItems"></div>
-        <textarea id="extraInfo" style="width:100%; margin-top:10px; border-radius:8px; border:1px solid #ddd; padding:10px; box-sizing:border-box;" rows="2" placeholder="EXTRA INFO (Machine nr, opmerking...)"></textarea>
+        <textarea id="extraInfo" rows="2" placeholder="EXTRA INFO (Machine nr, opmerking...)"></textarea>
     </div>
 </div>
 
@@ -56,121 +68,88 @@
 
 <script>
     const PREFIXES = { 
-        "FASTENERS": "FD_", "ELECTRONICS": "HD_", "POWER & STEKKERS": "CD_", 
-        "BATTERIJEN": "VT_", "CHEMIE & SMEER": "CT_", "ELEKTRA & KABEL": "EL_", "VERLICHTING": "HD_" 
+        "FASTENERS": "FD_", "ELEKTRA": "EL_", "CHEMIE": "CT_", 
+        "BATTERIJEN": "VT_", "VERLICHTING": "HD_", "POWER": "CD_" 
     };
 
     const DATA = {
         "FASTENERS": {
-            img: "https://loremflickr.com/320/240/bolt",
+            img: "https://loremflickr.com/320/240/bolt,nut",
             sub: {
-                "ZESKANTBOUTEN (DIN 933)": {
-                    img: "https://loremflickr.com/320/240/hex-bolt",
+                "BOUTEN ZESKANT": {
+                    img: "https://loremflickr.com/320/240/hexbolt",
                     sub: [
-                        { name: "M6 x 20", pn: "00120.060.020", specs: "8.8 Verzinkt" },
-                        { name: "M6 x 40", pn: "00120.060.040", specs: "8.8 Verzinkt" },
-                        { name: "M8 x 25", pn: "00120.080.025", specs: "8.8 Verzinkt" },
-                        { name: "M8 x 50", pn: "00120.080.050", specs: "8.8 Verzinkt" },
-                        { name: "M10 x 30", pn: "00120.100.030", specs: "8.8 Verzinkt" },
-                        { name: "M10 x 60", pn: "00120.100.060", specs: "8.8 Verzinkt" },
-                        { name: "M12 x 40", pn: "00120.120.040", specs: "8.8 Verzinkt" },
-                        { name: "M12 x 80", pn: "00120.120.080", specs: "8.8 Verzinkt" },
-                        { name: "M16 x 50", pn: "00120.160.050", specs: "8.8 Verzinkt" }
+                        { name: "M6 x 20", pn: "933.06.20", specs: "DIN 933 - 8.8" },
+                        { name: "M8 x 30", pn: "933.08.30", specs: "DIN 933 - 8.8" },
+                        { name: "M10 x 40", pn: "933.10.40", specs: "DIN 933 - 8.8" },
+                        { name: "M12 x 50", pn: "933.12.50", specs: "DIN 933 - 8.8" },
+                        { name: "M16 x 60", pn: "933.16.60", specs: "DIN 933 - 8.8" }
                     ]
                 },
-                "MOEREN & RINGEN": {
+                "INBUSBOUTEN": {
+                    img: "https://loremflickr.com/320/240/inbus",
+                    sub: [
+                        { name: "Inbus M6 x 25", pn: "912.06.25", specs: "DIN 912 - Cilinder" },
+                        { name: "Inbus M8 x 30", pn: "912.08.30", specs: "DIN 912 - Cilinder" },
+                        { name: "Inbus M10 x 40", pn: "912.10.40", specs: "DIN 912 - Cilinder" },
+                        { name: "Inbus M12 x 40", pn: "912.12.40", specs: "DIN 912 - Cilinder" }
+                    ]
+                },
+                "MOEREN": {
                     img: "https://loremflickr.com/320/240/nuts",
                     sub: [
-                        { name: "M6 Borgmoer", pn: "01310.060.001", specs: "DIN 985" },
-                        { name: "M8 Borgmoer", pn: "01310.080.001", specs: "DIN 985" },
-                        { name: "M10 Borgmoer", pn: "01310.100.001", specs: "DIN 985" },
-                        { name: "M12 Borgmoer", pn: "01310.120.001", specs: "DIN 985" },
-                        { name: "M8 Sluitring", pn: "04100.080.001", specs: "DIN 125A" },
-                        { name: "M10 Sluitring", pn: "04100.100.001", specs: "DIN 125A" },
-                        { name: "M8 Veerring", pn: "04400.080.001", specs: "DIN 127B" }
+                        { name: "M6 Borgmoer", pn: "985.06", specs: "DIN 985" },
+                        { name: "M8 Borgmoer", pn: "985.08", specs: "DIN 985" },
+                        { name: "M10 Borgmoer", pn: "985.10", specs: "DIN 985" },
+                        { name: "M12 Borgmoer", pn: "985.12", specs: "DIN 985" },
+                        { name: "M8 Lage Moer", pn: "439.08", specs: "DIN 439 (Plat)" },
+                        { name: "M10 Lage Moer", pn: "439.10", specs: "DIN 439 (Plat)" },
+                        { name: "M12 Lage Moer", pn: "439.12", specs: "DIN 439 (Plat)" }
+                    ]
+                },
+                "RINGEN (REVETTEN)": {
+                    img: "https://loremflickr.com/320/240/washer",
+                    sub: [
+                        { name: "M6 Sluitring", pn: "125.06", specs: "DIN 125A" },
+                        { name: "M8 Sluitring", pn: "125.08", specs: "DIN 125A" },
+                        { name: "M10 Sluitring", pn: "125.10", specs: "DIN 125A" },
+                        { name: "M8 Vlootring (Breed)", pn: "9021.08", specs: "DIN 9021" },
+                        { name: "M10 Vlootring (Breed)", pn: "9021.10", specs: "DIN 9021" },
+                        { name: "M10 Veerring", pn: "127.10", specs: "DIN 127B" }
                     ]
                 }
             }
         },
-        "POWER & STEKKERS": {
-            img: "https://loremflickr.com/320/240/power-plug",
+        "ELEKTRA": {
+            img: "https://loremflickr.com/320/240/electronics",
             sub: {
-                "230V MATERIAAL": {
-                    img: "https://loremflickr.com/320/240/230v",
+                "KABELSCHOENEN": {
+                    img: "https://loremflickr.com/320/240/cable-terminal",
                     sub: [
-                        { name: "Stekker Man", pn: "230V-M-PIN", specs: "Rubber / Pin-aarding BE" },
-                        { name: "Koppeling Vrouw", pn: "230V-F-PIN", specs: "Rubber / Pin-aarding BE" },
-                        { name: "Inbouwdoos 230V", pn: "230V-INB-PIN", specs: "Spatwaterdicht" }
+                        { name: "Ringschoen Blauw M5", pn: "RB-5", specs: "1.5-2.5mm²" },
+                        { name: "Vlaksteker Blauw", pn: "VB-63", specs: "6.3mm" },
+                        { name: "Stootverbinder Blauw", pn: "SB-25", specs: "Krimp" }
                     ]
                 },
-                "400V CEE 16A": {
-                    img: "https://loremflickr.com/320/240/cee-16a",
+                "ZEKERINGEN": {
+                    img: "https://loremflickr.com/320/240/fuse",
                     sub: [
-                        { name: "Stekker 16A 5p", pn: "CEE16-5M", specs: "400V Man Rood" },
-                        { name: "Koppeling 16A 5p", pn: "CEE16-5F", specs: "400V Vrouw Rood" },
-                        { name: "Wanddoos 16A 5p", pn: "CEE16-5W", specs: "400V Opbouw" }
-                    ]
-                },
-                "400V CEE 32A": {
-                    img: "https://loremflickr.com/320/240/cee-32a",
-                    sub: [
-                        { name: "Stekker 32A 5p", pn: "CEE32-5M", specs: "400V Man Rood" },
-                        { name: "Koppeling 32A 5p", pn: "CEE32-5F", specs: "400V Vrouw Rood" },
-                        { name: "Wanddoos 32A 5p", pn: "CEE32-5W", specs: "400V Opbouw" }
+                        { name: "Std 10A Rood", pn: "S10", specs: "Hella" },
+                        { name: "Mini 10A Rood", pn: "M10", specs: "Hella" }
                     ]
                 }
             }
         },
-        "ELEKTRA & KABEL": {
-            img: "https://loremflickr.com/320/240/cable-terminals",
+        "CHEMIE": {
+            img: "https://loremflickr.com/320/240/chemical",
             sub: {
-                "KABELSCHOENEN (GEÏSOLEERD)": {
-                    img: "https://loremflickr.com/320/240/terminals",
-                    sub: [
-                        { name: "Ringschoen Rood M4", pn: "EL-RR-4", specs: "0.5-1.5mm²" },
-                        { name: "Ringschoen Blauw M5", pn: "EL-RB-5", specs: "1.5-2.5mm²" },
-                        { name: "Ringschoen Geel M6", pn: "EL-RG-6", specs: "4.0-6.0mm²" },
-                        { name: "Vlaksteker Blauw", pn: "EL-VB-63", specs: "6.3mm Schuifmaat" },
-                        { name: "Stootverbinder Blauw", pn: "EL-SB-25", specs: "Met Krimpkous" }
-                    ]
-                },
-                "ADEREINDHULZEN": {
-                    img: "https://loremflickr.com/320/240/ferrules",
-                    sub: [
-                        { name: "Huls 0.75mm² Grijs", pn: "EL-H-075", specs: "L=8mm" },
-                        { name: "Huls 1.50mm² Zwart", pn: "EL-H-150", specs: "L=8mm" },
-                        { name: "Huls 2.50mm² Blauw", pn: "EL-H-250", specs: "L=8mm" }
-                    ]
-                },
-                "BEDRADING (PER METER)": {
-                    img: "https://loremflickr.com/320/240/wire",
-                    sub: [
-                        { name: "FLRY 1.5mm² Zwart", pn: "C-15-ZW", specs: "Voertuigkabel" },
-                        { name: "FLRY 1.5mm² Rood", pn: "C-15-RO", specs: "Voertuigkabel" },
-                        { name: "FLRY 2.5mm² Zwart", pn: "C-25-ZW", specs: "Voertuigkabel" }
-                    ]
-                }
-            }
-        },
-        "CHEMIE & SMEER": {
-            img: "https://loremflickr.com/320/240/chemie",
-            sub: {
-                "LOCTITE": {
+                "LOCTITE / INNOTEC": {
                     img: "https://loremflickr.com/320/240/loctite",
                     sub: [
-                        { name: "Loctite 243", pn: "LO-243", specs: "Borging Medium" },
-                        { name: "Loctite 270", pn: "LO-270", specs: "Borging Sterk" },
-                        { name: "Loctite 401", pn: "LO-401", specs: "Secondelijm" },
-                        { name: "Loctite 577", pn: "LO-577", specs: "Draadafdichting" }
-                    ]
-                },
-                "INNOTEC": {
-                    img: "https://loremflickr.com/320/240/innotec",
-                    sub: [
-                        { name: "High-Tef Oil", pn: "IT-HTO", specs: "Kettingspray" },
-                        { name: "White Grease", pn: "IT-WG", specs: "Wit Vet" },
-                        { name: "Brake Clean", pn: "IT-BC", specs: "Remreiniger" },
-                        { name: "Adheseal Zwart", pn: "IT-ADS", specs: "Kit" }
+                        { name: "Loctite 243", pn: "243", specs: "Borging" },
+                        { name: "Loctite 401", pn: "401", specs: "Lijm" },
+                        { name: "High-Tef Oil", pn: "HTO", specs: "Innotec" },
+                        { name: "Brake Clean", pn: "BC", specs: "Innotec" }
                     ]
                 }
             }
@@ -178,46 +157,24 @@
         "BATTERIJEN": {
             img: "https://loremflickr.com/320/240/battery",
             sub: {
-                "VARTA ALKALINE": {
+                "VARTA": {
                     img: "https://loremflickr.com/320/240/varta",
                     sub: [
-                        { name: "AA Mignon", pn: "VT-AA", specs: "Varta Longlife" },
-                        { name: "AAA Micro", pn: "VT-AAA", specs: "Varta Longlife" },
-                        { name: "9V Blok", pn: "VT-9V", specs: "Varta Longlife" }
-                    ]
-                },
-                "KNOOPCELLEN": {
-                    img: "https://loremflickr.com/320/240/cr2032",
-                    sub: [
-                        { name: "CR2032", pn: "VT-2032", specs: "3V Lithium" },
-                        { name: "CR2025", pn: "VT-2025", specs: "3V Lithium" }
+                        { name: "AA Alkaline", pn: "VAA", specs: "Varta" },
+                        { name: "AAA Alkaline", pn: "VAAA", specs: "Varta" },
+                        { name: "CR2032", pn: "V2032", specs: "Knoopcel" }
                     ]
                 }
             }
         },
-        "ELECTRONICS": {
-            img: "https://loremflickr.com/320/240/fuses",
+        "POWER": {
+            img: "https://loremflickr.com/320/240/cee-plug",
             sub: {
-                "ZEKERINGEN": {
-                    img: "https://loremflickr.com/320/240/car-fuses",
+                "CEE / 230V": {
+                    img: "https://loremflickr.com/320/240/plug",
                     sub: [
-                        { name: "Standard 10A", pn: "8JS-10A", specs: "Hella" },
-                        { name: "Standard 15A", pn: "8JS-15A", specs: "Hella" },
-                        { name: "Mini 10A", pn: "8JS-MIN-10", specs: "Hella" },
-                        { name: "Maxi 40A", pn: "8JS-MAX-40", specs: "Hella" }
-                    ]
-                }
-            }
-        },
-        "VERLICHTING": {
-            img: "https://loremflickr.com/320/240/lamp",
-            sub: {
-                "LAMPEN 24V": {
-                    img: "https://loremflickr.com/320/240/24v-lamp",
-                    sub: [
-                        { name: "H1 24V 70W", pn: "8GH-H1", specs: "Hella" },
-                        { name: "H7 24V 70W", pn: "8GH-H7", specs: "Hella" },
-                        { name: "P21W 24V", pn: "8GA-P21", specs: "Pinker/Stop" }
+                        { name: "CEE 16A 5p Stekker", pn: "16A5M", specs: "400V" },
+                        { name: "230V Stekker Rubber", pn: "230M", specs: "Pin-aarding" }
                     ]
                 }
             }
