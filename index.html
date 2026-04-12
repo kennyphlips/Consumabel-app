@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Magazijn Master V8.0</title>
+    <title>Magazijn Master V8.1</title>
 
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -68,41 +68,10 @@
 
 <script>
     const PREFIXES = { 
-        "FASTENERS": "FD_", "ELECTRONICS": "EL_", "VERLICHTING": "LP_", "CHEMIE": "CT_", "BATTERIJEN": "VT_" 
+        "ELECTRONICS": "EL_", "FASTENERS": "FD_", "CHEMIE": "CT_", "BATTERIJEN": "VT_" 
     };
 
     const DATA = {
-        "FASTENERS": {
-            img: "https://loremflickr.com/320/240/bolts",
-            sub: {
-                "BOUTEN": {
-                    img: "https://loremflickr.com/320/240/hexbolt",
-                    sub: [
-                        { name: "Zeskant M8x30", pn: "933-08-30", specs: "8.8 Verzinkt" },
-                        { name: "Zeskant M10x40", pn: "933-10-40", specs: "8.8 Verzinkt" },
-                        { name: "Inbus M6x20", pn: "912-06-20", specs: "DIN 912" },
-                        { name: "Inbus M8x30", pn: "912-08-30", specs: "DIN 912" }
-                    ]
-                },
-                "MOEREN": {
-                    img: "https://loremflickr.com/320/240/nuts",
-                    sub: [
-                        { name: "M8 Borgmoer", pn: "985-08", specs: "DIN 985" },
-                        { name: "M10 Borgmoer", pn: "985-10", specs: "DIN 985" },
-                        { name: "M8 Lage Moer", pn: "439-08", specs: "DIN 439 (Plat)" },
-                        { name: "M10 Lage Moer", pn: "439-10", specs: "DIN 439" }
-                    ]
-                },
-                "REVETTEN / RINGEN": {
-                    img: "https://loremflickr.com/320/240/washers",
-                    sub: [
-                        { name: "M8 Sluitring", pn: "125-08", specs: "DIN 125A" },
-                        { name: "M10 Sluitring", pn: "125-10", specs: "DIN 125A" },
-                        { name: "M8 Vlootring Breed", pn: "9021-08", specs: "DIN 9021" }
-                    ]
-                }
-            }
-        },
         "ELECTRONICS": {
             img: "https://loremflickr.com/320/240/electronics",
             sub: {
@@ -136,17 +105,45 @@
                         }
                     }
                 },
+                "VERLICHTING": {
+                    img: "https://loremflickr.com/320/240/bulb",
+                    sub: {
+                        "LAMPEN 12V": {
+                            img: "https://loremflickr.com/320/240/12v",
+                            sub: [
+                                { name: "H7 12V", pn: "12-H7", specs: "Koplamp" },
+                                { name: "P21W 12V", pn: "12-P21", specs: "Stop/Pinker" },
+                                { name: "W5W 12V", pn: "12-W5W", specs: "Glasvoet" }
+                            ]
+                        },
+                        "LAMPEN 24V": {
+                            img: "https://loremflickr.com/320/240/24v",
+                            sub: [
+                                { name: "H7 24V", pn: "24-H7", specs: "Vrachtwagen" },
+                                { name: "H1 24V", pn: "24-H1", specs: "Vrachtwagen" },
+                                { name: "P21W 24V", pn: "24-P21", specs: "Stop/Pinker" }
+                            ]
+                        },
+                        "LAMPEN 48V": {
+                            img: "https://loremflickr.com/320/240/48v",
+                            sub: [
+                                { name: "48V 10W BA15s", pn: "48-10W", specs: "Heftruck" },
+                                { name: "48V 21W BA15s", pn: "48-21W", specs: "Heftruck" }
+                            ]
+                        }
+                    }
+                },
                 "STEKKERS & 230V": {
-                    img: "https://loremflickr.com/320/240/plug",
+                    img: "https://loremflickr.com/320/240/plugs",
                     sub: [
                         { name: "230V Stekker Man", pn: "230-M", specs: "Rubber" },
                         { name: "230V Koppeling Vrouw", pn: "230-F", specs: "Rubber" },
-                        { name: "CEE 16A 5p Man", pn: "16-5M", specs: "400V" },
-                        { name: "CEE 32A 5p Man", pn: "32-5M", specs: "400V" }
+                        { name: "CEE 16A 5p Man", pn: "16-5M", specs: "400V Rood" },
+                        { name: "CEE 32A 5p Man", pn: "32-5M", specs: "400V Rood" }
                     ]
                 },
                 "KABELSCHOENEN": {
-                    img: "https://loremflickr.com/320/240/connector",
+                    img: "https://loremflickr.com/320/240/connectors",
                     sub: [
                         { name: "Ringschoen Blauw M5", pn: "RB-5", specs: "1.5-2.5mm²" },
                         { name: "Vlaksteker Blauw", pn: "VB-63", specs: "6.3mm" },
@@ -155,39 +152,44 @@
                 }
             }
         },
-        "VERLICHTING": {
-            img: "https://loremflickr.com/320/240/bulbs",
+        "FASTENERS": {
+            img: "https://loremflickr.com/320/240/bolts",
             sub: {
-                "LAMPEN 12V": {
-                    img: "https://loremflickr.com/320/240/12v",
+                "BOUTEN": {
+                    img: "https://loremflickr.com/320/240/hexbolt",
                     sub: [
-                        { name: "H7 12V", pn: "12-H7", specs: "Auto" },
-                        { name: "P21W 12V", pn: "12-P21", specs: "Pinker" }
+                        { name: "Zeskant M8x30", pn: "933-08-30", specs: "8.8 Verzinkt" },
+                        { name: "Zeskant M10x40", pn: "933-10-40", specs: "8.8 Verzinkt" },
+                        { name: "Inbus M6x20", pn: "912-06-20", specs: "DIN 912" },
+                        { name: "Inbus M8x30", pn: "912-08-30", specs: "DIN 912" }
                     ]
                 },
-                "LAMPEN 24V": {
-                    img: "https://loremflickr.com/320/240/24v",
+                "MOEREN": {
+                    img: "https://loremflickr.com/320/240/nuts",
                     sub: [
-                        { name: "H7 24V", pn: "24-H7", specs: "Truck" },
-                        { name: "H1 24V", pn: "24-H1", specs: "Truck" }
+                        { name: "M8 Borgmoer", pn: "985-08", specs: "DIN 985" },
+                        { name: "M10 Borgmoer", pn: "985-10", specs: "DIN 985" },
+                        { name: "M8 Lage Moer", pn: "439-08", specs: "DIN 439 (Plat)" },
+                        { name: "M10 Lage Moer", pn: "439-10", specs: "DIN 439" }
                     ]
                 },
-                "LAMPEN 48V": {
-                    img: "https://loremflickr.com/320/240/48v",
+                "REVETTEN / RINGEN": {
+                    img: "https://loremflickr.com/320/240/washers",
                     sub: [
-                        { name: "48V 10W BA15s", pn: "48-10W", specs: "Heftruck" },
-                        { name: "48V 21W BA15s", pn: "48-21W", specs: "Heftruck" }
+                        { name: "M8 Sluitring", pn: "125-08", specs: "DIN 125A" },
+                        { name: "M10 Sluitring", pn: "125-10", specs: "DIN 125A" },
+                        { name: "M8 Vlootring Breed", pn: "9021-08", specs: "DIN 9021" }
                     ]
                 }
             }
         },
         "CHEMIE": {
-            img: "https://loremflickr.com/320/240/loctite",
+            img: "https://loremflickr.com/320/240/chemical",
             sub: {
                 "LOCTITE / INNOTEC": {
-                    img: "https://loremflickr.com/320/240/chemical",
+                    img: "https://loremflickr.com/320/240/spraycan",
                     sub: [
-                        { name: "Loctite 243", pn: "243", specs: "Borging" },
+                        { name: "Loctite 243", pn: "243", specs: "Borgmiddel" },
                         { name: "Brake Clean", pn: "BC", specs: "Innotec" },
                         { name: "High-Tef Oil", pn: "HTO", specs: "Innotec" }
                     ]
