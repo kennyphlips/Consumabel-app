@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Magazijn Master V7.9</title>
+    <title>Magazijn Master V8.0</title>
 
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -68,8 +68,7 @@
 
 <script>
     const PREFIXES = { 
-        "FASTENERS": "FD_", "ELECTRONICS": "HD_", "POWER": "CD_", 
-        "BATTERIJEN": "VT_", "VERLICHTING": "LP_", "CHEMIE": "CT_" 
+        "FASTENERS": "FD_", "ELECTRONICS": "EL_", "VERLICHTING": "LP_", "CHEMIE": "CT_", "BATTERIJEN": "VT_" 
     };
 
     const DATA = {
@@ -105,35 +104,53 @@
             }
         },
         "ELECTRONICS": {
-            img: "https://loremflickr.com/320/240/fuses",
+            img: "https://loremflickr.com/320/240/electronics",
             sub: {
-                "STEEKZEKERING STANDAARD": {
-                    img: "https://loremflickr.com/320/240/fuse-standard",
+                "ZEKERINGEN": {
+                    img: "https://loremflickr.com/320/240/fuses",
+                    sub: {
+                        "STANDARD": {
+                            img: "https://loremflickr.com/320/240/fuse-std",
+                            sub: [
+                                { name: "Standard 5A Beige", pn: "S-05", specs: "Hella" },
+                                { name: "Standard 10A Rood", pn: "S-10", specs: "Hella" },
+                                { name: "Standard 15A Blauw", pn: "S-15", specs: "Hella" },
+                                { name: "Standard 20A Geel", pn: "S-20", specs: "Hella" },
+                                { name: "Standard 30A Groen", pn: "S-30", specs: "Hella" }
+                            ]
+                        },
+                        "MINI": {
+                            img: "https://loremflickr.com/320/240/fuse-mini",
+                            sub: [
+                                { name: "Mini 5A Beige", pn: "M-05", specs: "Hella" },
+                                { name: "Mini 10A Rood", pn: "M-10", specs: "Hella" },
+                                { name: "Mini 15A Blauw", pn: "M-15", specs: "Hella" }
+                            ]
+                        },
+                        "MAXI": {
+                            img: "https://loremflickr.com/320/240/fuse-maxi",
+                            sub: [
+                                { name: "Maxi 40A Oranje", pn: "MAX-40", specs: "Hella" },
+                                { name: "Maxi 60A Blauw", pn: "MAX-60", specs: "Hella" }
+                            ]
+                        }
+                    }
+                },
+                "STEKKERS & 230V": {
+                    img: "https://loremflickr.com/320/240/plug",
                     sub: [
-                        { name: "Standard 5A Beige", pn: "S-05", specs: "Hella" },
-                        { name: "Standard 7.5A Bruin", pn: "S-75", specs: "Hella" },
-                        { name: "Standard 10A Rood", pn: "S-10", specs: "Hella" },
-                        { name: "Standard 15A Blauw", pn: "S-15", specs: "Hella" },
-                        { name: "Standard 20A Geel", pn: "S-20", specs: "Hella" },
-                        { name: "Standard 25A Wit", pn: "S-25", specs: "Hella" },
-                        { name: "Standard 30A Groen", pn: "S-30", specs: "Hella" }
+                        { name: "230V Stekker Man", pn: "230-M", specs: "Rubber" },
+                        { name: "230V Koppeling Vrouw", pn: "230-F", specs: "Rubber" },
+                        { name: "CEE 16A 5p Man", pn: "16-5M", specs: "400V" },
+                        { name: "CEE 32A 5p Man", pn: "32-5M", specs: "400V" }
                     ]
                 },
-                "STEEKZEKERING MINI": {
-                    img: "https://loremflickr.com/320/240/fuse-mini",
+                "KABELSCHOENEN": {
+                    img: "https://loremflickr.com/320/240/connector",
                     sub: [
-                        { name: "Mini 5A Beige", pn: "M-05", specs: "Hella" },
-                        { name: "Mini 10A Rood", pn: "M-10", specs: "Hella" },
-                        { name: "Mini 15A Blauw", pn: "M-15", specs: "Hella" },
-                        { name: "Mini 20A Geel", pn: "M-20", specs: "Hella" }
-                    ]
-                },
-                "MAXI ZEKERINGEN": {
-                    img: "https://loremflickr.com/320/240/fuse-maxi",
-                    sub: [
-                        { name: "Maxi 30A Groen", pn: "MAX-30", specs: "Groot model" },
-                        { name: "Maxi 40A Oranje", pn: "MAX-40", specs: "Groot model" },
-                        { name: "Maxi 60A Blauw", pn: "MAX-60", specs: "Groot model" }
+                        { name: "Ringschoen Blauw M5", pn: "RB-5", specs: "1.5-2.5mm²" },
+                        { name: "Vlaksteker Blauw", pn: "VB-63", specs: "6.3mm" },
+                        { name: "Stootverbinder Blauw", pn: "SB-25", specs: "Krimp" }
                     ]
                 }
             }
@@ -164,27 +181,8 @@
                 }
             }
         },
-        "POWER": {
-            img: "https://loremflickr.com/320/240/power",
-            sub: {
-                "230V MATERIAAL": {
-                    img: "https://loremflickr.com/320/240/230v-plug",
-                    sub: [
-                        { name: "230V Stekker Man", pn: "230-M", specs: "Rubber" },
-                        { name: "230V Koppeling Vrouw", pn: "230-F", specs: "Rubber" }
-                    ]
-                },
-                "400V CEE": {
-                    img: "https://loremflickr.com/320/240/cee",
-                    sub: [
-                        { name: "CEE 16A 5p Man", pn: "16-5M", specs: "Rood" },
-                        { name: "CEE 32A 5p Man", pn: "32-5M", specs: "Rood" }
-                    ]
-                }
-            }
-        },
         "CHEMIE": {
-            img: "https://loremflickr.com/320/240/innotec",
+            img: "https://loremflickr.com/320/240/loctite",
             sub: {
                 "LOCTITE / INNOTEC": {
                     img: "https://loremflickr.com/320/240/chemical",
