@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Magazijn App V5 - Visual</title>
+    <title>Magazijn App V5.1 - Full Visual</title>
     <style>
         body { font-family: sans-serif; background-color: #f0f2f5; margin: 0; padding: 15px; padding-bottom: 120px; }
         .container { max-width: 600px; margin: auto; background: white; padding: 20px; border-radius: 12px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
-        h1 { color: #1a73e8; text-align: center; font-size: 22px; margin: 0; text-transform: uppercase; }
+        h1 { color: #1a73e8; text-align: center; font-size: 20px; margin: 0; text-transform: uppercase; }
         
         .user-info { margin-bottom: 20px; padding: 10px; background: #e8f0fe; border-radius: 8px; border: 1px solid #1a73e8; }
         .user-info label { display: block; font-size: 11px; font-weight: bold; color: #1a73e8; margin-bottom: 5px; }
@@ -17,25 +17,21 @@
         .back-btn { background: #6c757d; color: white; border: none; padding: 10px 15px; border-radius: 5px; cursor: pointer; font-weight: bold; }
 
         .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
-        .card { border: 1px solid #ddd; padding: 10px; text-align: center; border-radius: 10px; background: #fff; 
-                box-shadow: 0 2px 5px rgba(0,0,0,0.05); cursor: pointer; transition: transform 0.1s; }
-        .card:active { transform: scale(0.95); background-color: #e8f0fe; }
-        .card img { width: 100%; height: 80px; object-fit: cover; border-radius: 6px; margin-bottom: 8px; background-color: #eee; }
-        .card p { margin: 0; font-weight: bold; font-size: 13px; text-transform: uppercase; }
+        .card { border: 1px solid #ddd; padding: 8px; text-align: center; border-radius: 10px; background: #fff; box-shadow: 0 2px 5px rgba(0,0,0,0.05); cursor: pointer; }
+        .card img { width: 100%; height: 90px; object-fit: cover; border-radius: 6px; margin-bottom: 5px; background-color: #eee; }
+        .card p { margin: 0; font-weight: bold; font-size: 12px; text-transform: uppercase; line-height: 1.2; }
         
-        /* Specifieke stijl voor de eind-artikelen (geen foto nodig) */
-        .card.is-item { border-left: 5px solid #28a745; background-color: #f8fff9; padding: 20px 10px; }
+        .card.is-item { border-left: 5px solid #28a745; background-color: #f8fff9; padding: 15px 5px; min-height: 50px; display: flex; align-items: center; justify-content: center; }
         .card.is-item img { display: none; }
 
-        .order-list { margin-top: 30px; border-top: 3px solid #1a73e8; padding-top: 15px; }
-        .winkelmand-item { background: #f8f9fa; padding: 10px; margin-bottom: 8px; border-radius: 8px; display: flex; justify-content: space-between; align-items: center; border: 1px solid #ddd; font-size: 13px; }
-        .delete-btn { background: #dc3545; color: white; border: none; padding: 8px 12px; border-radius: 5px; cursor: pointer; }
+        .order-list { margin-top: 25px; border-top: 3px solid #1a73e8; padding-top: 15px; }
+        .winkelmand-item { background: #f8f9fa; padding: 10px; margin-bottom: 8px; border-radius: 8px; display: flex; justify-content: space-between; align-items: center; border: 1px solid #ddd; font-size: 12px; }
+        .delete-btn { background: #dc3545; color: white; border: none; padding: 6px 10px; border-radius: 5px; cursor: pointer; }
         
-        .extra-info-box { margin-top: 15px; }
-        .extra-info-box textarea { width: 100%; padding: 10px; border-radius: 8px; border: 1px solid #ddd; box-sizing: border-box; resize: none; font-size: 14px; }
+        .extra-info-box textarea { width: 100%; padding: 10px; border-radius: 8px; border: 1px solid #ddd; box-sizing: border-box; margin-top: 10px; font-size: 14px; }
 
         .footer-btn { position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); width: 90%; max-width: 540px; }
-        .send-btn { background: #28a745; color: white; border: none; padding: 15px; font-size: 18px; font-weight: bold; border-radius: 10px; cursor: pointer; width: 100%; box-shadow: 0 4px 10px rgba(0,0,0,0.2); }
+        .send-btn { background: #28a745; color: white; border: none; padding: 15px; font-size: 18px; font-weight: bold; border-radius: 10px; cursor: pointer; width: 100%; }
     </style>
 </head>
 <body>
@@ -43,7 +39,7 @@
 <div class="container">
     <div class="user-info">
         <label>SENDER NAME / TECHNICIAN:</label>
-        <input type="text" id="userName" placeholder="Enter your name..." oninput="saveUser()">
+        <input type="text" id="userName" placeholder="Your name..." oninput="saveUser()">
     </div>
 
     <div class="nav-bar">
@@ -54,71 +50,59 @@
     <div id="itemGrid" class="grid"></div>
 
     <div class="order-list">
-        <h3>MY REQUEST:</h3>
+        <h3 style="margin:0 0 10px 0; font-size:16px;">MY REQUEST:</h3>
         <div id="selectedItems"></div>
-        
-        <div class="extra-info-box">
-            <textarea id="extraInfo" rows="2" placeholder="EXTRA INFO (Optional: Machine, urgency...)"></textarea>
-        </div>
+        <textarea id="extraInfo" rows="2" placeholder="EXTRA INFO (Machine, Urgency...)"></textarea>
     </div>
 </div>
 
 <div class="footer-btn">
-    <button class="send-btn" onclick="verstuurBestelling()">📧 SEND TO PURCHASING</button>
+    <button class="send-btn" onclick="verstuurBestelling()">📧 SEND REQUEST</button>
 </div>
 
 <script>
-    // --- DATA STRUCTUUR MET FOTO'S ---
-    // 'img' is de link naar de foto. 'data' zijn de subcategorieën of artikelen.
     const DATA = {
         "FASTENERS": {
-            img: "https://images.unsplash.com/photo-1581244277943-fe4a9c777189?w=200",
+            img: "https://images.unsplash.com/photo-1581244277943-fe4a9c777189?w=300",
             sub: {
-                "BOLTS": ["M4 x 20", "M5 x 25", "M6 x 30", "M8 x 40", "M10 x 50"],
-                "NUTS": ["M4", "M5", "M6", "M8", "M10", "M12"],
-                "WASHERS": ["M4", "M5", "M6", "M8", "M10"]
+                "BOLTS": { img: "https://images.unsplash.com/photo-1629961660011-209289297839?w=300", sub: ["M4 x 20", "M5 x 25", "M6 x 30", "M8 x 40"] },
+                "NUTS": { img: "https://images.unsplash.com/photo-1590236162973-206e12368962?w=300", sub: ["M4", "M5", "M6", "M8", "M10"] },
+                "WASHERS": { img: "https://images.unsplash.com/photo-1610444583731-9e07adbcaf4a?w=300", sub: ["M4", "M5", "M6", "M8"] }
             }
         },
         "ELECTRONICS": {
-            img: "https://images.unsplash.com/photo-1517077304055-6e89abbf09b0?w=200",
+            img: "https://images.unsplash.com/photo-1517077304055-6e89abbf09b0?w=300",
             sub: {
                 "FUSES": {
-                    img: "https://images.unsplash.com/photo-1555664424-778a1e5e1b48?w=200",
+                    img: "https://images.unsplash.com/photo-1555664424-778a1e5e1b48?w=300",
                     sub: {
-                        "BLADE FUSES": ["2A", "5A", "7.5A", "10A", "15A", "20A", "30A"],
-                        "MAXI FUSES": ["30A", "40A", "50A", "60A", "80A"]
+                        "BLADE FUSES": { img: "https://m.media-amazon.com/images/I/71uV8R6B0sL._AC_SL1500_.jpg", sub: ["5A", "10A", "15A", "20A", "30A"] },
+                        "MAXI FUSES": { img: "https://m.media-amazon.com/images/I/61M6YhOisCL._AC_SL1200_.jpg", sub: ["30A", "40A", "50A", "60A"] }
                     }
                 },
-                "LUGS": ["RED 1.5mm", "BLUE 2.5mm", "YELLOW 6.0mm"],
-                "TERMINALS": ["BATTERY POSITIVE", "BATTERY NEGATIVE"]
+                "LUGS": { img: "https://m.media-amazon.com/images/I/71Yv0-p8QeL._AC_SL1500_.jpg", sub: ["RED 1.5mm", "BLUE 2.5mm", "YELLOW 6.0mm"] },
+                "TERMINALS": { img: "https://m.media-amazon.com/images/I/61C+f6h6-OL._AC_SL1200_.jpg", sub: ["POSITIVE", "NEGATIVE"] }
             }
         },
-        "TAPES": {
-            img: "https://images.unsplash.com/photo-1603899122634-f086ca5f5ddd?w=200",
+        "TAPES & ADHESIVES": {
+            img: "https://images.unsplash.com/photo-1565193566173-7a0ee3dbe261?w=300",
             sub: {
-                "ELECTRICAL TAPE": ["BLACK", "RED", "BLUE"],
-                "DUCT TAPE": ["SILVER", "BLACK"]
-            }
-        },
-        "ADHESIVES": {
-            img: "https://images.unsplash.com/photo-1565193566173-7a0ee3dbe261?w=200",
-            sub: {
-                "LOCTITE": ["243 MEDIUM", "270 STRONG", "401 INSTANT"],
-                "CLEANERS": ["BRAKE CLEANER", "WD-40"]
+                "TAPES": { img: "https://images.unsplash.com/photo-1603899122634-f086ca5f5ddd?w=300", sub: ["ELECTRICAL BLACK", "DUCT TAPE", "MASKING TAPE"] },
+                "LOCTITE": { img: "https://m.media-amazon.com/images/I/51rR0G7Rk6L._AC_SL1000_.jpg", sub: ["243 MEDIUM", "270 STRONG", "401 INSTANT"] }
             }
         },
         "ABRASIVES": {
-            img: "https://images.unsplash.com/photo-1572981779307-38b8cabb2407?w=200",
+            img: "https://images.unsplash.com/photo-1572981779307-38b8cabb2407?w=300",
             sub: {
-                "SANDPAPER": ["GRIT 80", "GRIT 120", "GRIT 240"],
-                "DISCS": ["CUTTING DISC 125mm", "GRINDING DISC 125mm"]
+                "SANDPAPER": { img: "https://m.media-amazon.com/images/I/71Wj+uBsh0L._AC_SL1500_.jpg", sub: ["GRIT 80", "GRIT 120", "GRIT 240"] },
+                "SLIJPEN (DISCS)": { img: "https://m.media-amazon.com/images/I/81Ais1R+BGL._AC_SL1500_.jpg", sub: ["CUTTING DISC 125mm", "GRINDING DISC 125mm"] }
             }
         },
         "DRILLING": {
-            img: "https://images.unsplash.com/photo-1504148455328-c376907d081c?w=200",
+            img: "https://images.unsplash.com/photo-1504148455328-c376907d081c?w=300",
             sub: {
-                "HSS DRILLS": ["4mm", "5mm", "6mm", "8mm", "10mm"],
-                "HOLE SAWS": ["25mm", "32mm", "50mm"]
+                "HSS METAL DRILLS": { img: "https://m.media-amazon.com/images/I/71u9iBvI8HL._AC_SL1500_.jpg", sub: ["4mm", "5mm", "6mm", "8mm", "10mm"] },
+                "HOLE SAWS": { img: "https://m.media-amazon.com/images/I/71Yy1Wk7mSL._AC_SL1500_.jpg", sub: ["25mm", "32mm", "50mm"] }
             }
         }
     };
@@ -127,15 +111,11 @@
     let navigatiePad = [];
 
     window.onload = function() {
-        if(localStorage.getItem("magazijnUser")) {
-            document.getElementById("userName").value = localStorage.getItem("magazijnUser");
-        }
+        if(localStorage.getItem("magazijnUser")) document.getElementById("userName").value = localStorage.getItem("magazijnUser");
         renderMenu();
     };
 
-    function saveUser() {
-        localStorage.setItem("magazijnUser", document.getElementById("userName").value);
-    }
+    function saveUser() { localStorage.setItem("magazijnUser", document.getElementById("userName").value); }
 
     function renderMenu() {
         const grid = document.getElementById('itemGrid');
@@ -144,22 +124,15 @@
         grid.innerHTML = '';
 
         let huidigeData = { sub: DATA };
-        navigatiePad.forEach(stap => {
-            huidigeData = huidigeData.sub[stap];
-        });
+        navigatiePad.forEach(stap => { huidigeData = huidigeData.sub[stap]; });
 
-        if (navigatiePad.length > 0) {
-            titel.innerText = navigatiePad[navigatiePad.length - 1];
-            backBtn.style.display = 'block';
-        } else {
-            titel.innerText = "MAGAZIJN";
-            backBtn.style.display = 'none';
-        }
+        titel.innerText = navigatiePad.length > 0 ? navigatiePad[navigatiePad.length - 1] : "MAGAZIJN";
+        backBtn.style.display = navigatiePad.length > 0 ? 'block' : 'none';
 
-        const items = huidigeData.sub || huidigeData;
+        const content = huidigeData.sub || huidigeData;
 
-        if (Array.isArray(items)) {
-            items.forEach(item => {
+        if (Array.isArray(content)) {
+            content.forEach(item => {
                 const div = document.createElement('div');
                 div.className = 'card is-item';
                 div.innerHTML = `<p>${item}</p>`;
@@ -167,12 +140,10 @@
                 grid.appendChild(div);
             });
         } else {
-            Object.keys(items).forEach(sleutel => {
-                const info = items[sleutel];
+            Object.keys(content).forEach(sleutel => {
                 const div = document.createElement('div');
                 div.className = 'card';
-                // Als er geen img is, gebruiken we een placeholder
-                const imgSrc = info.img || "https://via.placeholder.com/200?text=No+Image";
+                const imgSrc = content[sleutel].img || "https://via.placeholder.com/300?text=No+Image";
                 div.innerHTML = `<img src="${imgSrc}"><p>${sleutel}</p>`;
                 div.onclick = () => gaDieper(sleutel);
                 grid.appendChild(div);
@@ -180,15 +151,8 @@
         }
     }
 
-    function gaDieper(sleutel) {
-        navigatiePad.push(sleutel);
-        renderMenu();
-    }
-
-    function gaTerug() {
-        navigatiePad.pop();
-        renderMenu();
-    }
+    function gaDieper(sleutel) { navigatiePad.push(sleutel); renderMenu(); }
+    function gaTerug() { navigatiePad.pop(); renderMenu(); }
 
     function voegToe(maat) {
         const volledigeNaam = navigatiePad.join(" > ") + " : " + maat;
@@ -196,33 +160,26 @@
         updateWinkelwagenLayout();
     }
 
-    function verwijderItem(index) {
-        winkelwagen.splice(index, 1);
-        updateWinkelwagenLayout();
-    }
+    function verwijderItem(index) { winkelwagen.splice(index, 1); updateWinkelwagenLayout(); }
 
     function updateWinkelwagenLayout() {
         const lijst = document.getElementById('selectedItems');
         lijst.innerHTML = '';
         winkelwagen.forEach((item, index) => {
-            lijst.innerHTML += `
-                <div class="winkelmand-item">
-                    <span>${item}</span>
-                    <button class="delete-btn" onclick="verwijderItem(${index})">🗑️</button>
-                </div>`;
+            lijst.innerHTML += `<div class="winkelmand-item"><span>${item}</span><button class="delete-btn" onclick="verwijderItem(${index})">🗑️</button></div>`;
         });
     }
 
     function verstuurBestelling() {
         const name = document.getElementById("userName").value;
         const extraInfo = document.getElementById("extraInfo").value;
-        if (!name) return alert("Please fill in your name first!");
-        if (winkelwagen.length === 0) return alert("Your list is empty!");
+        if (!name) return alert("Fill in your name!");
+        if (winkelwagen.length === 0) return alert("List is empty!");
 
         const lijstTekst = winkelwagen.join("%0D%0A- ");
         const mail = "aankoper@uwbedrijf.be";
-        let body = `FROM: ${name}%0D%0A---------------------------%0D%0AITEMS:%0D%0A- ${lijstTekst}%0D%0A---------------------------%0D%0AINFO: ${extraInfo || "None"}`;
-        window.location.href = `mailto:${mail}?subject=Warehouse Request from ${name}&body=${body}`;
+        let body = `SENDER: ${name}%0D%0A---------------------------%0D%0AITEMS:%0D%0A- ${lijstTekst}%0D%0A---------------------------%0D%0AINFO: ${extraInfo || "None"}`;
+        window.location.href = `mailto:${mail}?subject=Warehouse Request - ${name}&body=${body}`;
     }
 
     renderMenu();
