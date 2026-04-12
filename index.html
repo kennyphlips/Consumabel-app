@@ -51,22 +51,40 @@
 
 <script>
     // --- DATA STRUCTUUR ---
-    const CATEGORIEEN = [
-        { id: "fasteners", naam: "Fasteners", img: "https://via.placeholder.com/200?text=Bouten+en+Moeren" },
-        { id: "electronica", naam: "Electronica", img: "https://via.placeholder.com/200?text=Zekeringen+en+Draad" }
-    ];
+const CATEGORIEEN = ["FASTENERS", "ELECTRONICS", "TOOLS", "OTHERS"];
 
-    const ARTIKELEN = {
-        "fasteners": [
-            { naam: "Bout M8 x 40", img: "https://via.placeholder.com/200?text=Bout+M8" },
-            { naam: "Moer M8", img: "https://via.placeholder.com/200?text=Moer+M8" },
-            { naam: "Splitpen 3mm", img: "https://via.placeholder.com/200?text=Splitpen" }
-        ],
-        "electronica": [
-            { naam: "Zekering 10A", img: "https://via.placeholder.com/200?text=Zekering+10A" },
-            { naam: "Kabelschoen Blauw", img: "https://via.placeholder.com/200?text=Kabelschoen" },
-            { naam: "Zwarte Draad 1.5mm", img: "https://via.placeholder.com/200?text=Draad" }
-        ]
+const ARTIKELEN = {
+    "FASTENERS": [
+        "BOLTS",
+        "NUTS",
+        "WASHERS",
+        "SCREWS",
+        "RIVETS",
+        "ANCHORS",
+        "PINS",
+        "RETAINING RINGS"
+    ],
+    "ELECTRONICS": [
+        "FUSES",
+        "LUGS",
+        "SINGLE CORE WIRE",
+        "HEAT SHRINK TUBING",
+        "BATTERY TERMINALS",
+        "PLUGS & CONNECTORS",
+        "CABLE TIES",
+        "RELAYS"
+    ],
+    "TOOLS": [
+        "WRENCHES",
+        "PLIERS",
+        "SCREWDRIVERS",
+        "HAMMERS"
+    ],
+    "OTHERS": [
+        "TAPE",
+        "CLEANER",
+        "LUBRICANT"
+    ]
     };
 
     let winkelwagen = [];
