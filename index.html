@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Magazijn App V5.3</title>
+    <title>Magazijn App V6 - Lighting Edition</title>
     <style>
         body { font-family: sans-serif; background-color: #f0f2f5; margin: 0; padding: 15px; padding-bottom: 120px; }
         .container { max-width: 600px; margin: auto; background: white; padding: 20px; border-radius: 12px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
@@ -17,11 +17,13 @@
         .back-btn { background: #6c757d; color: white; border: none; padding: 10px 15px; border-radius: 5px; cursor: pointer; font-weight: bold; }
 
         .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
-        .card { border: 1px solid #ddd; padding: 8px; text-align: center; border-radius: 10px; background: #fff; box-shadow: 0 2px 5px rgba(0,0,0,0.05); cursor: pointer; }
-        .card img { width: 100%; height: 100px; object-fit: cover; border-radius: 6px; margin-bottom: 5px; background-color: #eee; display: block; }
-        .card p { margin: 0; font-weight: bold; font-size: 12px; text-transform: uppercase; line-height: 1.2; }
+        .card { border: 1px solid #ddd; padding: 8px; text-align: center; border-radius: 10px; background: #fff; box-shadow: 0 2px 5px rgba(0,0,0,0.05); cursor: pointer; transition: transform 0.1s; }
+        .card:active { transform: scale(0.95); }
+        .card img { width: 100%; height: 100px; object-fit: cover; border-radius: 6px; margin-bottom: 5px; background-color: #f9f9f9; }
+        .card p { margin: 0; font-weight: bold; font-size: 11px; text-transform: uppercase; line-height: 1.2; }
         
-        .card.is-item { border-left: 6px solid #28a745; background-color: #f8fff9; padding: 20px 5px; display: flex; align-items: center; justify-content: center; }
+        .card.is-item { border-left: 6px solid #1a73e8; background-color: #f8faff; padding: 15px 5px; min-height: 60px; display: flex; flex-direction: column; justify-content: center; }
+        .card.is-item small { font-size: 9px; color: #666; margin-top: 4px; font-weight: normal; }
         .card.is-item img { display: none; }
 
         .order-list { margin-top: 25px; border-top: 3px solid #1a73e8; padding-top: 15px; }
@@ -37,7 +39,7 @@
 <div class="container">
     <div class="user-info">
         <label>SENDER NAME / TECHNICIAN:</label>
-        <input type="text" id="userName" placeholder="Your name..." oninput="saveUser()">
+        <input type="text" id="userName" placeholder="Type your name..." oninput="saveUser()">
     </div>
 
     <div class="nav-bar">
@@ -50,7 +52,7 @@
     <div class="order-list">
         <h3>MY REQUEST:</h3>
         <div id="selectedItems"></div>
-        <textarea id="extraInfo" style="width:100%; margin-top:10px; border-radius:8px; border:1px solid #ddd; padding:10px;" rows="2" placeholder="EXTRA INFO..."></textarea>
+        <textarea id="extraInfo" style="width:100%; margin-top:10px; border-radius:8px; border:1px solid #ddd; padding:10px;" rows="2" placeholder="EXTRA INFO (Machine number, urgency, etc...)"></textarea>
     </div>
 </div>
 
@@ -59,40 +61,48 @@
 </div>
 
 <script>
-    // Gebruik van betrouwbare beeldbank (LoremFlickr / Unsplash) voor magazijn termen
+    // --- GEAVANCEERDE DATA STRUCTUUR ---
     const DATA = {
-        "FASTENERS": {
-            img: "https://loremflickr.com/320/240/bolts,nuts",
+        "LIGHTING": {
+            img: "https://loremflickr.com/320/240/truck,light",
             sub: {
-                "BOLTS": { img: "https://loremflickr.com/320/240/bolt,screw", sub: ["M4 x 20", "M6 x 30", "M8 x 40"] },
-                "NUTS": { img: "https://loremflickr.com/320/240/nuts,metal", sub: ["M4", "M6", "M8", "M10"] },
-                "WASHERS": { img: "https://loremflickr.com/320/240/washer,metal", sub: ["M4", "M6", "M8"] }
+                "12V": {
+                    img: "https://loremflickr.com/320/240/lightbulb,12v",
+                    sub: [
+                        { name: "Headlight Bulb H7 55W", pn: "123456", specs: "Hella Standard White" },
+                        { name: "Marker Light Amber LED", pn: "789012", specs: "Side mount, waterproof" }
+                    ]
+                },
+                "24V": {
+                    img: "https://loremflickr.com/320/240/truck,led,24v",
+                    sub: [
+                        { name: "Tail Light LED Unit", pn: "998877", specs: "Multi-function, Left side" },
+                        { name: "Worklight 2000 Lumen", pn: "445566", specs: "Wide beam, Aluminum housing" }
+                    ]
+                },
+                "48V": {
+                    img: "https://loremflickr.com/320/240/forklift,light",
+                    sub: [
+                        { name: "Forklift Safety Light Blue", pn: "112233", specs: "Spot projection" }
+                    ]
+                }
+            }
+        },
+        "FASTENERS": {
+            img: "https://loremflickr.com/320/240/bolts",
+            sub: {
+                "BOLTS": { img: "https://loremflickr.com/320/240/bolt", sub: ["M4 x 20", "M6 x 30", "M8 x 40"] }
             }
         },
         "ELECTRONICS": {
-            img: "https://loremflickr.com/320/240/electronics,components",
+            img: "https://loremflickr.com/320/240/electronics",
             sub: {
                 "FUSES": {
-                    img: "https://loremflickr.com/320/240/fuses",
+                    img: "https://loremflickr.com/320/240/fuse",
                     sub: {
-                        "BLADE FUSES": { img: "https://loremflickr.com/320/240/automotive,fuse", sub: ["5A", "10A", "15A", "20A"] },
-                        "MAXI FUSES": { img: "https://loremflickr.com/320/240/maxifuse", sub: ["40A", "60A", "80A"] }
+                        "BLADE FUSES": { img: "https://loremflickr.com/320/240/automotive,fuse", sub: ["5A", "10A", "15A", "20A"] }
                     }
-                },
-                "LUGS": { img: "https://loremflickr.com/320/240/crimp,terminal", sub: ["RED 1.5", "BLUE 2.5"] }
-            }
-        },
-        "ABRASIVES": {
-            img: "https://loremflickr.com/320/240/sandpaper",
-            sub: {
-                "SANDPAPER": { img: "https://loremflickr.com/320/240/sandpaper,roll", sub: ["P80", "P120", "P240"] },
-                "DISCS": { img: "https://loremflickr.com/320/240/grinder,disc", sub: ["CUTTING 125", "GRINDING 125"] }
-            }
-        },
-        "DRILLING": {
-            img: "https://loremflickr.com/320/240/drillbits",
-            sub: {
-                "HSS DRILLS": { img: "https://loremflickr.com/320/240/drill,bit", sub: ["4mm", "6mm", "8mm", "10mm"] }
+                }
             }
         }
     };
@@ -123,18 +133,25 @@
 
         if (Array.isArray(content)) {
             content.forEach(item => {
+                const isObject = typeof item === 'object';
                 const div = document.createElement('div');
                 div.className = 'card is-item';
-                div.innerHTML = `<p>${item}</p>`;
-                div.onclick = () => voegToe(item);
+                
+                if (isObject) {
+                    div.innerHTML = `<p>${item.name}</p><small>${item.specs}</small>`;
+                    div.onclick = () => voegToe(item.name, item.pn);
+                } else {
+                    div.innerHTML = `<p>${item}</p>`;
+                    div.onclick = () => voegToe(item);
+                }
                 grid.appendChild(div);
             });
         } else {
             Object.keys(content).forEach(sleutel => {
                 const div = document.createElement('div');
                 div.className = 'card';
-                const imgSrc = content[sleutel].img;
-                div.innerHTML = `<img src="${imgSrc}" alt="${sleutel}"><p>${sleutel}</p>`;
+                const imgSrc = content[sleutel].img || "https://via.placeholder.com/300";
+                div.innerHTML = `<img src="${imgSrc}"><p>${sleutel}</p>`;
                 div.onclick = () => gaDieper(sleutel);
                 grid.appendChild(div);
             });
@@ -144,9 +161,14 @@
     function gaDieper(sleutel) { navigatiePad.push(sleutel); renderMenu(); }
     function gaTerug() { navigatiePad.pop(); renderMenu(); }
 
-    function voegToe(maat) {
-        const volledigeNaam = navigatiePad.join(" > ") + " : " + maat;
-        winkelwagen.push(volledigeNaam);
+    function voegToe(naam, partNummer = null) {
+        let itemTekst = "";
+        if (partNummer) {
+            itemTekst = `${naam} (HD_ ${partNummer})`;
+        } else {
+            itemTekst = navigatiePad.join(" > ") + " : " + naam;
+        }
+        winkelwagen.push(itemTekst);
         updateWinkelwagenLayout();
     }
 
