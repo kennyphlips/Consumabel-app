@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Magazijn Bestel App</title>
+    <style>
+        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; background-color: #f0f2f5; margin: 0; padding: 15px; }
+        .container { max-width: 600px; margin: auto; background: white; padding: 20px; border-radius: 12px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
+        h1 { color: #1a73e8; text-align: center; }
+        input[type="text"] { width: 100%; padding: 12px; margin-bottom: 20px; border: 2px solid #dfe1e5; border-radius: 8px; box-sizing: border-box; font-size: 16px; }
+        .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+        .card { border: 1px solid #eee; padding: 10px; text-align: center; border-radius: 10px; background: #fff; transition: transform 0.1s; }
+        .card:active { transform: scale(0.95); background: #e8f0fe; }
+        .card img { width: 100%; height: 120px; object-fit: cover; border-radius: 5px; }
+        .card p { margin: 10px 0 5px; font-weight: bold; }
+        .order-list { margin-top: 30px; border-top: 3px solid #1a73e8; padding-top: 15px; }
+        .winkelmand-item { background: #f8f9fa; padding: 8px; margin-bottom: 5px; border-radius: 5px; display: flex; justify-content: space-between; }
+        button { width: 100%; background: #28a745; color: white; border: none; padding: 15px; font-size: 18px; font-weight: bold; border-radius: 8px; cursor: pointer; margin-top: 10px; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>Magazijn Bestellingen</h1>
+    
+    <input type="text" id="searchInput" placeholder="Zoek op categorie of naam..." onkeyup="filterItems()">
+
+    <div id="itemGrid" class="grid"></div>
+
+    <div class="order-list">
+        <h3>Mijn Aanvraag:</h3>
+        <div id="selectedItems"></div>
+        <button onclick="verstuurBestelling()">📧 Verstuur naar Aankoper</button>
+    </div>
+</div>
+
+<script>
+    // --- HIER PAS JE DE ARTIKELEN AAN ---
+    const ARTIKEL_LIJST = [
+        { naam: "Bout M8 x 40", cat: "fastners", img: "https://images.unsplash.com/photo-1581092160562-40aa08e78837?w=200" },
+        { naam: "Moer M8", cat: "fastners", img: "https://images.unsplash.com/photo-1590959651373-a3db0f38a961?w=200" },
+        { naam: "Splitpennen 3mm", cat: "fastners", img: "https://via.placeholder.com/200?text=Splitpen" },
+        { naam: "Zekering 10A (Rood)", cat: "electronica", img: "https://via.placeholder.com/200?text=Zekering" },
+        { naam: "Kabelschoen Blauw", cat: "electronica", img: "https://via.placeholder.com/200?text=Kabelschoen" },
+        { naam: "Draad 1.5mm Zwart", cat: "electronica", img: "https://via.placeholder.com/200?text=Draad" }
+    ];
+
+    let winkelwagen = [];
+
+    function toonArtikelen(lijst) {
+        const grid = document.getElementById('itemGrid');
+        grid.innerHTML = '';
+        lijst.forEach(item => {
+            const div = document.createElement('div');
+            div.className = 'card';
+            div.innerHTML = `<img src="${item.img}"><p>${item.naam}</p><small>${item.cat}</small>`;
+            div.onclick = () => voegToe(item.naam);
+            grid.appendChild(div);
+        });
+    }
+
+    function filterItems() {
+        const q = document.getElementById('searchInput').value.toLowerCase();
+        const gefilterd = ARTIKEL_LIJST.filter(i => i.naam.toLowerCase().includes(q) || i.cat.toLowerCase().includes(q));
+        toonArtikelen(gefilterd);
+    }
+
+    function voegToe(naam) {
+        winkelwagen.push(naam);
+        document.getElementById('selectedItems').innerHTML += `<div class="winkelmand-item">${naam}</div>`;
+    }
+
+    function verstuurBestelling() {
+        if (winkelwagen.length === 0) return alert("Kies eerst artikelen!");
+        const lijst = winkelwagen.join("%0D%0A- ");
+        const mail = "aankoper@uwbedrijf.be"; // PAS DIT EMAILADRES AAN
+        window.location.href = `mailto:${mail}?subject=Nieuwe Aanvraag Verbruiksartikelen&body=Beste aankoper,%0D%0A%0D%0AIk heb de volgende artikelen nodig uit het magazijn:%0D%0A- ${lijst}`;
+    }
+
+    toonArtikelen(ARTIKEL_LIJST);
+</script>
+
+</body>
+</html>
