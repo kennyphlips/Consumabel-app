@@ -3,71 +3,50 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Magazijn Pro</title>
+    <title>Magazijn Pro V7.3</title>
 
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="#1a73e8">
-    <meta name="apple-mobile-web-app-title" content="Magazijn">
     <meta name="mobile-web-app-capable" content="yes">
     <meta name="theme-color" content="#1a73e8">
-    
     <link rel="apple-touch-icon" href="https://cdn-icons-png.flaticon.com/512/2897/2897830.png">
 
     <style>
-        body { 
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; 
-            background-color: #f0f2f5; 
-            margin: 0; 
-            padding: 10px; 
-            padding-bottom: 140px; 
-            -webkit-tap-highlight-color: transparent;
-        }
+        body { font-family: -apple-system, system-ui, sans-serif; background-color: #f0f2f5; margin: 0; padding: 10px; padding-bottom: 140px; }
         .container { max-width: 700px; margin: auto; background: white; padding: 15px; border-radius: 12px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
-        h1 { color: #1a73e8; text-align: center; font-size: 18px; margin: 5px 0; text-transform: uppercase; border-bottom: 2px solid #1a73e8; padding-bottom: 5px; }
-        
+        h1 { color: #1a73e8; text-align: center; font-size: 18px; text-transform: uppercase; border-bottom: 2px solid #1a73e8; padding-bottom: 8px; margin-top: 5px; }
         .user-info { margin-bottom: 15px; padding: 10px; background: #e8f0fe; border-radius: 8px; border: 1px solid #1a73e8; }
-        .user-info label { display: block; font-size: 10px; font-weight: bold; color: #1a73e8; margin-bottom: 3px; }
-        .user-info input { width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 6px; box-sizing: border-box; font-size: 16px; /* 16px voorkomt auto-zoom op iOS */ }
-
-        .nav-bar { display: flex; align-items: center; margin-bottom: 15px; gap: 10px; min-height: 45px; background: #f8f9fa; padding: 5px; border-radius: 8px; }
-        .back-btn { background: #6c757d; color: white; border: none; padding: 10px 15px; border-radius: 5px; cursor: pointer; font-weight: bold; }
-
+        .user-info input { width: 100%; padding: 12px; border: 1px solid #ccc; border-radius: 6px; box-sizing: border-box; font-size: 16px; }
+        .nav-bar { display: flex; align-items: center; margin-bottom: 15px; gap: 10px; background: #f8f9fa; padding: 8px; border-radius: 8px; }
+        .back-btn { background: #6c757d; color: white; border: none; padding: 12px 18px; border-radius: 6px; cursor: pointer; font-weight: bold; }
         .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
-        .card { border: 1px solid #ddd; padding: 8px; text-align: center; border-radius: 10px; background: #fff; box-shadow: 0 2px 4px rgba(0,0,0,0.05); cursor: pointer; }
-        .card img { width: 100%; height: 90px; object-fit: cover; border-radius: 6px; margin-bottom: 5px; background-color: #eee; }
-        .card p { margin: 0; font-weight: bold; font-size: 11px; text-transform: uppercase; color: #333; }
-        
-        .card.is-item { border-left: 6px solid #1a73e8; background-color: #f8faff; padding: 12px 5px; min-height: 50px; display: flex; flex-direction: column; text-align: left; padding-left: 10px; }
-        .card.is-item small { font-size: 9px; color: #666; margin-top: 3px; }
-        .card.is-item img { display: none; }
-
+        .card { border: 1px solid #ddd; padding: 10px; text-align: center; border-radius: 10px; background: #fff; cursor: pointer; }
+        .card img { width: 100%; height: 100px; object-fit: cover; border-radius: 6px; margin-bottom: 8px; background-color: #eee; }
+        .card p { margin: 0; font-weight: bold; font-size: 12px; text-transform: uppercase; }
+        .card.is-item { border-left: 6px solid #1a73e8; text-align: left; padding: 15px 10px; }
+        .card.is-item p { font-size: 13px; }
+        .card.is-item small { display: block; color: #666; font-size: 10px; margin-top: 4px; font-weight: normal; }
         .order-list { margin-top: 25px; border-top: 3px solid #1a73e8; padding-top: 15px; }
-        .winkelmand-item { background: #f8f9fa; padding: 10px; margin-bottom: 6px; border-radius: 6px; display: flex; justify-content: space-between; border: 1px solid #ddd; font-size: 12px; align-items: center; }
-        .delete-btn { background: #dc3545; color: white; border: none; padding: 8px; border-radius: 4px; cursor: pointer; }
-        
-        .footer-btn { position: fixed; bottom: 15px; left: 50%; transform: translateX(-50%); width: 90%; max-width: 600px; z-index: 100; }
-        .send-btn { background: #28a745; color: white; border: none; padding: 18px; font-size: 18px; font-weight: bold; border-radius: 12px; cursor: pointer; width: 100%; box-shadow: 0 5px 15px rgba(0,0,0,0.3); }
+        .winkelmand-item { background: #f8f9fa; padding: 10px; margin-bottom: 8px; border-radius: 8px; display: flex; justify-content: space-between; border: 1px solid #ddd; align-items: center; font-size: 13px; }
+        .delete-btn { background: #dc3545; color: white; border: none; padding: 8px 12px; border-radius: 6px; }
+        .footer-btn { position: fixed; bottom: 15px; left: 50%; transform: translateX(-50%); width: 92%; max-width: 600px; }
+        .send-btn { background: #28a745; color: white; border: none; padding: 20px; font-size: 18px; font-weight: bold; border-radius: 14px; width: 100%; box-shadow: 0 5px 15px rgba(0,0,0,0.3); }
     </style>
 </head>
 <body>
 
 <div class="container">
     <div class="user-info">
-        <label>TECHNIEKER NAAM:</label>
-        <input type="text" id="userName" placeholder="Wie bestelt er?" oninput="saveUser()">
+        <input type="text" id="userName" placeholder="UW NAAM..." oninput="saveUser()">
     </div>
-
     <div class="nav-bar">
         <button id="backBtn" class="back-btn" onclick="gaTerug()" style="display: none;">⬅</button>
         <h1 id="titel">MAGAZIJN</h1>
     </div>
-
     <div id="itemGrid" class="grid"></div>
-
     <div class="order-list">
-        <h3 style="margin:0 0 10px 0; font-size: 14px; color: #1a73e8;">GEKOZEN ARTIKELEN:</h3>
         <div id="selectedItems"></div>
-        <textarea id="extraInfo" style="width:100%; margin-top:10px; border-radius:8px; border:1px solid #ddd; padding:10px; box-sizing:border-box; font-size: 14px;" rows="2" placeholder="Opmerkingen (bijv. Machine nr, spoed...)"></textarea>
+        <textarea id="extraInfo" style="width:100%; margin-top:10px; border-radius:8px; border:1px solid #ddd; padding:10px; box-sizing:border-box;" rows="2" placeholder="EXTRA INFO (Machine nr, opmerking...)"></textarea>
     </div>
 </div>
 
@@ -76,83 +55,95 @@
 </div>
 
 <script>
-    // PREFIX MAPPER
-    const PREFIXES = {
-        "FASTENERS": "FD_",
-        "ELECTRONICS": "HD_",
-        "POWER & PLUGS": "CD_",
-        "LIGHTING": "HD_"
-    };
+    const PREFIXES = { "FASTENERS": "FD_", "ELECTRONICS": "HD_", "POWER": "CD_", "BATTERIES (VARTA)": "VT_", "CHEMIE & SMEER": "CT_" };
 
     const DATA = {
         "FASTENERS": {
-            img: "https://loremflickr.com/320/240/bolts,nuts",
+            img: "https://loremflickr.com/320/240/bolt",
             sub: {
-                "BOUTEN ZESKANT (DIN 933)": { 
-                    img: "https://loremflickr.com/320/240/hex,bolt", 
+                "BOUTEN ZESKANT": {
+                    img: "https://loremflickr.com/320/240/hexbolt",
                     sub: [
                         { name: "M6 x 20", pn: "00120.060.020", specs: "Verzinkt 8.8" },
-                        { name: "M8 x 25", pn: "00120.080.025", specs: "Verzinkt 8.8" },
-                        { name: "M10 x 30", pn: "00120.100.030", specs: "Verzinkt 8.8" }
+                        { name: "M8 x 30", pn: "00120.080.030", specs: "Verzinkt 8.8" },
+                        { name: "M10 x 40", pn: "00120.100.040", specs: "Verzinkt 8.8" },
+                        { name: "M12 x 50", pn: "00120.120.050", specs: "Verzinkt 8.8" },
+                        { name: "M16 x 60", pn: "00120.160.060", specs: "Verzinkt 8.8" }
                     ]
                 },
-                "MOEREN & BORG": { 
-                    img: "https://loremflickr.com/320/240/nuts", 
+                "MOEREN & RINGEN": {
+                    img: "https://loremflickr.com/320/240/nuts-and-washers",
                     sub: [
-                        { name: "M6 Borgmoer", pn: "01310.060.001", specs: "DIN 985" },
-                        { name: "M8 Borgmoer", pn: "01310.080.001", specs: "DIN 985" },
-                        { name: "M10 Borgmoer", pn: "01310.100.001", specs: "DIN 985" }
+                        { name: "M6 Borgmoer", pn: "01310.060.001", specs: "Zelfborgend" },
+                        { name: "M8 Borgmoer", pn: "01310.080.001", specs: "Zelfborgend" },
+                        { name: "M10 Borgmoer", pn: "01310.100.001", specs: "Zelfborgend" },
+                        { name: "M12 Borgmoer", pn: "01310.120.001", specs: "Zelfborgend" },
+                        { name: "M8 Sluitring", pn: "04100.080.001", specs: "DIN 125A" },
+                        { name: "M10 Sluitring", pn: "04100.100.001", specs: "DIN 125A" }
+                    ]
+                }
+            }
+        },
+        "BATTERIES (VARTA)": {
+            img: "https://loremflickr.com/320/240/varta,battery",
+            sub: {
+                "STANDAARD BATTERIJEN": {
+                    img: "https://loremflickr.com/320/240/battery,aa",
+                    sub: [
+                        { name: "AA Alkaline (Mignon)", pn: "4906-AA", specs: "Varta Longlife" },
+                        { name: "AAA Alkaline (Micro)", pn: "4903-AAA", specs: "Varta Longlife" },
+                        { name: "C Baby", pn: "4914-C", specs: "Varta Longlife" },
+                        { name: "D Mono", pn: "4920-D", specs: "Varta Longlife" },
+                        { name: "9V Blok", pn: "4922-9V", specs: "Varta Longlife" }
+                    ]
+                },
+                "KNOOPCELLEN (LITHIUM)": {
+                    img: "https://loremflickr.com/320/240/button-cell",
+                    sub: [
+                        { name: "CR2032", pn: "6032-CR", specs: "3V Lithium" },
+                        { name: "CR2025", pn: "6025-CR", specs: "3V Lithium" },
+                        { name: "CR2016", pn: "6016-CR", specs: "3V Lithium" },
+                        { name: "CR1220", pn: "6220-CR", specs: "3V Lithium" }
+                    ]
+                }
+            }
+        },
+        "CHEMIE & SMEER": {
+            img: "https://loremflickr.com/320/240/chemie",
+            sub: {
+                "LOCTITE": {
+                    img: "https://loremflickr.com/320/240/loctite",
+                    sub: [
+                        { name: "Loctite 243", pn: "LO-243", specs: "Borging Medium" },
+                        { name: "Loctite 270", pn: "LO-270", specs: "Borging Sterk" },
+                        { name: "Loctite 401", pn: "LO-401", specs: "Secondelijm" },
+                        { name: "Loctite 577", pn: "LO-577", specs: "Draadafdichting" },
+                        { name: "Loctite 542", pn: "LO-542", specs: "Hydrauliek Borging" }
+                    ]
+                },
+                "INNOTEC": {
+                    img: "https://loremflickr.com/320/240/innotec",
+                    sub: [
+                        { name: "High-Tef Oil", pn: "IT-HTO", specs: "Kettingsmeermiddel" },
+                        { name: "White Grease", pn: "IT-WG", specs: "Witvet Spray" },
+                        { name: "Brake Clean", pn: "IT-BC", specs: "Remreiniger" },
+                        { name: "Adheseal Zwart", pn: "IT-ADS-ZW", specs: "Lijmkit Universeel" },
+                        { name: "Multi Clean", pn: "IT-MC", specs: "Schuimreiniger" }
                     ]
                 }
             }
         },
         "ELECTRONICS": {
-            img: "https://loremflickr.com/320/240/fuses",
+            img: "https://loremflickr.com/320/240/electronics",
             sub: {
-                "STANDARD BLADE": {
-                    img: "https://loremflickr.com/320/240/fuse",
+                "ZEKERINGEN": {
+                    img: "https://loremflickr.com/320/240/fuses",
                     sub: [
-                        { name: "10A Red", pn: "8JS711683-831", specs: "Standard Fuse" },
-                        { name: "15A Blue", pn: "8JS711683-841", specs: "Standard Fuse" },
-                        { name: "20A Yellow", pn: "8JS711683-851", specs: "Standard Fuse" }
-                    ]
-                },
-                "MINI FUSES": {
-                    img: "https://loremflickr.com/320/240/minifuse",
-                    sub: [
-                        { name: "Mini 5A", pn: "8JS742901-001", specs: "Mini Blade" },
-                        { name: "Mini 10A", pn: "8JS742901-011", specs: "Mini Blade" }
-                    ]
-                }
-            }
-        },
-        "POWER & PLUGS": {
-            img: "https://loremflickr.com/320/240/plug",
-            sub: {
-                "230V MATERIAAL": {
-                    img: "https://loremflickr.com/320/240/230v",
-                    sub: [
-                        { name: "Stekker Man", pn: "230V-M-PIN", specs: "Pin-aarding BE" },
-                        { name: "Koppeling Vrouw", pn: "230V-F-PIN", specs: "Pin-aarding BE" }
-                    ]
-                },
-                "400V CEE 16A": {
-                    img: "https://loremflickr.com/320/240/cee",
-                    sub: [
-                        { name: "Stekker 16A 5p", pn: "CEE16-5P-M", specs: "Krachtstroom" },
-                        { name: "Koppeling 16A 5p", pn: "CEE16-5P-F", specs: "Krachtstroom" }
-                    ]
-                }
-            }
-        },
-        "LIGHTING": {
-            img: "https://loremflickr.com/320/240/hella",
-            sub: {
-                "LAMPEN 24V": {
-                    img: "https://loremflickr.com/320/240/bulb,24v",
-                    sub: [
-                        { name: "H7 24V", pn: "8GH007157-201", specs: "Hella HD" },
-                        { name: "P21W 24V", pn: "8GA002073-241", specs: "Hella Indicator" }
+                        { name: "Standard 10A (Red)", pn: "8JS-10A", specs: "Hella" },
+                        { name: "Standard 15A (Blue)", pn: "8JS-15A", specs: "Hella" },
+                        { name: "Standard 20A (Yellow)", pn: "8JS-20A", specs: "Hella" },
+                        { name: "Mini 10A", pn: "8JS-MIN-10", specs: "Hella" },
+                        { name: "Maxi 40A", pn: "8JS-MAX-40", specs: "Hella" }
                     ]
                 }
             }
@@ -162,7 +153,7 @@
     let winkelwagen = [];
     let navigatiePad = [];
 
-    window.onload = function() {
+    window.onload = () => {
         if(localStorage.getItem("magazijnUser")) document.getElementById("userName").value = localStorage.getItem("magazijnUser");
         renderMenu();
     };
@@ -174,15 +165,11 @@
         const titel = document.getElementById('titel');
         const backBtn = document.getElementById('backBtn');
         grid.innerHTML = '';
-
         let huidigeData = { sub: DATA };
         navigatiePad.forEach(stap => { huidigeData = huidigeData.sub[stap]; });
-
-        titel.innerText = navigatiePad.length > 0 ? navigatiePad[navigatiePad.length - 1] : "MAGAZIJN";
+        titel.innerText = navigatiePad.length > 0 ? navigatiePad[navigatiePad.length - 1] : "CATEGORIEËN";
         backBtn.style.display = navigatiePad.length > 0 ? 'block' : 'none';
-
         const content = huidigeData.sub || huidigeData;
-
         if (Array.isArray(content)) {
             content.forEach(item => {
                 const div = document.createElement('div');
@@ -208,8 +195,7 @@
     function voegToe(naam, partNummer) {
         const hoofdCat = navigatiePad[0];
         const prefix = PREFIXES[hoofdCat] || "";
-        const itemTekst = `${naam} (${prefix}${partNummer})`;
-        winkelwagen.push(itemTekst);
+        winkelwagen.push(`${naam} (${prefix}${partNummer})`);
         updateWinkelwagenLayout();
     }
 
@@ -225,13 +211,11 @@
 
     function verstuurBestelling() {
         const name = document.getElementById("userName").value;
-        if (!name) return alert("Vul eerst je naam in!");
-        if (winkelwagen.length === 0) return alert("Je mandje is leeg!");
+        if (!name) return alert("Vul je naam in!");
+        if (winkelwagen.length === 0) return alert("Geen artikelen!");
         const lijstTekst = winkelwagen.join("%0D%0A- ");
         const extraInfo = document.getElementById("extraInfo").value;
-        const mail = "aankoper@uwbedrijf.be";
-        let body = `SENDER: ${name}%0D%0A%0D%0AITEMS:%0D%0A- ${lijstTekst}%0D%0A%0D%0AINFO: ${extraInfo || "Geen"}`;
-        window.location.href = `mailto:${mail}?subject=Magazijn Bestelling - ${name}&body=${body}`;
+        window.location.href = `mailto:aankoper@uwbedrijf.be?subject=Bestelling - ${name}&body=TECHNIEKER: ${name}%0D%0A%0D%0AARTIKELEN:%0D%0A- ${lijstTekst}%0D%0A%0D%0AINFO: ${extraInfo}`;
     }
 
     renderMenu();
