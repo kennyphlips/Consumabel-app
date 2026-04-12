@@ -3,12 +3,16 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Magazijn App V3.1</title>
+    <title>Magazijn App V4</title>
     <style>
         body { font-family: sans-serif; background-color: #f0f2f5; margin: 0; padding: 15px; padding-bottom: 120px; }
         .container { max-width: 600px; margin: auto; background: white; padding: 20px; border-radius: 12px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
         h1 { color: #1a73e8; text-align: center; font-size: 22px; margin: 0; text-transform: uppercase; }
         
+        .user-info { margin-bottom: 20px; padding: 10px; background: #e8f0fe; border-radius: 8px; border: 1px solid #1a73e8; }
+        .user-info label { display: block; font-size: 12px; font-weight: bold; color: #1a73e8; margin-bottom: 5px; }
+        .user-info input { width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 4px; box-sizing: border-box; }
+
         .nav-bar { display: flex; align-items: center; margin-bottom: 20px; gap: 10px; min-height: 40px; }
         .back-btn { background: #6c757d; color: white; border: none; padding: 10px 15px; border-radius: 5px; cursor: pointer; font-weight: bold; }
 
@@ -24,6 +28,10 @@
         .winkelmand-item { background: #f8f9fa; padding: 10px; margin-bottom: 8px; border-radius: 8px; display: flex; justify-content: space-between; align-items: center; border: 1px solid #ddd; font-size: 14px; }
         .delete-btn { background: #dc3545; color: white; border: none; padding: 8px 12px; border-radius: 5px; cursor: pointer; }
         
+        .extra-info-box { margin-top: 15px; }
+        .extra-info-box label { display: block; font-size: 12px; font-weight: bold; margin-bottom: 5px; }
+        .extra-info-box textarea { width: 100%; padding: 10px; border-radius: 8px; border: 1px solid #ddd; box-sizing: border-box; resize: vertical; }
+
         .footer-btn { position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); width: 90%; max-width: 540px; }
         .send-btn { background: #28a745; color: white; border: none; padding: 15px; font-size: 18px; font-weight: bold; border-radius: 10px; cursor: pointer; width: 100%; box-shadow: 0 4px 10px rgba(0,0,0,0.2); }
     </style>
@@ -31,6 +39,11 @@
 <body>
 
 <div class="container">
+    <div class="user-info">
+        <label>SENDER NAME / TECHNICIAN:</label>
+        <input type="text" id="userName" placeholder="Type your name..." oninput="saveUser()">
+    </div>
+
     <div class="nav-bar">
         <button id="backBtn" class="back-btn" onclick="gaTerug()" style="display: none;">⬅</button>
         <h1 id="titel">MAGAZIJN</h1>
@@ -39,16 +52,22 @@
     <div id="itemGrid" class="grid"></div>
 
     <div class="order-list">
-        <h3>Mijn Aanvraag:</h3>
+        <h3>MY REQUEST:</h3>
         <div id="selectedItems"></div>
+        
+        <div class="extra-info-box">
+            <label>EXTRA INFO (Optional):</label>
+            <textarea id="extraInfo" rows="2" placeholder="Machine number, urgency, etc..."></textarea>
+        </div>
     </div>
 </div>
 
 <div class="footer-btn">
-    <button class="send-btn" onclick="verstuurBestelling()">📧 Verstuur naar Aankoper</button>
+    <button class="send-btn" onclick="verstuurBestelling()">📧 SEND TO PURCHASING</button>
 </div>
 
 <script>
+    // --- DATA STRUCTUUR ---
     const DATA = {
         "FASTENERS": {
             "BOLTS": ["M4 x 20", "M5 x 25", "M6 x 30", "M8 x 40", "M10 x 50"],
@@ -94,6 +113,18 @@
 
     let winkelwagen = [];
     let navigatiePad = [];
+
+    // Bij laden van de pagina: Naam ophalen
+    window.onload = function() {
+        if(localStorage.getItem("magazijnUser")) {
+            document.getElementById("userName").value = localStorage.getItem("magazijnUser");
+        }
+        renderMenu();
+    };
+
+    function saveUser() {
+        localStorage.setItem("magazijnUser", document.getElementById("userName").value);
+    }
 
     function renderMenu() {
         const grid = document.getElementById('itemGrid');
@@ -167,10 +198,23 @@
     }
 
     function verstuurBestelling() {
-        if (winkelwagen.length === 0) return alert("Je lijst is nog leeg!");
+        const name = document.getElementById("userName").value;
+        const extraInfo = document.getElementById("extraInfo").value;
+
+        if (!name) return alert("Please fill in your name first!");
+        if (winkelwagen.length === 0) return alert("Your list is empty!");
+
         const lijstTekst = winkelwagen.join("%0D%0A- ");
         const mail = "aankoper@uwbedrijf.be";
-        window.location.href = `mailto:${mail}?subject=Magazijn Aanvraag&body=Ik heb de volgende onderdelen nodig:%0D%0A%0D%0A- ${lijstTekst}`;
+        
+        // Samenstellen van de mail body
+        let body = `FROM: ${name}%0D%0A`;
+        body += `---------------------------%0D%0A`;
+        body += `ITEMS NEEDED:%0D%0A- ${lijstTekst}%0D%0A`;
+        body += `---------------------------%0D%0A`;
+        body += `EXTRA INFO: ${extraInfo ? extraInfo : "None"}`;
+
+        window.location.href = `mailto:${mail}?subject=Warehouse Request from ${name}&body=${body}`;
     }
 
     renderMenu();
