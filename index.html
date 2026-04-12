@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Magazijn Pro V7.3</title>
+    <title>Magazijn Master V7.4</title>
 
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="#1a73e8">
@@ -21,16 +21,16 @@
         .back-btn { background: #6c757d; color: white; border: none; padding: 12px 18px; border-radius: 6px; cursor: pointer; font-weight: bold; }
         .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
         .card { border: 1px solid #ddd; padding: 10px; text-align: center; border-radius: 10px; background: #fff; cursor: pointer; }
-        .card img { width: 100%; height: 100px; object-fit: cover; border-radius: 6px; margin-bottom: 8px; background-color: #eee; }
-        .card p { margin: 0; font-weight: bold; font-size: 12px; text-transform: uppercase; }
-        .card.is-item { border-left: 6px solid #1a73e8; text-align: left; padding: 15px 10px; }
-        .card.is-item p { font-size: 13px; }
-        .card.is-item small { display: block; color: #666; font-size: 10px; margin-top: 4px; font-weight: normal; }
+        .card img { width: 100%; height: 90px; object-fit: cover; border-radius: 6px; margin-bottom: 8px; background-color: #eee; }
+        .card p { margin: 0; font-weight: bold; font-size: 11px; text-transform: uppercase; }
+        .card.is-item { border-left: 6px solid #1a73e8; text-align: left; padding: 12px 10px; }
+        .card.is-item p { font-size: 12px; }
+        .card.is-item small { display: block; color: #666; font-size: 9px; margin-top: 4px; font-weight: normal; }
         .order-list { margin-top: 25px; border-top: 3px solid #1a73e8; padding-top: 15px; }
-        .winkelmand-item { background: #f8f9fa; padding: 10px; margin-bottom: 8px; border-radius: 8px; display: flex; justify-content: space-between; border: 1px solid #ddd; align-items: center; font-size: 13px; }
-        .delete-btn { background: #dc3545; color: white; border: none; padding: 8px 12px; border-radius: 6px; }
+        .winkelmand-item { background: #f8f9fa; padding: 10px; margin-bottom: 8px; border-radius: 8px; display: flex; justify-content: space-between; border: 1px solid #ddd; align-items: center; font-size: 12px; }
+        .delete-btn { background: #dc3545; color: white; border: none; padding: 8px; border-radius: 6px; }
         .footer-btn { position: fixed; bottom: 15px; left: 50%; transform: translateX(-50%); width: 92%; max-width: 600px; }
-        .send-btn { background: #28a745; color: white; border: none; padding: 20px; font-size: 18px; font-weight: bold; border-radius: 14px; width: 100%; box-shadow: 0 5px 15px rgba(0,0,0,0.3); }
+        .send-btn { background: #28a745; color: white; border: none; padding: 18px; font-size: 18px; font-weight: bold; border-radius: 14px; width: 100%; box-shadow: 0 5px 15px rgba(0,0,0,0.3); }
     </style>
 </head>
 <body>
@@ -41,7 +41,7 @@
     </div>
     <div class="nav-bar">
         <button id="backBtn" class="back-btn" onclick="gaTerug()" style="display: none;">⬅</button>
-        <h1 id="titel">MAGAZIJN</h1>
+        <h1 id="titel">MAGAZIJN MASTER</h1>
     </div>
     <div id="itemGrid" class="grid"></div>
     <div class="order-list">
@@ -55,55 +55,99 @@
 </div>
 
 <script>
-    const PREFIXES = { "FASTENERS": "FD_", "ELECTRONICS": "HD_", "POWER": "CD_", "BATTERIES (VARTA)": "VT_", "CHEMIE & SMEER": "CT_" };
+    const PREFIXES = { 
+        "FASTENERS": "FD_", "ELECTRONICS": "HD_", "POWER & STEKKERS": "CD_", 
+        "BATTERIJEN": "VT_", "CHEMIE & SMEER": "CT_", "ELEKTRA & KABEL": "EL_", "VERLICHTING": "HD_" 
+    };
 
     const DATA = {
         "FASTENERS": {
             img: "https://loremflickr.com/320/240/bolt",
             sub: {
-                "BOUTEN ZESKANT": {
-                    img: "https://loremflickr.com/320/240/hexbolt",
+                "ZESKANTBOUTEN (DIN 933)": {
+                    img: "https://loremflickr.com/320/240/hex-bolt",
                     sub: [
-                        { name: "M6 x 20", pn: "00120.060.020", specs: "Verzinkt 8.8" },
-                        { name: "M8 x 30", pn: "00120.080.030", specs: "Verzinkt 8.8" },
-                        { name: "M10 x 40", pn: "00120.100.040", specs: "Verzinkt 8.8" },
-                        { name: "M12 x 50", pn: "00120.120.050", specs: "Verzinkt 8.8" },
-                        { name: "M16 x 60", pn: "00120.160.060", specs: "Verzinkt 8.8" }
+                        { name: "M6 x 20", pn: "00120.060.020", specs: "8.8 Verzinkt" },
+                        { name: "M6 x 40", pn: "00120.060.040", specs: "8.8 Verzinkt" },
+                        { name: "M8 x 25", pn: "00120.080.025", specs: "8.8 Verzinkt" },
+                        { name: "M8 x 50", pn: "00120.080.050", specs: "8.8 Verzinkt" },
+                        { name: "M10 x 30", pn: "00120.100.030", specs: "8.8 Verzinkt" },
+                        { name: "M10 x 60", pn: "00120.100.060", specs: "8.8 Verzinkt" },
+                        { name: "M12 x 40", pn: "00120.120.040", specs: "8.8 Verzinkt" },
+                        { name: "M12 x 80", pn: "00120.120.080", specs: "8.8 Verzinkt" },
+                        { name: "M16 x 50", pn: "00120.160.050", specs: "8.8 Verzinkt" }
                     ]
                 },
                 "MOEREN & RINGEN": {
-                    img: "https://loremflickr.com/320/240/nuts-and-washers",
+                    img: "https://loremflickr.com/320/240/nuts",
                     sub: [
-                        { name: "M6 Borgmoer", pn: "01310.060.001", specs: "Zelfborgend" },
-                        { name: "M8 Borgmoer", pn: "01310.080.001", specs: "Zelfborgend" },
-                        { name: "M10 Borgmoer", pn: "01310.100.001", specs: "Zelfborgend" },
-                        { name: "M12 Borgmoer", pn: "01310.120.001", specs: "Zelfborgend" },
+                        { name: "M6 Borgmoer", pn: "01310.060.001", specs: "DIN 985" },
+                        { name: "M8 Borgmoer", pn: "01310.080.001", specs: "DIN 985" },
+                        { name: "M10 Borgmoer", pn: "01310.100.001", specs: "DIN 985" },
+                        { name: "M12 Borgmoer", pn: "01310.120.001", specs: "DIN 985" },
                         { name: "M8 Sluitring", pn: "04100.080.001", specs: "DIN 125A" },
-                        { name: "M10 Sluitring", pn: "04100.100.001", specs: "DIN 125A" }
+                        { name: "M10 Sluitring", pn: "04100.100.001", specs: "DIN 125A" },
+                        { name: "M8 Veerring", pn: "04400.080.001", specs: "DIN 127B" }
                     ]
                 }
             }
         },
-        "BATTERIES (VARTA)": {
-            img: "https://loremflickr.com/320/240/varta,battery",
+        "POWER & STEKKERS": {
+            img: "https://loremflickr.com/320/240/power-plug",
             sub: {
-                "STANDAARD BATTERIJEN": {
-                    img: "https://loremflickr.com/320/240/battery,aa",
+                "230V MATERIAAL": {
+                    img: "https://loremflickr.com/320/240/230v",
                     sub: [
-                        { name: "AA Alkaline (Mignon)", pn: "4906-AA", specs: "Varta Longlife" },
-                        { name: "AAA Alkaline (Micro)", pn: "4903-AAA", specs: "Varta Longlife" },
-                        { name: "C Baby", pn: "4914-C", specs: "Varta Longlife" },
-                        { name: "D Mono", pn: "4920-D", specs: "Varta Longlife" },
-                        { name: "9V Blok", pn: "4922-9V", specs: "Varta Longlife" }
+                        { name: "Stekker Man", pn: "230V-M-PIN", specs: "Rubber / Pin-aarding BE" },
+                        { name: "Koppeling Vrouw", pn: "230V-F-PIN", specs: "Rubber / Pin-aarding BE" },
+                        { name: "Inbouwdoos 230V", pn: "230V-INB-PIN", specs: "Spatwaterdicht" }
                     ]
                 },
-                "KNOOPCELLEN (LITHIUM)": {
-                    img: "https://loremflickr.com/320/240/button-cell",
+                "400V CEE 16A": {
+                    img: "https://loremflickr.com/320/240/cee-16a",
                     sub: [
-                        { name: "CR2032", pn: "6032-CR", specs: "3V Lithium" },
-                        { name: "CR2025", pn: "6025-CR", specs: "3V Lithium" },
-                        { name: "CR2016", pn: "6016-CR", specs: "3V Lithium" },
-                        { name: "CR1220", pn: "6220-CR", specs: "3V Lithium" }
+                        { name: "Stekker 16A 5p", pn: "CEE16-5M", specs: "400V Man Rood" },
+                        { name: "Koppeling 16A 5p", pn: "CEE16-5F", specs: "400V Vrouw Rood" },
+                        { name: "Wanddoos 16A 5p", pn: "CEE16-5W", specs: "400V Opbouw" }
+                    ]
+                },
+                "400V CEE 32A": {
+                    img: "https://loremflickr.com/320/240/cee-32a",
+                    sub: [
+                        { name: "Stekker 32A 5p", pn: "CEE32-5M", specs: "400V Man Rood" },
+                        { name: "Koppeling 32A 5p", pn: "CEE32-5F", specs: "400V Vrouw Rood" },
+                        { name: "Wanddoos 32A 5p", pn: "CEE32-5W", specs: "400V Opbouw" }
+                    ]
+                }
+            }
+        },
+        "ELEKTRA & KABEL": {
+            img: "https://loremflickr.com/320/240/cable-terminals",
+            sub: {
+                "KABELSCHOENEN (GEÏSOLEERD)": {
+                    img: "https://loremflickr.com/320/240/terminals",
+                    sub: [
+                        { name: "Ringschoen Rood M4", pn: "EL-RR-4", specs: "0.5-1.5mm²" },
+                        { name: "Ringschoen Blauw M5", pn: "EL-RB-5", specs: "1.5-2.5mm²" },
+                        { name: "Ringschoen Geel M6", pn: "EL-RG-6", specs: "4.0-6.0mm²" },
+                        { name: "Vlaksteker Blauw", pn: "EL-VB-63", specs: "6.3mm Schuifmaat" },
+                        { name: "Stootverbinder Blauw", pn: "EL-SB-25", specs: "Met Krimpkous" }
+                    ]
+                },
+                "ADEREINDHULZEN": {
+                    img: "https://loremflickr.com/320/240/ferrules",
+                    sub: [
+                        { name: "Huls 0.75mm² Grijs", pn: "EL-H-075", specs: "L=8mm" },
+                        { name: "Huls 1.50mm² Zwart", pn: "EL-H-150", specs: "L=8mm" },
+                        { name: "Huls 2.50mm² Blauw", pn: "EL-H-250", specs: "L=8mm" }
+                    ]
+                },
+                "BEDRADING (PER METER)": {
+                    img: "https://loremflickr.com/320/240/wire",
+                    sub: [
+                        { name: "FLRY 1.5mm² Zwart", pn: "C-15-ZW", specs: "Voertuigkabel" },
+                        { name: "FLRY 1.5mm² Rood", pn: "C-15-RO", specs: "Voertuigkabel" },
+                        { name: "FLRY 2.5mm² Zwart", pn: "C-25-ZW", specs: "Voertuigkabel" }
                     ]
                 }
             }
@@ -117,33 +161,63 @@
                         { name: "Loctite 243", pn: "LO-243", specs: "Borging Medium" },
                         { name: "Loctite 270", pn: "LO-270", specs: "Borging Sterk" },
                         { name: "Loctite 401", pn: "LO-401", specs: "Secondelijm" },
-                        { name: "Loctite 577", pn: "LO-577", specs: "Draadafdichting" },
-                        { name: "Loctite 542", pn: "LO-542", specs: "Hydrauliek Borging" }
+                        { name: "Loctite 577", pn: "LO-577", specs: "Draadafdichting" }
                     ]
                 },
                 "INNOTEC": {
                     img: "https://loremflickr.com/320/240/innotec",
                     sub: [
-                        { name: "High-Tef Oil", pn: "IT-HTO", specs: "Kettingsmeermiddel" },
-                        { name: "White Grease", pn: "IT-WG", specs: "Witvet Spray" },
+                        { name: "High-Tef Oil", pn: "IT-HTO", specs: "Kettingspray" },
+                        { name: "White Grease", pn: "IT-WG", specs: "Wit Vet" },
                         { name: "Brake Clean", pn: "IT-BC", specs: "Remreiniger" },
-                        { name: "Adheseal Zwart", pn: "IT-ADS-ZW", specs: "Lijmkit Universeel" },
-                        { name: "Multi Clean", pn: "IT-MC", specs: "Schuimreiniger" }
+                        { name: "Adheseal Zwart", pn: "IT-ADS", specs: "Kit" }
+                    ]
+                }
+            }
+        },
+        "BATTERIJEN": {
+            img: "https://loremflickr.com/320/240/battery",
+            sub: {
+                "VARTA ALKALINE": {
+                    img: "https://loremflickr.com/320/240/varta",
+                    sub: [
+                        { name: "AA Mignon", pn: "VT-AA", specs: "Varta Longlife" },
+                        { name: "AAA Micro", pn: "VT-AAA", specs: "Varta Longlife" },
+                        { name: "9V Blok", pn: "VT-9V", specs: "Varta Longlife" }
+                    ]
+                },
+                "KNOOPCELLEN": {
+                    img: "https://loremflickr.com/320/240/cr2032",
+                    sub: [
+                        { name: "CR2032", pn: "VT-2032", specs: "3V Lithium" },
+                        { name: "CR2025", pn: "VT-2025", specs: "3V Lithium" }
                     ]
                 }
             }
         },
         "ELECTRONICS": {
-            img: "https://loremflickr.com/320/240/electronics",
+            img: "https://loremflickr.com/320/240/fuses",
             sub: {
                 "ZEKERINGEN": {
-                    img: "https://loremflickr.com/320/240/fuses",
+                    img: "https://loremflickr.com/320/240/car-fuses",
                     sub: [
-                        { name: "Standard 10A (Red)", pn: "8JS-10A", specs: "Hella" },
-                        { name: "Standard 15A (Blue)", pn: "8JS-15A", specs: "Hella" },
-                        { name: "Standard 20A (Yellow)", pn: "8JS-20A", specs: "Hella" },
+                        { name: "Standard 10A", pn: "8JS-10A", specs: "Hella" },
+                        { name: "Standard 15A", pn: "8JS-15A", specs: "Hella" },
                         { name: "Mini 10A", pn: "8JS-MIN-10", specs: "Hella" },
                         { name: "Maxi 40A", pn: "8JS-MAX-40", specs: "Hella" }
+                    ]
+                }
+            }
+        },
+        "VERLICHTING": {
+            img: "https://loremflickr.com/320/240/lamp",
+            sub: {
+                "LAMPEN 24V": {
+                    img: "https://loremflickr.com/320/240/24v-lamp",
+                    sub: [
+                        { name: "H1 24V 70W", pn: "8GH-H1", specs: "Hella" },
+                        { name: "H7 24V 70W", pn: "8GH-H7", specs: "Hella" },
+                        { name: "P21W 24V", pn: "8GA-P21", specs: "Pinker/Stop" }
                     ]
                 }
             }
