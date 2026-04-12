@@ -3,34 +3,36 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Magazijn App V4</title>
+    <title>Magazijn App V5 - Visual</title>
     <style>
         body { font-family: sans-serif; background-color: #f0f2f5; margin: 0; padding: 15px; padding-bottom: 120px; }
         .container { max-width: 600px; margin: auto; background: white; padding: 20px; border-radius: 12px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
         h1 { color: #1a73e8; text-align: center; font-size: 22px; margin: 0; text-transform: uppercase; }
         
         .user-info { margin-bottom: 20px; padding: 10px; background: #e8f0fe; border-radius: 8px; border: 1px solid #1a73e8; }
-        .user-info label { display: block; font-size: 12px; font-weight: bold; color: #1a73e8; margin-bottom: 5px; }
+        .user-info label { display: block; font-size: 11px; font-weight: bold; color: #1a73e8; margin-bottom: 5px; }
         .user-info input { width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 4px; box-sizing: border-box; }
 
         .nav-bar { display: flex; align-items: center; margin-bottom: 20px; gap: 10px; min-height: 40px; }
         .back-btn { background: #6c757d; color: white; border: none; padding: 10px 15px; border-radius: 5px; cursor: pointer; font-weight: bold; }
 
         .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
-        .card { border: 1px solid #ddd; padding: 20px 10px; text-align: center; border-radius: 10px; background: #fff; 
-                box-shadow: 0 2px 5px rgba(0,0,0,0.05); cursor: pointer; transition: transform 0.1s; display: flex; align-items: center; justify-content: center; min-height: 60px; }
+        .card { border: 1px solid #ddd; padding: 10px; text-align: center; border-radius: 10px; background: #fff; 
+                box-shadow: 0 2px 5px rgba(0,0,0,0.05); cursor: pointer; transition: transform 0.1s; }
         .card:active { transform: scale(0.95); background-color: #e8f0fe; }
+        .card img { width: 100%; height: 80px; object-fit: cover; border-radius: 6px; margin-bottom: 8px; background-color: #eee; }
         .card p { margin: 0; font-weight: bold; font-size: 13px; text-transform: uppercase; }
         
-        .card.is-item { border-left: 5px solid #28a745; background-color: #f8fff9; }
+        /* Specifieke stijl voor de eind-artikelen (geen foto nodig) */
+        .card.is-item { border-left: 5px solid #28a745; background-color: #f8fff9; padding: 20px 10px; }
+        .card.is-item img { display: none; }
 
         .order-list { margin-top: 30px; border-top: 3px solid #1a73e8; padding-top: 15px; }
-        .winkelmand-item { background: #f8f9fa; padding: 10px; margin-bottom: 8px; border-radius: 8px; display: flex; justify-content: space-between; align-items: center; border: 1px solid #ddd; font-size: 14px; }
+        .winkelmand-item { background: #f8f9fa; padding: 10px; margin-bottom: 8px; border-radius: 8px; display: flex; justify-content: space-between; align-items: center; border: 1px solid #ddd; font-size: 13px; }
         .delete-btn { background: #dc3545; color: white; border: none; padding: 8px 12px; border-radius: 5px; cursor: pointer; }
         
         .extra-info-box { margin-top: 15px; }
-        .extra-info-box label { display: block; font-size: 12px; font-weight: bold; margin-bottom: 5px; }
-        .extra-info-box textarea { width: 100%; padding: 10px; border-radius: 8px; border: 1px solid #ddd; box-sizing: border-box; resize: vertical; }
+        .extra-info-box textarea { width: 100%; padding: 10px; border-radius: 8px; border: 1px solid #ddd; box-sizing: border-box; resize: none; font-size: 14px; }
 
         .footer-btn { position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); width: 90%; max-width: 540px; }
         .send-btn { background: #28a745; color: white; border: none; padding: 15px; font-size: 18px; font-weight: bold; border-radius: 10px; cursor: pointer; width: 100%; box-shadow: 0 4px 10px rgba(0,0,0,0.2); }
@@ -41,7 +43,7 @@
 <div class="container">
     <div class="user-info">
         <label>SENDER NAME / TECHNICIAN:</label>
-        <input type="text" id="userName" placeholder="Type your name..." oninput="saveUser()">
+        <input type="text" id="userName" placeholder="Enter your name..." oninput="saveUser()">
     </div>
 
     <div class="nav-bar">
@@ -56,8 +58,7 @@
         <div id="selectedItems"></div>
         
         <div class="extra-info-box">
-            <label>EXTRA INFO (Optional):</label>
-            <textarea id="extraInfo" rows="2" placeholder="Machine number, urgency, etc..."></textarea>
+            <textarea id="extraInfo" rows="2" placeholder="EXTRA INFO (Optional: Machine, urgency...)"></textarea>
         </div>
     </div>
 </div>
@@ -67,54 +68,64 @@
 </div>
 
 <script>
-    // --- DATA STRUCTUUR ---
+    // --- DATA STRUCTUUR MET FOTO'S ---
+    // 'img' is de link naar de foto. 'data' zijn de subcategorieën of artikelen.
     const DATA = {
         "FASTENERS": {
-            "BOLTS": ["M4 x 20", "M5 x 25", "M6 x 30", "M8 x 40", "M10 x 50"],
-            "NUTS": ["M4", "M5", "M6", "M8", "M10", "M12"],
-            "WASHERS": ["M4", "M5", "M6", "M8", "M10"],
-            "SCREWS": ["3.5 x 16", "4.0 x 30", "5.0 x 50"]
+            img: "https://images.unsplash.com/photo-1581244277943-fe4a9c777189?w=200",
+            sub: {
+                "BOLTS": ["M4 x 20", "M5 x 25", "M6 x 30", "M8 x 40", "M10 x 50"],
+                "NUTS": ["M4", "M5", "M6", "M8", "M10", "M12"],
+                "WASHERS": ["M4", "M5", "M6", "M8", "M10"]
+            }
         },
         "ELECTRONICS": {
-            "FUSES": {
-                "BLADE FUSES": ["2A", "5A", "7.5A", "10A", "15A", "20A", "30A"],
-                "GLASS FUSES": ["1A", "2A", "5A", "10A"],
-                "MAXI FUSES": ["30A", "40A", "50A", "60A", "80A"]
-            },
-            "LUGS": {
-                "RED (1.5mm)": ["M4", "M5", "M6"],
-                "BLUE (2.5mm)": ["M4", "M5", "M6", "M8"],
-                "YELLOW (6.0mm)": ["M6", "M8", "M10"]
-            },
-            "WIRING": ["SINGLE CORE 1.5mm²", "SINGLE CORE 2.5mm²", "TWIN CORE 2x1.5mm²"],
-            "HEAT SHRINK": ["3mm", "5mm", "8mm", "12mm"],
-            "TERMINALS": ["BATTERY POSITIVE", "BATTERY NEGATIVE"]
+            img: "https://images.unsplash.com/photo-1517077304055-6e89abbf09b0?w=200",
+            sub: {
+                "FUSES": {
+                    img: "https://images.unsplash.com/photo-1555664424-778a1e5e1b48?w=200",
+                    sub: {
+                        "BLADE FUSES": ["2A", "5A", "7.5A", "10A", "15A", "20A", "30A"],
+                        "MAXI FUSES": ["30A", "40A", "50A", "60A", "80A"]
+                    }
+                },
+                "LUGS": ["RED 1.5mm", "BLUE 2.5mm", "YELLOW 6.0mm"],
+                "TERMINALS": ["BATTERY POSITIVE", "BATTERY NEGATIVE"]
+            }
         },
         "TAPES": {
-            "ELECTRICAL TAPE": ["BLACK", "RED", "BLUE", "YELLOW/GREEN"],
-            "MASKING TAPE": ["19mm", "38mm", "50mm"],
-            "DUCT TAPE": ["SILVER", "BLACK"]
+            img: "https://images.unsplash.com/photo-1603899122634-f086ca5f5ddd?w=200",
+            sub: {
+                "ELECTRICAL TAPE": ["BLACK", "RED", "BLUE"],
+                "DUCT TAPE": ["SILVER", "BLACK"]
+            }
         },
         "ADHESIVES": {
-            "LOCTITE": ["243 MEDIUM", "270 STRONG", "401 INSTANT", "577 PIPE SEAL"],
-            "CLEANERS": ["BRAKE CLEANER", "CONTACT CLEANER", "WD-40"]
+            img: "https://images.unsplash.com/photo-1565193566173-7a0ee3dbe261?w=200",
+            sub: {
+                "LOCTITE": ["243 MEDIUM", "270 STRONG", "401 INSTANT"],
+                "CLEANERS": ["BRAKE CLEANER", "WD-40"]
+            }
         },
         "ABRASIVES": {
-            "SANDPAPER": ["GRIT 80", "GRIT 120", "GRIT 180", "GRIT 240", "GRIT 400"],
-            "GRINDING": ["METAL GRINDING DISC 125mm", "FLAP DISC P60", "FLAP DISC P80"],
-            "CUTTING": ["METAL CUTTING DISC 125mm", "STAINLESS STEEL CUTTING DISC"]
+            img: "https://images.unsplash.com/photo-1572981779307-38b8cabb2407?w=200",
+            sub: {
+                "SANDPAPER": ["GRIT 80", "GRIT 120", "GRIT 240"],
+                "DISCS": ["CUTTING DISC 125mm", "GRINDING DISC 125mm"]
+            }
         },
         "DRILLING": {
-            "HSS METAL DRILLS": ["2mm", "3mm", "4mm", "5mm", "6mm", "8mm", "10mm", "12mm"],
-            "MASONRY DRILLS": ["6mm", "8mm", "10mm", "12mm"],
-            "HOLE SAWS": ["20mm", "25mm", "32mm", "40mm", "50mm"]
+            img: "https://images.unsplash.com/photo-1504148455328-c376907d081c?w=200",
+            sub: {
+                "HSS DRILLS": ["4mm", "5mm", "6mm", "8mm", "10mm"],
+                "HOLE SAWS": ["25mm", "32mm", "50mm"]
+            }
         }
     };
 
     let winkelwagen = [];
     let navigatiePad = [];
 
-    // Bij laden van de pagina: Naam ophalen
     window.onload = function() {
         if(localStorage.getItem("magazijnUser")) {
             document.getElementById("userName").value = localStorage.getItem("magazijnUser");
@@ -132,9 +143,9 @@
         const backBtn = document.getElementById('backBtn');
         grid.innerHTML = '';
 
-        let huidigeData = DATA;
+        let huidigeData = { sub: DATA };
         navigatiePad.forEach(stap => {
-            huidigeData = huidigeData[stap];
+            huidigeData = huidigeData.sub[stap];
         });
 
         if (navigatiePad.length > 0) {
@@ -145,8 +156,10 @@
             backBtn.style.display = 'none';
         }
 
-        if (Array.isArray(huidigeData)) {
-            huidigeData.forEach(item => {
+        const items = huidigeData.sub || huidigeData;
+
+        if (Array.isArray(items)) {
+            items.forEach(item => {
                 const div = document.createElement('div');
                 div.className = 'card is-item';
                 div.innerHTML = `<p>${item}</p>`;
@@ -154,10 +167,13 @@
                 grid.appendChild(div);
             });
         } else {
-            Object.keys(huidigeData).forEach(sleutel => {
+            Object.keys(items).forEach(sleutel => {
+                const info = items[sleutel];
                 const div = document.createElement('div');
                 div.className = 'card';
-                div.innerHTML = `<p>${sleutel}</p>`;
+                // Als er geen img is, gebruiken we een placeholder
+                const imgSrc = info.img || "https://via.placeholder.com/200?text=No+Image";
+                div.innerHTML = `<img src="${imgSrc}"><p>${sleutel}</p>`;
                 div.onclick = () => gaDieper(sleutel);
                 grid.appendChild(div);
             });
@@ -200,20 +216,12 @@
     function verstuurBestelling() {
         const name = document.getElementById("userName").value;
         const extraInfo = document.getElementById("extraInfo").value;
-
         if (!name) return alert("Please fill in your name first!");
         if (winkelwagen.length === 0) return alert("Your list is empty!");
 
         const lijstTekst = winkelwagen.join("%0D%0A- ");
         const mail = "aankoper@uwbedrijf.be";
-        
-        // Samenstellen van de mail body
-        let body = `FROM: ${name}%0D%0A`;
-        body += `---------------------------%0D%0A`;
-        body += `ITEMS NEEDED:%0D%0A- ${lijstTekst}%0D%0A`;
-        body += `---------------------------%0D%0A`;
-        body += `EXTRA INFO: ${extraInfo ? extraInfo : "None"}`;
-
+        let body = `FROM: ${name}%0D%0A---------------------------%0D%0AITEMS:%0D%0A- ${lijstTekst}%0D%0A---------------------------%0D%0AINFO: ${extraInfo || "None"}`;
         window.location.href = `mailto:${mail}?subject=Warehouse Request from ${name}&body=${body}`;
     }
 
