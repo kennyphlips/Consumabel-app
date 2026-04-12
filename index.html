@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Magazijn Master V7.7</title>
+    <title>Magazijn Master V7.9</title>
 
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -23,7 +23,7 @@
             }
         }
 
-        body { font-family: -apple-system, system-ui, sans-serif; background-color: var(--bg-color); color: var(--text-color); margin: 0; padding: 10px; padding-bottom: 140px; transition: background 0.3s; }
+        body { font-family: -apple-system, system-ui, sans-serif; background-color: var(--bg-color); color: var(--text-color); margin: 0; padding: 10px; padding-bottom: 140px; }
         .container { max-width: 700px; margin: auto; background: var(--container-bg); padding: 15px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.3); }
         h1 { color: #1a73e8; text-align: center; font-size: 18px; text-transform: uppercase; border-bottom: 2px solid #1a73e8; padding-bottom: 8px; margin-top: 5px; }
         .user-info { margin-bottom: 15px; padding: 10px; background: rgba(26, 115, 232, 0.1); border-radius: 8px; border: 1px solid #1a73e8; }
@@ -68,113 +68,143 @@
 
 <script>
     const PREFIXES = { 
-        "FASTENERS": "FD_", "ELEKTRA": "EL_", "CHEMIE": "CT_", 
-        "BATTERIJEN": "VT_", "VERLICHTING": "HD_", "POWER": "CD_" 
+        "FASTENERS": "FD_", "ELECTRONICS": "HD_", "POWER": "CD_", 
+        "BATTERIJEN": "VT_", "VERLICHTING": "LP_", "CHEMIE": "CT_" 
     };
 
     const DATA = {
         "FASTENERS": {
-            img: "https://loremflickr.com/320/240/bolt,nut",
+            img: "https://loremflickr.com/320/240/bolts",
             sub: {
-                "BOUTEN ZESKANT": {
+                "BOUTEN": {
                     img: "https://loremflickr.com/320/240/hexbolt",
                     sub: [
-                        { name: "M6 x 20", pn: "933.06.20", specs: "DIN 933 - 8.8" },
-                        { name: "M8 x 30", pn: "933.08.30", specs: "DIN 933 - 8.8" },
-                        { name: "M10 x 40", pn: "933.10.40", specs: "DIN 933 - 8.8" },
-                        { name: "M12 x 50", pn: "933.12.50", specs: "DIN 933 - 8.8" },
-                        { name: "M16 x 60", pn: "933.16.60", specs: "DIN 933 - 8.8" }
-                    ]
-                },
-                "INBUSBOUTEN": {
-                    img: "https://loremflickr.com/320/240/inbus",
-                    sub: [
-                        { name: "Inbus M6 x 25", pn: "912.06.25", specs: "DIN 912 - Cilinder" },
-                        { name: "Inbus M8 x 30", pn: "912.08.30", specs: "DIN 912 - Cilinder" },
-                        { name: "Inbus M10 x 40", pn: "912.10.40", specs: "DIN 912 - Cilinder" },
-                        { name: "Inbus M12 x 40", pn: "912.12.40", specs: "DIN 912 - Cilinder" }
+                        { name: "Zeskant M8x30", pn: "933-08-30", specs: "8.8 Verzinkt" },
+                        { name: "Zeskant M10x40", pn: "933-10-40", specs: "8.8 Verzinkt" },
+                        { name: "Inbus M6x20", pn: "912-06-20", specs: "DIN 912" },
+                        { name: "Inbus M8x30", pn: "912-08-30", specs: "DIN 912" }
                     ]
                 },
                 "MOEREN": {
                     img: "https://loremflickr.com/320/240/nuts",
                     sub: [
-                        { name: "M6 Borgmoer", pn: "985.06", specs: "DIN 985" },
-                        { name: "M8 Borgmoer", pn: "985.08", specs: "DIN 985" },
-                        { name: "M10 Borgmoer", pn: "985.10", specs: "DIN 985" },
-                        { name: "M12 Borgmoer", pn: "985.12", specs: "DIN 985" },
-                        { name: "M8 Lage Moer", pn: "439.08", specs: "DIN 439 (Plat)" },
-                        { name: "M10 Lage Moer", pn: "439.10", specs: "DIN 439 (Plat)" },
-                        { name: "M12 Lage Moer", pn: "439.12", specs: "DIN 439 (Plat)" }
+                        { name: "M8 Borgmoer", pn: "985-08", specs: "DIN 985" },
+                        { name: "M10 Borgmoer", pn: "985-10", specs: "DIN 985" },
+                        { name: "M8 Lage Moer", pn: "439-08", specs: "DIN 439 (Plat)" },
+                        { name: "M10 Lage Moer", pn: "439-10", specs: "DIN 439" }
                     ]
                 },
-                "RINGEN (REVETTEN)": {
-                    img: "https://loremflickr.com/320/240/washer",
+                "REVETTEN / RINGEN": {
+                    img: "https://loremflickr.com/320/240/washers",
                     sub: [
-                        { name: "M6 Sluitring", pn: "125.06", specs: "DIN 125A" },
-                        { name: "M8 Sluitring", pn: "125.08", specs: "DIN 125A" },
-                        { name: "M10 Sluitring", pn: "125.10", specs: "DIN 125A" },
-                        { name: "M8 Vlootring (Breed)", pn: "9021.08", specs: "DIN 9021" },
-                        { name: "M10 Vlootring (Breed)", pn: "9021.10", specs: "DIN 9021" },
-                        { name: "M10 Veerring", pn: "127.10", specs: "DIN 127B" }
+                        { name: "M8 Sluitring", pn: "125-08", specs: "DIN 125A" },
+                        { name: "M10 Sluitring", pn: "125-10", specs: "DIN 125A" },
+                        { name: "M8 Vlootring Breed", pn: "9021-08", specs: "DIN 9021" }
                     ]
                 }
             }
         },
-        "ELEKTRA": {
-            img: "https://loremflickr.com/320/240/electronics",
+        "ELECTRONICS": {
+            img: "https://loremflickr.com/320/240/fuses",
             sub: {
-                "KABELSCHOENEN": {
-                    img: "https://loremflickr.com/320/240/cable-terminal",
+                "STEEKZEKERING STANDAARD": {
+                    img: "https://loremflickr.com/320/240/fuse-standard",
                     sub: [
-                        { name: "Ringschoen Blauw M5", pn: "RB-5", specs: "1.5-2.5mm²" },
-                        { name: "Vlaksteker Blauw", pn: "VB-63", specs: "6.3mm" },
-                        { name: "Stootverbinder Blauw", pn: "SB-25", specs: "Krimp" }
+                        { name: "Standard 5A Beige", pn: "S-05", specs: "Hella" },
+                        { name: "Standard 7.5A Bruin", pn: "S-75", specs: "Hella" },
+                        { name: "Standard 10A Rood", pn: "S-10", specs: "Hella" },
+                        { name: "Standard 15A Blauw", pn: "S-15", specs: "Hella" },
+                        { name: "Standard 20A Geel", pn: "S-20", specs: "Hella" },
+                        { name: "Standard 25A Wit", pn: "S-25", specs: "Hella" },
+                        { name: "Standard 30A Groen", pn: "S-30", specs: "Hella" }
                     ]
                 },
-                "ZEKERINGEN": {
-                    img: "https://loremflickr.com/320/240/fuse",
+                "STEEKZEKERING MINI": {
+                    img: "https://loremflickr.com/320/240/fuse-mini",
                     sub: [
-                        { name: "Std 10A Rood", pn: "S10", specs: "Hella" },
-                        { name: "Mini 10A Rood", pn: "M10", specs: "Hella" }
+                        { name: "Mini 5A Beige", pn: "M-05", specs: "Hella" },
+                        { name: "Mini 10A Rood", pn: "M-10", specs: "Hella" },
+                        { name: "Mini 15A Blauw", pn: "M-15", specs: "Hella" },
+                        { name: "Mini 20A Geel", pn: "M-20", specs: "Hella" }
+                    ]
+                },
+                "MAXI ZEKERINGEN": {
+                    img: "https://loremflickr.com/320/240/fuse-maxi",
+                    sub: [
+                        { name: "Maxi 30A Groen", pn: "MAX-30", specs: "Groot model" },
+                        { name: "Maxi 40A Oranje", pn: "MAX-40", specs: "Groot model" },
+                        { name: "Maxi 60A Blauw", pn: "MAX-60", specs: "Groot model" }
                     ]
                 }
             }
         },
-        "CHEMIE": {
-            img: "https://loremflickr.com/320/240/chemical",
+        "VERLICHTING": {
+            img: "https://loremflickr.com/320/240/bulbs",
             sub: {
-                "LOCTITE / INNOTEC": {
-                    img: "https://loremflickr.com/320/240/loctite",
+                "LAMPEN 12V": {
+                    img: "https://loremflickr.com/320/240/12v",
                     sub: [
-                        { name: "Loctite 243", pn: "243", specs: "Borging" },
-                        { name: "Loctite 401", pn: "401", specs: "Lijm" },
-                        { name: "High-Tef Oil", pn: "HTO", specs: "Innotec" },
-                        { name: "Brake Clean", pn: "BC", specs: "Innotec" }
+                        { name: "H7 12V", pn: "12-H7", specs: "Auto" },
+                        { name: "P21W 12V", pn: "12-P21", specs: "Pinker" }
                     ]
-                }
-            }
-        },
-        "BATTERIJEN": {
-            img: "https://loremflickr.com/320/240/battery",
-            sub: {
-                "VARTA": {
-                    img: "https://loremflickr.com/320/240/varta",
+                },
+                "LAMPEN 24V": {
+                    img: "https://loremflickr.com/320/240/24v",
                     sub: [
-                        { name: "AA Alkaline", pn: "VAA", specs: "Varta" },
-                        { name: "AAA Alkaline", pn: "VAAA", specs: "Varta" },
-                        { name: "CR2032", pn: "V2032", specs: "Knoopcel" }
+                        { name: "H7 24V", pn: "24-H7", specs: "Truck" },
+                        { name: "H1 24V", pn: "24-H1", specs: "Truck" }
+                    ]
+                },
+                "LAMPEN 48V": {
+                    img: "https://loremflickr.com/320/240/48v",
+                    sub: [
+                        { name: "48V 10W BA15s", pn: "48-10W", specs: "Heftruck" },
+                        { name: "48V 21W BA15s", pn: "48-21W", specs: "Heftruck" }
                     ]
                 }
             }
         },
         "POWER": {
-            img: "https://loremflickr.com/320/240/cee-plug",
+            img: "https://loremflickr.com/320/240/power",
             sub: {
-                "CEE / 230V": {
-                    img: "https://loremflickr.com/320/240/plug",
+                "230V MATERIAAL": {
+                    img: "https://loremflickr.com/320/240/230v-plug",
                     sub: [
-                        { name: "CEE 16A 5p Stekker", pn: "16A5M", specs: "400V" },
-                        { name: "230V Stekker Rubber", pn: "230M", specs: "Pin-aarding" }
+                        { name: "230V Stekker Man", pn: "230-M", specs: "Rubber" },
+                        { name: "230V Koppeling Vrouw", pn: "230-F", specs: "Rubber" }
+                    ]
+                },
+                "400V CEE": {
+                    img: "https://loremflickr.com/320/240/cee",
+                    sub: [
+                        { name: "CEE 16A 5p Man", pn: "16-5M", specs: "Rood" },
+                        { name: "CEE 32A 5p Man", pn: "32-5M", specs: "Rood" }
+                    ]
+                }
+            }
+        },
+        "CHEMIE": {
+            img: "https://loremflickr.com/320/240/innotec",
+            sub: {
+                "LOCTITE / INNOTEC": {
+                    img: "https://loremflickr.com/320/240/chemical",
+                    sub: [
+                        { name: "Loctite 243", pn: "243", specs: "Borging" },
+                        { name: "Brake Clean", pn: "BC", specs: "Innotec" },
+                        { name: "High-Tef Oil", pn: "HTO", specs: "Innotec" }
+                    ]
+                }
+            }
+        },
+        "BATTERIJEN": {
+            img: "https://loremflickr.com/320/240/varta",
+            sub: {
+                "VARTA": {
+                    img: "https://loremflickr.com/320/240/battery",
+                    sub: [
+                        { name: "AA Alkaline", pn: "VAA", specs: "Varta" },
+                        { name: "AAA Alkaline", pn: "VAAA", specs: "Varta" },
+                        { name: "CR2032", pn: "V2032", specs: "Knoopcel" }
                     ]
                 }
             }
