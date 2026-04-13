@@ -46,8 +46,11 @@
         .card img { width: 100%; height: 90px; object-fit: cover; border-radius: 6px; margin-bottom: 8px; background-color: var(--img-placeholder); }
         .card p { margin: 0; font-weight: bold; font-size: 11px; text-transform: uppercase; color: var(--text-color); }
 
-        .card.is-item { border-left: 6px solid #1a73e8; text-align: left; padding: 12px 10px; }
-        .card.is-item small { display: block; color: var(--muted-color); font-size: 9px; margin-top: 4px; font-weight: normal; }
+        .card.is-item { border-left: 6px solid #1a73e8; text-align: left; padding: 10px; display: flex; align-items: center; gap: 10px; }
+        .item-thumb { width: 60px; height: 60px; object-fit: contain; border-radius: 6px; background: var(--img-placeholder); flex-shrink: 0; }
+        .item-info { flex: 1; min-width: 0; }
+        .item-info p { margin: 0; font-weight: bold; font-size: 11px; text-transform: uppercase; color: var(--text-color); }
+        .item-info small { display: block; color: var(--muted-color); font-size: 9px; margin-top: 4px; font-weight: normal; }
         .card.is-item.flash { animation: addFlash 0.4s ease; }
         @keyframes addFlash { 0%,100% { background: var(--card-bg); } 50% { background: rgba(26,115,232,0.2); border-color: #1a73e8; } }
 
@@ -107,86 +110,31 @@
 </div>
 
 <script>
-    const PREFIXES = { "ELECTRONICS": "EL_", "FASTENERS": "FD_", "CHEMIE": "CT_", "BATTERIJEN": "VT_" };
+    const PREFIXES = { "ELECTRONICS": "", "FASTENERS": "FD_", "CHEMIE": "CT_", "BATTERIJEN": "VT_" };
 
     const DATA = {
         "ELECTRONICS": {
             img: "https://loremflickr.com/320/240/electronics",
             sub: {
-                "ZEKERINGEN": {
-                    img: "https://loremflickr.com/320/240/fuses",
+                "FUSES": {
+                    img: "https://loremflickr.com/320/240/fuse",
                     sub: {
-                        "STANDARD": {
-                            img: "https://loremflickr.com/320/240/fuse-std",
+                        "FUSE MINI FAST": {
+                            img: "https://loremflickr.com/320/240/fuse",
                             sub: [
-                                { name: "Standard 5A Beige", pn: "S-05", specs: "Hella" },
-                                { name: "Standard 10A Rood", pn: "S-10", specs: "Hella" },
-                                { name: "Standard 15A Blauw", pn: "S-15", specs: "Hella" },
-                                { name: "Standard 20A Geel", pn: "S-20", specs: "Hella" },
-                                { name: "Standard 30A Groen", pn: "S-30", specs: "Hella" }
-                            ]
-                        },
-                        "MINI": {
-                            img: "https://loremflickr.com/320/240/fuse-mini",
-                            sub: [
-                                { name: "Mini 5A Beige", pn: "M-05", specs: "Hella" },
-                                { name: "Mini 10A Rood", pn: "M-10", specs: "Hella" },
-                                { name: "Mini 15A Blauw", pn: "M-15", specs: "Hella" }
-                            ]
-                        },
-                        "MAXI": {
-                            img: "https://loremflickr.com/320/240/fuse-maxi",
-                            sub: [
-                                { name: "Maxi 40A Oranje", pn: "MAX-40", specs: "Hella" },
-                                { name: "Maxi 60A Blauw", pn: "MAX-60", specs: "Hella" }
+                                { name: "FUSE MINI FAST GRIJS 2A",  pn: "8JS 728 596-861", specs: "HELLA | SET/5pcs", img: "https://matecocloud-my.sharepoint.com/personal/kenny_phlips_tvhequipment_com/Documents/Bureaublad/OPERATIONS/APP%20BIB/AFBEELDINGEN/FUSES/MINI%20FAST%20DIN%2072581/FUSE%20MINI%20FAST%20DIN7258%20GRIJS%202A%20.jpg" },
+                                { name: "FUSE MINI FAST LILA 3A",   pn: "8JS 728 596-881", specs: "HELLA | SET/5pcs", img: "https://matecocloud-my.sharepoint.com/personal/kenny_phlips_tvhequipment_com/Documents/Bureaublad/OPERATIONS/APP%20BIB/AFBEELDINGEN/FUSES/MINI%20FAST%20DIN%2072581/FUSE%20MINI%20FAST%20DIN7258%20LILA%203A.jpg" },
+                                { name: "FUSE MINI FAST ROSE 4A",   pn: "8JS 728 596-801", specs: "HELLA | SET/5pcs", img: "https://matecocloud-my.sharepoint.com/personal/kenny_phlips_tvhequipment_com/Documents/Bureaublad/OPERATIONS/APP%20BIB/AFBEELDINGEN/FUSES/MINI%20FAST%20DIN%2072581/FUSE%20MINI%20FAST%20DIN7258%20ROZE%204A.jpg" },
+                                { name: "FUSE MINI FAST BEIGE 5A",  pn: "8JS 728 596-027", specs: "HELLA | SET/5pcs", img: "https://matecocloud-my.sharepoint.com/personal/kenny_phlips_tvhequipment_com/Documents/Bureaublad/OPERATIONS/APP%20BIB/AFBEELDINGEN/FUSES/MINI%20FAST%20DIN%2072581/FUSE%20MINI%20FAST%20DIN7258%20BEIGE%205A.jpg" },
+                                { name: "FUSE MINI FAST BRUIN 7,5A",pn: "8JS 728 596-891", specs: "HELLA | SET/5pcs", img: "https://matecocloud-my.sharepoint.com/personal/kenny_phlips_tvhequipment_com/Documents/Bureaublad/OPERATIONS/APP%20BIB/AFBEELDINGEN/FUSES/MINI%20FAST%20DIN%2072581/FUSE%20MINI%20FAST%20DIN7258%20BRUIN%207.5A%20.jpg" },
+                                { name: "FUSE MINI FAST ROOD 10A",  pn: "8JS 728 596-821", specs: "HELLA | SET/5pcs", img: "https://matecocloud-my.sharepoint.com/personal/kenny_phlips_tvhequipment_com/Documents/Bureaublad/OPERATIONS/APP%20BIB/AFBEELDINGEN/FUSES/MINI%20FAST%20DIN%2072581/FUSE%20MINI%20FAST%20DIN7258%20ROOD%2010A.jpg" },
+                                { name: "FUSE MINI FAST BLAUW 15A", pn: "8JS 728 596-831", specs: "HELLA | SET/5pcs", img: "https://matecocloud-my.sharepoint.com/personal/kenny_phlips_tvhequipment_com/Documents/Bureaublad/OPERATIONS/APP%20BIB/AFBEELDINGEN/FUSES/MINI%20FAST%20DIN%2072581/FUSE%20MINI%20FAST%20DIN7258%20BLAUW%2015A.jpg" },
+                                { name: "FUSE MINI FAST GEEL 20A",  pn: "8JS 728 596-841", specs: "HELLA | SET/5pcs", img: "https://matecocloud-my.sharepoint.com/personal/kenny_phlips_tvhequipment_com/Documents/Bureaublad/OPERATIONS/APP%20BIB/AFBEELDINGEN/FUSES/MINI%20FAST%20DIN%2072581/FUSE%20MINI%20FAST%20DIN7258%20GEEL%2020A%20.jpg" },
+                                { name: "FUSE MINI FAST WIT 25A",   pn: "8JS 728 596-871", specs: "HELLA | SET/5pcs", img: "https://matecocloud-my.sharepoint.com/personal/kenny_phlips_tvhequipment_com/Documents/Bureaublad/OPERATIONS/APP%20BIB/AFBEELDINGEN/FUSES/MINI%20FAST%20DIN%2072581/FUSE%20MINI%20FAST%20DIN7258%20WIT%2025A.jpg" },
+                                { name: "FUSE MINI FAST GROEN 30A", pn: "8JS 728 596-851", specs: "HELLA | SET/5pcs", img: "https://matecocloud-my.sharepoint.com/personal/kenny_phlips_tvhequipment_com/Documents/Bureaublad/OPERATIONS/APP%20BIB/AFBEELDINGEN/FUSES/MINI%20FAST%20DIN%2072581/FUSE%20MINI%20FAST%20DIN7258%20GROEN%2030A.jpg" }
                             ]
                         }
                     }
-                },
-                "VERLICHTING": {
-                    img: "https://loremflickr.com/320/240/bulb",
-                    sub: {
-                        "LAMPEN 12V": {
-                            img: "https://loremflickr.com/320/240/12v",
-                            sub: [
-                                { name: "H7 12V", pn: "12-H7", specs: "Koplamp" },
-                                { name: "P21W 12V", pn: "12-P21", specs: "Stop/Pinker" },
-                                { name: "W5W 12V", pn: "12-W5W", specs: "Glasvoet" }
-                            ]
-                        },
-                        "LAMPEN 24V": {
-                            img: "https://loremflickr.com/320/240/24v",
-                            sub: [
-                                { name: "H7 24V", pn: "24-H7", specs: "Vrachtwagen" },
-                                { name: "H1 24V", pn: "24-H1", specs: "Vrachtwagen" },
-                                { name: "P21W 24V", pn: "24-P21", specs: "Stop/Pinker" }
-                            ]
-                        },
-                        "LAMPEN 48V": {
-                            img: "https://loremflickr.com/320/240/48v",
-                            sub: [
-                                { name: "48V 10W BA15s", pn: "48-10W", specs: "Heftruck" },
-                                { name: "48V 21W BA15s", pn: "48-21W", specs: "Heftruck" }
-                            ]
-                        }
-                    }
-                },
-                "STEKKERS & 230V": {
-                    img: "https://loremflickr.com/320/240/plugs",
-                    sub: [
-                        { name: "230V Stekker Man", pn: "230-M", specs: "Rubber" },
-                        { name: "230V Koppeling Vrouw", pn: "230-F", specs: "Rubber" },
-                        { name: "CEE 16A 5p Man", pn: "16-5M", specs: "400V Rood" },
-                        { name: "CEE 32A 5p Man", pn: "32-5M", specs: "400V Rood" }
-                    ]
-                },
-                "KABELSCHOENEN": {
-                    img: "https://loremflickr.com/320/240/connectors",
-                    sub: [
-                        { name: "Ringschoen Blauw M5", pn: "RB-5", specs: "1.5-2.5mm²" },
-                        { name: "Vlaksteker Blauw", pn: "VB-63", specs: "6.3mm" },
-                        { name: "Stootverbinder Blauw", pn: "SB-25", specs: "Krimp" }
-                    ]
                 }
             }
         },
@@ -269,6 +217,7 @@
         const backBtn = document.getElementById('backBtn');
         const titel = document.getElementById('titel');
         grid.innerHTML = '';
+        grid.style.gridTemplateColumns = ''; // reset to 2-column for category tiles
 
         let huidigeData = { sub: DATA };
         navigatiePad.forEach(stap => { huidigeData = huidigeData.sub[stap]; });
@@ -301,6 +250,7 @@
 
     function renderItems(items) {
         const grid = document.getElementById('itemGrid');
+        grid.style.gridTemplateColumns = '1fr'; // single column for item cards
         if (items.length === 0) {
             const msg = document.createElement('p');
             msg.className = 'empty-msg';
@@ -312,12 +262,25 @@
             const div = document.createElement('div');
             div.className = 'card is-item';
             div.tabIndex = 0;
+
+            if (item.img) {
+                const img = document.createElement('img');
+                img.className = 'item-thumb';
+                img.src = item.img;
+                img.alt = item.name;
+                div.appendChild(img);
+            }
+
+            const info = document.createElement('div');
+            info.className = 'item-info';
             const p = document.createElement('p');
             p.textContent = item.name;
             const small = document.createElement('small');
             small.textContent = `${item.specs} | P/N: ${item.pn}`;
-            div.appendChild(p);
-            div.appendChild(small);
+            info.appendChild(p);
+            info.appendChild(small);
+            div.appendChild(info);
+
             const handler = () => {
                 voegToe(item.name, item.pn, item.catPrefix);
                 div.classList.remove('flash');
