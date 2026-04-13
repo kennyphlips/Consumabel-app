@@ -14,42 +14,65 @@
         :root {
             --bg-color: #f0f2f5; --container-bg: #ffffff; --text-color: #333; --card-bg: #ffffff;
             --card-border: #ddd; --input-bg: #ffffff; --nav-bg: #f8f9fa;
+            --muted-color: #888; --img-placeholder: #d0d0d0;
         }
 
         @media (prefers-color-scheme: dark) {
             :root {
                 --bg-color: #121212; --container-bg: #1e1e1e; --text-color: #e0e0e0; --card-bg: #2d2d2d;
                 --card-border: #444; --input-bg: #333; --nav-bg: #252525;
+                --muted-color: #999; --img-placeholder: #444;
             }
         }
 
         body { font-family: -apple-system, system-ui, sans-serif; background-color: var(--bg-color); color: var(--text-color); margin: 0; padding: 10px; padding-bottom: 140px; }
         .container { max-width: 700px; margin: auto; background: var(--container-bg); padding: 15px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.3); }
         h1 { color: #1a73e8; text-align: center; font-size: 18px; text-transform: uppercase; border-bottom: 2px solid #1a73e8; padding-bottom: 8px; margin-top: 5px; }
-        
-        .user-info, .search-box { margin-bottom: 10px; padding: 10px; background: rgba(26, 115, 232, 0.1); border-radius: 8px; border: 1px solid #1a73e8; }
+
+        .user-info, .search-box { margin-bottom: 10px; padding: 10px; background: rgba(26,115,232,0.1); border-radius: 8px; border: 1px solid #1a73e8; }
         input { width: 100%; padding: 12px; border: 1px solid var(--card-border); border-radius: 6px; box-sizing: border-box; font-size: 16px; background: var(--input-bg); color: var(--text-color); }
-        
+        input:focus { outline: 2px solid #1a73e8; outline-offset: 1px; }
+
         .nav-bar { display: flex; align-items: center; margin-bottom: 15px; gap: 10px; background: var(--nav-bg); padding: 8px; border-radius: 8px; }
-        .back-btn { background: #6c757d; color: white; border: none; padding: 12px 18px; border-radius: 6px; cursor: pointer; font-weight: bold; }
-        
+        .nav-bar h1 { flex: 1; min-width: 0; margin: 0; border-bottom: none; padding-bottom: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+        .back-btn { background: #6c757d; color: white; border: none; padding: 12px 18px; border-radius: 6px; cursor: pointer; font-weight: bold; flex-shrink: 0; }
+        .back-btn:focus-visible { outline: 2px solid #1a73e8; outline-offset: 2px; }
+
         .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
-        .card { border: 1px solid var(--card-border); padding: 10px; text-align: center; border-radius: 10px; background: var(--card-bg); cursor: pointer; }
-        .card img { width: 100%; height: 90px; object-fit: cover; border-radius: 6px; margin-bottom: 8px; background-color: #444; }
+        .card { border: 1px solid var(--card-border); padding: 10px; text-align: center; border-radius: 10px; background: var(--card-bg); cursor: pointer; transition: transform 0.12s, box-shadow 0.12s; }
+        .card:hover { transform: translateY(-2px); box-shadow: 0 4px 12px rgba(0,0,0,0.15); }
+        .card:active { transform: translateY(0); }
+        .card:focus-visible { outline: 2px solid #1a73e8; outline-offset: 2px; }
+        .card img { width: 100%; height: 90px; object-fit: cover; border-radius: 6px; margin-bottom: 8px; background-color: var(--img-placeholder); }
         .card p { margin: 0; font-weight: bold; font-size: 11px; text-transform: uppercase; color: var(--text-color); }
-        
+
         .card.is-item { border-left: 6px solid #1a73e8; text-align: left; padding: 12px 10px; }
-        .card.is-item small { display: block; color: #aaa; font-size: 9px; margin-top: 4px; font-weight: normal; }
+        .card.is-item small { display: block; color: var(--muted-color); font-size: 9px; margin-top: 4px; font-weight: normal; }
+        .card.is-item.flash { animation: addFlash 0.4s ease; }
+        @keyframes addFlash { 0%,100% { background: var(--card-bg); } 50% { background: rgba(26,115,232,0.2); border-color: #1a73e8; } }
+
+        .empty-msg { text-align: center; color: var(--muted-color); padding: 20px 0; font-size: 13px; grid-column: 1 / -1; margin: 0; }
 
         .order-list { margin-top: 25px; border-top: 3px solid #1a73e8; padding-top: 15px; }
+        .cart-header { font-size: 12px; font-weight: bold; color: #1a73e8; text-transform: uppercase; margin-bottom: 8px; letter-spacing: 0.5px; }
         .winkelmand-item { background: var(--nav-bg); padding: 10px; margin-bottom: 8px; border-radius: 8px; display: flex; justify-content: space-between; border: 1px solid var(--card-border); align-items: center; font-size: 12px; color: var(--text-color); }
-        .qty-controls { display: flex; align-items: center; gap: 8px; }
+        .winkelmand-item-naam { flex: 1; min-width: 0; margin-right: 8px; word-break: break-word; }
+        .qty-controls { display: flex; align-items: center; gap: 8px; flex-shrink: 0; }
         .qty-btn { background: #1a73e8; color: white; border: none; width: 28px; height: 28px; border-radius: 4px; font-weight: bold; cursor: pointer; }
-        .delete-btn { background: #dc3545; color: white; border: none; padding: 8px; border-radius: 6px; margin-left: 5px; }
+        .qty-btn:focus-visible { outline: 2px solid #333; outline-offset: 2px; }
+        .delete-btn { background: #dc3545; color: white; border: none; padding: 8px; border-radius: 6px; margin-left: 5px; cursor: pointer; }
+        .delete-btn:focus-visible { outline: 2px solid #333; outline-offset: 2px; }
+        .cart-leeg { color: var(--muted-color); font-size: 13px; text-align: center; padding: 10px 0; margin: 0; }
 
         .footer-btn { position: fixed; bottom: 15px; left: 50%; transform: translateX(-50%); width: 92%; max-width: 600px; z-index: 1000; }
-        .send-btn { background: #28a745; color: white; border: none; padding: 18px; font-size: 18px; font-weight: bold; border-radius: 14px; width: 100%; box-shadow: 0 5px 15px rgba(0,0,0,0.5); }
-        textarea { background: var(--input-bg); color: var(--text-color); border: 1px solid var(--card-border); font-family: inherit; width:100%; border-radius:8px; padding:10px; box-sizing:border-box; margin-top:10px; }
+        .send-btn { background: #28a745; color: white; border: none; padding: 18px; font-size: 18px; font-weight: bold; border-radius: 14px; width: 100%; box-shadow: 0 5px 15px rgba(0,0,0,0.5); cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 10px; }
+        .send-btn:disabled { background: #6c757d; box-shadow: none; cursor: default; }
+        .send-btn:focus-visible { outline: 2px solid #fff; outline-offset: 3px; }
+        .cart-badge { background: white; color: #28a745; border-radius: 50%; min-width: 24px; height: 24px; font-size: 13px; font-weight: bold; display: flex; align-items: center; justify-content: center; padding: 0 4px; }
+        .send-btn:disabled .cart-badge { color: #6c757d; }
+
+        textarea { background: var(--input-bg); color: var(--text-color); border: 1px solid var(--card-border); font-family: inherit; width: 100%; border-radius: 8px; padding: 10px; box-sizing: border-box; margin-top: 10px; }
+        textarea:focus { outline: 2px solid #1a73e8; outline-offset: 1px; }
     </style>
 </head>
 <body>
@@ -58,26 +81,29 @@
     <div class="user-info">
         <input type="text" id="userName" placeholder="UW NAAM..." oninput="saveUser()">
     </div>
-    
+
     <div class="search-box">
         <input type="text" id="searchInput" placeholder="🔍 ZOEK ARTIKEL OF P/N..." oninput="zoekArtikel()">
     </div>
 
     <div class="nav-bar">
-        <button id="backBtn" class="back-btn" onclick="gaTerug()" style="display: none;">⬅</button>
+        <button id="backBtn" type="button" class="back-btn" onclick="gaTerug()" style="display:none;" aria-label="Terug naar vorige categorie">⬅</button>
         <h1 id="titel">MAGAZIJN MASTER</h1>
     </div>
 
     <div id="itemGrid" class="grid"></div>
 
     <div class="order-list">
+        <div class="cart-header">🛒 Winkelwagen</div>
         <div id="selectedItems"></div>
-        <textarea id="extraInfo" rows="2" placeholder="EXTRA INFO (Machine nr, opmerking...)"></textarea>
+        <textarea id="extraInfo" rows="2" placeholder="EXTRA INFO (Machine nr, opmerking...)" oninput="saveExtraInfo()"></textarea>
     </div>
 </div>
 
 <div class="footer-btn">
-    <button class="send-btn" onclick="verstuurBestelling()">📧 BESTELLING VERSTUREN</button>
+    <button id="sendBtn" type="button" class="send-btn" onclick="verstuurBestelling()" disabled>
+        📧 BESTELLING VERSTUREN <span id="cartBadge" class="cart-badge">0</span>
+    </button>
 </div>
 
 <script>
@@ -227,22 +253,27 @@
     let navigatiePad = [];
 
     window.onload = () => {
-        if(localStorage.getItem("magazijnUser")) document.getElementById("userName").value = localStorage.getItem("magazijnUser");
+        const opgeslagenNaam = localStorage.getItem("magazijnUser");
+        if (opgeslagenNaam) document.getElementById("userName").value = opgeslagenNaam;
+        const opgeslagenInfo = localStorage.getItem("magazijnExtraInfo");
+        if (opgeslagenInfo) document.getElementById("extraInfo").value = opgeslagenInfo;
         renderMenu();
+        updateWinkelwagenLayout();
     };
 
     function saveUser() { localStorage.setItem("magazijnUser", document.getElementById("userName").value); }
+    function saveExtraInfo() { localStorage.setItem("magazijnExtraInfo", document.getElementById("extraInfo").value); }
 
     function renderMenu() {
         const grid = document.getElementById('itemGrid');
         const backBtn = document.getElementById('backBtn');
         const titel = document.getElementById('titel');
         grid.innerHTML = '';
-        
+
         let huidigeData = { sub: DATA };
         navigatiePad.forEach(stap => { huidigeData = huidigeData.sub[stap]; });
 
-        titel.innerText = navigatiePad.length > 0 ? navigatiePad[navigatiePad.length - 1] : "CATEGORIEËN";
+        titel.textContent = navigatiePad.length > 0 ? navigatiePad[navigatiePad.length - 1] : "CATEGORIEËN";
         backBtn.style.display = navigatiePad.length > 0 ? 'block' : 'none';
 
         const content = huidigeData.sub || huidigeData;
@@ -252,8 +283,17 @@
             Object.keys(content).forEach(sleutel => {
                 const div = document.createElement('div');
                 div.className = 'card';
-                div.innerHTML = `<img src="${content[sleutel].img}"><p>${sleutel}</p>`;
-                div.onclick = () => gaDieper(sleutel);
+                div.tabIndex = 0;
+                const img = document.createElement('img');
+                img.src = content[sleutel].img;
+                img.alt = sleutel;
+                const p = document.createElement('p');
+                p.textContent = sleutel;
+                div.appendChild(img);
+                div.appendChild(p);
+                const navigate = () => gaDieper(sleutel);
+                div.onclick = navigate;
+                div.onkeydown = (e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); navigate(); } };
                 grid.appendChild(div);
             });
         }
@@ -261,11 +301,31 @@
 
     function renderItems(items) {
         const grid = document.getElementById('itemGrid');
+        if (items.length === 0) {
+            const msg = document.createElement('p');
+            msg.className = 'empty-msg';
+            msg.textContent = 'Geen resultaten gevonden.';
+            grid.appendChild(msg);
+            return;
+        }
         items.forEach(item => {
             const div = document.createElement('div');
             div.className = 'card is-item';
-            div.innerHTML = `<p>${item.name}</p><small>${item.specs} | P/N: ${item.pn}</small>`;
-            div.onclick = () => voegToe(item.name, item.pn);
+            div.tabIndex = 0;
+            const p = document.createElement('p');
+            p.textContent = item.name;
+            const small = document.createElement('small');
+            small.textContent = `${item.specs} | P/N: ${item.pn}`;
+            div.appendChild(p);
+            div.appendChild(small);
+            const handler = () => {
+                voegToe(item.name, item.pn, item.catPrefix);
+                div.classList.remove('flash');
+                void div.offsetWidth; // force reflow to restart animation
+                div.classList.add('flash');
+            };
+            div.onclick = handler;
+            div.onkeydown = (e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); handler(); } };
             grid.appendChild(div);
         });
     }
@@ -279,7 +339,7 @@
             if (Array.isArray(obj)) {
                 obj.forEach(item => {
                     if (item.name.toUpperCase().includes(term) || item.pn.toUpperCase().includes(term)) {
-                        resultaten.push({...item, catPrefix});
+                        resultaten.push({ ...item, catPrefix });
                     }
                 });
             } else if (typeof obj === 'object') {
@@ -290,22 +350,33 @@
             }
         }
         scan(DATA);
-        
+
         const grid = document.getElementById('itemGrid');
         grid.innerHTML = '';
         document.getElementById('backBtn').style.display = 'block';
-        document.getElementById('titel').innerText = "ZOEKRESULTATEN";
+        document.getElementById('titel').textContent = `ZOEKRESULTATEN (${resultaten.length})`;
         renderItems(resultaten);
     }
 
-    function gaDieper(sleutel) { navigatiePad.push(sleutel); renderMenu(); window.scrollTo(0,0); }
-    function gaTerug() { navigatiePad.pop(); document.getElementById('searchInput').value = ''; renderMenu(); }
+    function gaDieper(sleutel) { navigatiePad.push(sleutel); renderMenu(); window.scrollTo(0, 0); }
 
-    function voegToe(naam, pn) {
-        const hoofdCat = navigatiePad[0] || "";
-        const prefix = PREFIXES[hoofdCat] || "";
+    function gaTerug() {
+        const searchInput = document.getElementById('searchInput');
+        if (searchInput.value) {
+            // Back during search: clear search and restore current navigation level
+            searchInput.value = '';
+            renderMenu();
+            return;
+        }
+        navigatiePad.pop();
+        renderMenu();
+    }
+
+    function voegToe(naam, pn, explicietePrefix) {
+        // explicietePrefix is set for search results (may be ""); undefined for normal navigation
+        const prefix = explicietePrefix !== undefined ? explicietePrefix : (PREFIXES[navigatiePad[0]] || "");
         const volledigeNaam = `${naam} (${prefix}${pn})`;
-        
+
         const bestaandItem = winkelwagen.find(i => i.id === volledigeNaam);
         if (bestaandItem) {
             bestaandItem.aantal++;
@@ -328,42 +399,87 @@
 
     function updateWinkelwagenLayout() {
         const lijst = document.getElementById('selectedItems');
+        const sendBtn = document.getElementById('sendBtn');
+        const badge = document.getElementById('cartBadge');
+
         lijst.innerHTML = '';
+
+        const totaal = winkelwagen.reduce((sum, i) => sum + i.aantal, 0);
+        badge.textContent = totaal;
+        sendBtn.disabled = winkelwagen.length === 0;
+
+        if (winkelwagen.length === 0) {
+            const leeg = document.createElement('p');
+            leeg.className = 'cart-leeg';
+            leeg.textContent = 'Nog geen artikelen toegevoegd.';
+            lijst.appendChild(leeg);
+            return;
+        }
+
         winkelwagen.forEach((item, index) => {
-            lijst.innerHTML += `
-                <div class="winkelmand-item">
-                    <span><strong>${item.aantal}x</strong> ${item.id}</span>
-                    <div class="qty-controls">
-                        <button class="qty-btn" onclick="aanpassenAantal(${index}, -1)">-</button>
-                        <button class="qty-btn" onclick="aanpassenAantal(${index}, 1)">+</button>
-                        <button class="delete-btn" onclick="verwijderItem(${index})">🗑️</button>
-                    </div>
-                </div>`;
+            const div = document.createElement('div');
+            div.className = 'winkelmand-item';
+
+            const span = document.createElement('span');
+            span.className = 'winkelmand-item-naam';
+            const strong = document.createElement('strong');
+            strong.textContent = `${item.aantal}x `;
+            span.appendChild(strong);
+            span.appendChild(document.createTextNode(item.id));
+
+            const controls = document.createElement('div');
+            controls.className = 'qty-controls';
+
+            const minBtn = document.createElement('button');
+            minBtn.type = 'button';
+            minBtn.className = 'qty-btn';
+            minBtn.textContent = '-';
+            minBtn.setAttribute('aria-label', `Minder van ${item.id}`);
+            minBtn.onclick = () => aanpassenAantal(index, -1);
+
+            const plusBtn = document.createElement('button');
+            plusBtn.type = 'button';
+            plusBtn.className = 'qty-btn';
+            plusBtn.textContent = '+';
+            plusBtn.setAttribute('aria-label', `Meer van ${item.id}`);
+            plusBtn.onclick = () => aanpassenAantal(index, 1);
+
+            const delBtn = document.createElement('button');
+            delBtn.type = 'button';
+            delBtn.className = 'delete-btn';
+            delBtn.textContent = '🗑️';
+            delBtn.setAttribute('aria-label', `Verwijder ${item.id}`);
+            delBtn.onclick = () => verwijderItem(index);
+
+            controls.appendChild(minBtn);
+            controls.appendChild(plusBtn);
+            controls.appendChild(delBtn);
+
+            div.appendChild(span);
+            div.appendChild(controls);
+            lijst.appendChild(div);
         });
     }
 
     function verstuurBestelling() {
-        const name = document.getElementById("userName").value;
+        const name = document.getElementById("userName").value.trim();
         if (!name) return alert("Vul je naam in!");
         if (winkelwagen.length === 0) return alert("Geen artikelen geselecteerd!");
 
-        let lijstTekstMail = "";
         let lijstTekstCheck = "";
-        winkelwagen.forEach(item => {
-            lijstTekstMail += `${item.aantal}x - ${item.id}%0D%0A`;
-            lijstTekstCheck += `${item.aantal}x - ${item.id}\n`;
-        });
+        winkelwagen.forEach(item => { lijstTekstCheck += `${item.aantal}x - ${item.id}\n`; });
 
-        const extraInfo = document.getElementById("extraInfo").value;
+        const extraInfo = document.getElementById("extraInfo").value.trim();
         const bevestiging = confirm(`Bestelling versturen voor ${name}?\n\nArtikelen:\n${lijstTekstCheck}\nInfo: ${extraInfo}`);
-        
+
         if (bevestiging) {
             const mail = "request.backoffice@tvhequipment.com";
-            window.location.href = `mailto:${mail}?subject=Magazijn Bestelling - ${name}&body=TECHNIEKER: ${name}%0D%0A%0D%0AARTIKELEN:%0D%0A${lijstTekstMail}%0D%0AINFO: ${extraInfo}`;
+            let body = `TECHNIEKER: ${name}\r\n\r\nARTIKELEN:\r\n`;
+            winkelwagen.forEach(item => { body += `${item.aantal}x - ${item.id}\r\n`; });
+            body += `\r\nINFO: ${extraInfo}`;
+            window.location.href = `mailto:${mail}?subject=${encodeURIComponent(`Magazijn Bestelling - ${name}`)}&body=${encodeURIComponent(body)}`;
         }
     }
-
-    renderMenu();
 </script>
 </body>
 </html>

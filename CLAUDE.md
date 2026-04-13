@@ -96,17 +96,18 @@ Prefixes are defined in the `PREFIXES` object (line 84) and prepended to part nu
 
 | Function | Description |
 |---|---|
-| `renderMenu()` | Redraws the item grid based on `navigatiePad`. Auto-detects leaf vs. category level. |
-| `renderItems(items)` | Renders an array of leaf items as `.card.is-item` cards in the grid. |
-| `zoekArtikel()` | Recursive full-text search (name + pn) across entire `DATA` tree; triggers on `oninput` when query ≥ 2 chars. |
+| `renderMenu()` | Redraws the item grid based on `navigatiePad`. Auto-detects leaf vs. category level. Uses `createElement` + `textContent` throughout. |
+| `renderItems(items)` | Renders an array of leaf items as `.card.is-item` cards. Shows "Geen resultaten gevonden." when the array is empty. Triggers a CSS flash animation on the card when clicked. |
+| `zoekArtikel()` | Recursive full-text search (name + pn) across entire `DATA` tree; triggers on `oninput` when query ≥ 2 chars. Sets `catPrefix` on each result so the correct part number prefix is preserved. Title shows result count. |
 | `gaDieper(sleutel)` | Pushes a key onto `navigatiePad` and calls `renderMenu()`. |
-| `gaTerug()` | Pops from `navigatiePad`, clears search input, calls `renderMenu()`. |
-| `voegToe(naam, pn)` | Adds item to `winkelwagen`. Deduplicates by full name; increments `aantal` if duplicate. |
+| `gaTerug()` | If a search is active, clears the search and restores the current navigation level. Otherwise pops from `navigatiePad` and calls `renderMenu()`. |
+| `voegToe(naam, pn, explicietePrefix)` | Adds item to `winkelwagen`. `explicietePrefix` is supplied by search results; falls back to `PREFIXES[navigatiePad[0]]` during normal navigation. Deduplicates by full name; increments `aantal` if duplicate. |
 | `aanpassenAantal(index, delta)` | Adjusts cart item quantity; removes item if quantity reaches 0. |
 | `verwijderItem(index)` | Removes item from `winkelwagen` by index. |
-| `updateWinkelwagenLayout()` | Rebuilds the cart DOM from `winkelwagen`. Uses `innerHTML +=` (intentional for simplicity). |
-| `saveUser()` | Persists the name field value to `localStorage`. |
-| `verstuurBestelling()` | Validates name + non-empty cart, shows `confirm()` dialog, then redirects to `mailto:` URL. |
+| `updateWinkelwagenLayout()` | Rebuilds the cart DOM from `winkelwagen` using `createElement`/`textContent` (no `innerHTML`). Updates the cart badge count and disables the send button when the cart is empty. Shows "Nog geen artikelen toegevoegd." placeholder when cart is empty. |
+| `saveUser()` | Persists the name field value to `localStorage` under key `"magazijnUser"`. |
+| `saveExtraInfo()` | Persists the extra info textarea value to `localStorage` under key `"magazijnExtraInfo"`. |
+| `verstuurBestelling()` | Validates name + non-empty cart, shows `confirm()` dialog, then builds a `mailto:` URL using `encodeURIComponent` for subject and body. |
 
 ---
 
@@ -119,17 +120,22 @@ Prefixes are defined in the `PREFIXES` object (line 84) and prepended to part nu
 - **Max container width**: `700px` (centered, responsive)
 - **Body bottom padding**: `140px` to prevent the fixed footer button from overlapping cart content
 - **Font**: `-apple-system, system-ui, sans-serif` (system stack, no web fonts)
+- **Focus styles**: Use `:focus-visible` (not `:focus`) to show outlines only for keyboard users.
+- **Card hover**: `.card` has a subtle `translateY(-2px)` lift on hover via `transition`.
+- **Add-to-cart flash**: `.card.is-item.flash` triggers a `@keyframes addFlash` animation (blue highlight). The class is removed and re-added after a forced reflow to allow re-triggering.
 
 ### CSS variable names
 
 ```
---bg-color        Background of <body>
---container-bg    White card container
---text-color      Primary text
---card-bg         Item/category card background
---card-border     Card border color
---input-bg        Input and textarea background
---nav-bg          Nav-bar and cart-item background
+--bg-color          Background of <body>
+--container-bg      White card container
+--text-color        Primary text
+--card-bg           Item/category card background
+--card-border       Card border color
+--input-bg          Input and textarea background
+--nav-bg            Nav-bar and cart-item background
+--muted-color       Secondary/placeholder text (e.g. item specs, empty messages)
+--img-placeholder   Background shown while category images load
 ```
 
 ---
@@ -192,4 +198,7 @@ Line 361: `const mail = "request.backoffice@tvhequipment.com";`
 - **No backend**: Orders are sent via `mailto:`. Do not add a server or API calls.
 - **No test suite**: Manual browser testing is the only verification method.
 - **Inline scripts only**: All JavaScript stays in the `<script>` block inside `index.html`.
-- **Security**: `updateWinkelwagenLayout()` uses `innerHTML +=` with values derived entirely from the hard-coded `DATA` object and user-entered text. If user-entered text (name, extra info) is ever inserted into `innerHTML`, ensure it is HTML-escaped first to avoid XSS.
+- **DOM construction**: Prefer `createElement` + `textContent` over `innerHTML` with data. Never inject user-entered text (name, extra info) or external values via `innerHTML`.
+- **mailto encoding**: Always use `encodeURIComponent()` for the subject and body of `mailto:` URLs. Do not manually percent-encode line breaks.
+- **Prefix resolution in `voegToe`**: Always pass `item.catPrefix` from search results as the third argument. For normal navigation, omit the third argument so it falls back to `PREFIXES[navigatiePad[0]]`.
+- **Single init call**: Initialisation (localStorage restore + `renderMenu()` + `updateWinkelwagenLayout()`) happens once inside `window.onload`. Do not add a standalone `renderMenu()` call at module level.
