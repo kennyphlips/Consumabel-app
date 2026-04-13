@@ -265,7 +265,7 @@
             const div = document.createElement('div');
             div.className = 'card is-item';
             div.innerHTML = `<p>${item.name}</p><small>${item.specs} | P/N: ${item.pn}</small>`;
-            div.onclick = () => voegToe(item.name, item.pn);
+            div.onclick = () => voegToe(item.name, item.pn, item.catPrefix);
             grid.appendChild(div);
         });
     }
@@ -301,9 +301,9 @@
     function gaDieper(sleutel) { navigatiePad.push(sleutel); renderMenu(); window.scrollTo(0,0); }
     function gaTerug() { navigatiePad.pop(); document.getElementById('searchInput').value = ''; renderMenu(); }
 
-    function voegToe(naam, pn) {
+    function voegToe(naam, pn, catPrefix) {
         const hoofdCat = navigatiePad[0] || "";
-        const prefix = PREFIXES[hoofdCat] || "";
+        const prefix = catPrefix !== undefined ? catPrefix : (PREFIXES[hoofdCat] || "");
         const volledigeNaam = `${naam} (${prefix}${pn})`;
         
         const bestaandItem = winkelwagen.find(i => i.id === volledigeNaam);
@@ -360,6 +360,9 @@
         if (bevestiging) {
             const mail = "request.backoffice@tvhequipment.com";
             window.location.href = `mailto:${mail}?subject=Magazijn Bestelling - ${name}&body=TECHNIEKER: ${name}%0D%0A%0D%0AARTIKELEN:%0D%0A${lijstTekstMail}%0D%0AINFO: ${extraInfo}`;
+            winkelwagen = [];
+            document.getElementById("extraInfo").value = "";
+            updateWinkelwagenLayout();
         }
     }
 
