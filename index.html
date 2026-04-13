@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Magazijn Master V9.0</title>
+    <title>Magazijn Master V9.1</title>
 
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -41,7 +41,6 @@
         .card.is-item { border-left: 6px solid #1a73e8; text-align: left; padding: 12px 10px; }
         .card.is-item small { display: block; color: #aaa; font-size: 9px; margin-top: 4px; font-weight: normal; }
 
-        /* Winkelmand & Aantallen */
         .order-list { margin-top: 25px; border-top: 3px solid #1a73e8; padding-top: 15px; }
         .winkelmand-item { background: var(--nav-bg); padding: 10px; margin-bottom: 8px; border-radius: 8px; display: flex; justify-content: space-between; border: 1px solid var(--card-border); align-items: center; font-size: 12px; color: var(--text-color); }
         .qty-controls { display: flex; align-items: center; gap: 8px; }
@@ -108,8 +107,60 @@
                                 { name: "Mini 10A Rood", pn: "M-10", specs: "Hella" },
                                 { name: "Mini 15A Blauw", pn: "M-15", specs: "Hella" }
                             ]
+                        },
+                        "MAXI": {
+                            img: "https://loremflickr.com/320/240/fuse-maxi",
+                            sub: [
+                                { name: "Maxi 40A Oranje", pn: "MAX-40", specs: "Hella" },
+                                { name: "Maxi 60A Blauw", pn: "MAX-60", specs: "Hella" }
+                            ]
                         }
                     }
+                },
+                "VERLICHTING": {
+                    img: "https://loremflickr.com/320/240/bulb",
+                    sub: {
+                        "LAMPEN 12V": {
+                            img: "https://loremflickr.com/320/240/12v",
+                            sub: [
+                                { name: "H7 12V", pn: "12-H7", specs: "Koplamp" },
+                                { name: "P21W 12V", pn: "12-P21", specs: "Stop/Pinker" },
+                                { name: "W5W 12V", pn: "12-W5W", specs: "Glasvoet" }
+                            ]
+                        },
+                        "LAMPEN 24V": {
+                            img: "https://loremflickr.com/320/240/24v",
+                            sub: [
+                                { name: "H7 24V", pn: "24-H7", specs: "Vrachtwagen" },
+                                { name: "H1 24V", pn: "24-H1", specs: "Vrachtwagen" },
+                                { name: "P21W 24V", pn: "24-P21", specs: "Stop/Pinker" }
+                            ]
+                        },
+                        "LAMPEN 48V": {
+                            img: "https://loremflickr.com/320/240/48v",
+                            sub: [
+                                { name: "48V 10W BA15s", pn: "48-10W", specs: "Heftruck" },
+                                { name: "48V 21W BA15s", pn: "48-21W", specs: "Heftruck" }
+                            ]
+                        }
+                    }
+                },
+                "STEKKERS & 230V": {
+                    img: "https://loremflickr.com/320/240/plugs",
+                    sub: [
+                        { name: "230V Stekker Man", pn: "230-M", specs: "Rubber" },
+                        { name: "230V Koppeling Vrouw", pn: "230-F", specs: "Rubber" },
+                        { name: "CEE 16A 5p Man", pn: "16-5M", specs: "400V Rood" },
+                        { name: "CEE 32A 5p Man", pn: "32-5M", specs: "400V Rood" }
+                    ]
+                },
+                "KABELSCHOENEN": {
+                    img: "https://loremflickr.com/320/240/connectors",
+                    sub: [
+                        { name: "Ringschoen Blauw M5", pn: "RB-5", specs: "1.5-2.5mm²" },
+                        { name: "Vlaksteker Blauw", pn: "VB-63", specs: "6.3mm" },
+                        { name: "Stootverbinder Blauw", pn: "SB-25", specs: "Krimp" }
+                    ]
                 }
             }
         },
@@ -120,12 +171,56 @@
                     img: "https://loremflickr.com/320/240/hexbolt",
                     sub: [
                         { name: "Zeskant M8x30", pn: "933-08-30", specs: "8.8 Verzinkt" },
-                        { name: "Zeskant M10x40", pn: "933-10-40", specs: "8.8 Verzinkt" }
+                        { name: "Zeskant M10x40", pn: "933-10-40", specs: "8.8 Verzinkt" },
+                        { name: "Inbus M6x20", pn: "912-06-20", specs: "DIN 912" },
+                        { name: "Inbus M8x30", pn: "912-08-30", specs: "DIN 912" }
+                    ]
+                },
+                "MOEREN": {
+                    img: "https://loremflickr.com/320/240/nuts",
+                    sub: [
+                        { name: "M8 Borgmoer", pn: "985-08", specs: "DIN 985" },
+                        { name: "M10 Borgmoer", pn: "985-10", specs: "DIN 985" },
+                        { name: "M8 Lage Moer", pn: "439-08", specs: "DIN 439 (Plat)" },
+                        { name: "M10 Lage Moer", pn: "439-10", specs: "DIN 439" }
+                    ]
+                },
+                "REVETTEN / RINGEN": {
+                    img: "https://loremflickr.com/320/240/washers",
+                    sub: [
+                        { name: "M8 Sluitring", pn: "125-08", specs: "DIN 125A" },
+                        { name: "M10 Sluitring", pn: "125-10", specs: "DIN 125A" },
+                        { name: "M8 Vlootring Breed", pn: "9021-08", specs: "DIN 9021" }
+                    ]
+                }
+            }
+        },
+        "CHEMIE": {
+            img: "https://loremflickr.com/320/240/chemical",
+            sub: {
+                "LOCTITE / INNOTEC": {
+                    img: "https://loremflickr.com/320/240/spraycan",
+                    sub: [
+                        { name: "Loctite 243", pn: "243", specs: "Borgmiddel" },
+                        { name: "Brake Clean", pn: "BC", specs: "Innotec" },
+                        { name: "High-Tef Oil", pn: "HTO", specs: "Innotec" }
+                    ]
+                }
+            }
+        },
+        "BATTERIJEN": {
+            img: "https://loremflickr.com/320/240/varta",
+            sub: {
+                "VARTA": {
+                    img: "https://loremflickr.com/320/240/battery",
+                    sub: [
+                        { name: "AA Alkaline", pn: "VAA", specs: "Varta" },
+                        { name: "AAA Alkaline", pn: "VAAA", specs: "Varta" },
+                        { name: "CR2032", pn: "V2032", specs: "Knoopcel" }
                     ]
                 }
             }
         }
-        // ... (overige data blijft behouden zoals in V8.1)
     };
 
     let winkelwagen = [];
@@ -180,15 +275,18 @@
         if (term.length < 2) { renderMenu(); return; }
 
         const resultaten = [];
-        function scan(obj) {
+        function scan(obj, catPrefix = "") {
             if (Array.isArray(obj)) {
                 obj.forEach(item => {
                     if (item.name.toUpperCase().includes(term) || item.pn.toUpperCase().includes(term)) {
-                        resultaten.push(item);
+                        resultaten.push({...item, catPrefix});
                     }
                 });
             } else if (typeof obj === 'object') {
-                Object.values(obj).forEach(val => scan(val.sub || val));
+                Object.keys(obj).forEach(key => {
+                    const nextPrefix = PREFIXES[key] || catPrefix;
+                    scan(obj[key].sub || obj[key], nextPrefix);
+                });
             }
         }
         scan(DATA);
@@ -204,7 +302,7 @@
     function gaTerug() { navigatiePad.pop(); document.getElementById('searchInput').value = ''; renderMenu(); }
 
     function voegToe(naam, pn) {
-        const hoofdCat = navigatiePad[0] || "ZOEK";
+        const hoofdCat = navigatiePad[0] || "";
         const prefix = PREFIXES[hoofdCat] || "";
         const volledigeNaam = `${naam} (${prefix}${pn})`;
         
