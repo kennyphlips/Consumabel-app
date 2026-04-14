@@ -46,16 +46,18 @@
         .card:not(.is-item) img { width: 100%; height: 90px; object-fit: cover; border-radius: 6px; margin-bottom: 8px; background-color: var(--img-placeholder); }
         .card p { margin: 0; font-weight: bold; font-size: 11px; text-transform: uppercase; color: var(--text-color); }
 
-        .card.is-item { border-left: 3px solid #1a73e8; text-align: left; padding: 12px; display: flex; align-items: center; gap: 10px; }
-        .item-thumb { width: 50px; height: 50px; object-fit: contain; border-radius: 6px; background: var(--img-placeholder); flex-shrink: 0; }
-        .item-info { flex: 1; min-width: 0; }
-        .item-info p { margin: 0 0 4px 0; font-weight: bold; font-size: 12px; text-transform: uppercase; color: var(--text-color); }
-        .item-meta { display: flex; align-items: center; gap: 6px; flex-wrap: wrap; margin-bottom: 3px; }
-        .item-brand { font-size: 10px; color: var(--muted-color); }
+        .item-row { display: grid; grid-template-columns: auto 1fr auto auto; align-items: center; gap: 10px; padding: 10px 12px; background: var(--card-bg); border: 1px solid var(--card-border); border-left: 3px solid #1a73e8; border-radius: 8px; cursor: pointer; transition: background 0.1s; }
+        .item-row:hover { background: rgba(26,115,232,0.06); }
+        .item-row:focus-visible { outline: 2px solid #1a73e8; outline-offset: 2px; }
+        .item-row.flash { animation: addFlash 0.4s ease; }
+        @keyframes addFlash { 0%,100% { background: var(--card-bg); } 50% { background: rgba(26,115,232,0.18); } }
+        .row-thumb { width: 36px; height: 36px; object-fit: contain; border-radius: 4px; background: var(--img-placeholder); flex-shrink: 0; }
+        .item-row-info { min-width: 0; }
+        .item-row-name { font-size: 11px; font-weight: bold; text-transform: uppercase; color: var(--text-color); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+        .item-row-pn { font-size: 10px; color: var(--muted-color); font-family: monospace; margin-top: 2px; }
         .unit-badge { display: inline-block; background: rgba(26,115,232,0.12); color: #1a73e8; font-size: 9px; font-weight: bold; padding: 2px 7px; border-radius: 4px; border: 1px solid rgba(26,115,232,0.3); white-space: nowrap; }
-        .item-pn { font-size: 10px; color: var(--muted-color); font-family: monospace; }
-        .card.is-item.flash { animation: addFlash 0.4s ease; }
-        @keyframes addFlash { 0%,100% { background: var(--card-bg); } 50% { background: rgba(26,115,232,0.15); } }
+        .add-row-btn { background: #1a73e8; color: white; border: none; width: 32px; height: 32px; border-radius: 8px; font-size: 22px; font-weight: bold; cursor: pointer; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+        .add-row-btn:focus-visible { outline: 2px solid #333; outline-offset: 2px; }
 
         .empty-msg { text-align: center; color: var(--muted-color); padding: 20px 0; font-size: 13px; grid-column: 1 / -1; margin: 0; }
 
@@ -254,6 +256,8 @@
     function renderItems(items) {
         const grid = document.getElementById('itemGrid');
         grid.style.gridTemplateColumns = '1fr';
+        grid.style.gap = '6px';
+
         if (items.length === 0) {
             const msg = document.createElement('p');
             msg.className = 'empty-msg';
@@ -261,57 +265,59 @@
             grid.appendChild(msg);
             return;
         }
+
         items.forEach(item => {
-            const div = document.createElement('div');
-            div.className = 'card is-item';
-            div.tabIndex = 0;
+            const row = document.createElement('div');
+            row.className = 'item-row';
+            row.tabIndex = 0;
 
-            if (item.img) {
-                const img = document.createElement('img');
-                img.className = 'item-thumb';
-                img.src = item.img;
-                img.alt = item.name;
-                img.onerror = () => { img.style.display = 'none'; };
-                div.appendChild(img);
-            }
+            // Thumbnail (verborgen als URL niet laadt)
+            const img = document.createElement('img');
+            img.className = 'row-thumb';
+            img.src = item.img || '';
+            img.alt = item.name;
+            img.onerror = () => { img.style.display = 'none'; };
+            row.appendChild(img);
 
+            // Naam + artikelnummer
             const info = document.createElement('div');
-            info.className = 'item-info';
+            info.className = 'item-row-info';
+            const naam = document.createElement('div');
+            naam.className = 'item-row-name';
+            naam.textContent = item.name;
+            const pn = document.createElement('div');
+            pn.className = 'item-row-pn';
+            pn.textContent = `P/N: ${item.pn}`;
+            info.appendChild(naam);
+            info.appendChild(pn);
+            row.appendChild(info);
 
-            const p = document.createElement('p');
-            p.textContent = item.name;
-
-            const meta = document.createElement('div');
-            meta.className = 'item-meta';
-            const brand = document.createElement('span');
-            brand.className = 'item-brand';
-            brand.textContent = item.specs;
-            meta.appendChild(brand);
+            // Eenheid badge
             if (item.unit) {
                 const badge = document.createElement('span');
                 badge.className = 'unit-badge';
                 badge.textContent = item.unit;
-                meta.appendChild(badge);
+                row.appendChild(badge);
             }
 
-            const pn = document.createElement('div');
-            pn.className = 'item-pn';
-            pn.textContent = `P/N: ${item.pn}`;
-
-            info.appendChild(p);
-            info.appendChild(meta);
-            info.appendChild(pn);
-            div.appendChild(info);
+            // + knop
+            const addBtn = document.createElement('button');
+            addBtn.type = 'button';
+            addBtn.className = 'add-row-btn';
+            addBtn.textContent = '+';
+            addBtn.setAttribute('aria-label', `Voeg toe: ${item.name}`);
+            row.appendChild(addBtn);
 
             const handler = () => {
                 voegToe(item.name, item.pn, item.catPrefix);
-                div.classList.remove('flash');
-                void div.offsetWidth;
-                div.classList.add('flash');
+                row.classList.remove('flash');
+                void row.offsetWidth;
+                row.classList.add('flash');
             };
-            div.onclick = handler;
-            div.onkeydown = (e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); handler(); } };
-            grid.appendChild(div);
+            row.onclick = handler;
+            addBtn.onclick = (e) => { e.stopPropagation(); handler(); };
+            row.onkeydown = (e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); handler(); } };
+            grid.appendChild(row);
         });
     }
 
