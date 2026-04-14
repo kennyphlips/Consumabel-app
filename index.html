@@ -43,13 +43,21 @@
         .card:hover { transform: translateY(-2px); box-shadow: 0 4px 12px rgba(0,0,0,0.15); }
         .card:active { transform: translateY(0); }
         .card:focus-visible { outline: 2px solid #1a73e8; outline-offset: 2px; }
-        .card img { width: 100%; height: 90px; object-fit: cover; border-radius: 6px; margin-bottom: 8px; background-color: var(--img-placeholder); }
+        .card:not(.is-item) img { width: 100%; height: 90px; object-fit: cover; border-radius: 6px; margin-bottom: 8px; background-color: var(--img-placeholder); }
         .card p { margin: 0; font-weight: bold; font-size: 11px; text-transform: uppercase; color: var(--text-color); }
 
-        .card.is-item { border-left: 6px solid #1a73e8; text-align: left; padding: 12px 10px; }
-        .card.is-item small { display: block; color: var(--muted-color); font-size: 9px; margin-top: 4px; font-weight: normal; }
-        .card.is-item.flash { animation: addFlash 0.4s ease; }
-        @keyframes addFlash { 0%,100% { background: var(--card-bg); } 50% { background: rgba(26,115,232,0.2); border-color: #1a73e8; } }
+        .item-row { display: grid; grid-template-columns: auto 1fr auto auto; align-items: center; gap: 10px; padding: 10px 12px; background: var(--card-bg); border: 1px solid var(--card-border); border-left: 3px solid #1a73e8; border-radius: 8px; cursor: pointer; transition: background 0.1s; }
+        .item-row:hover { background: rgba(26,115,232,0.06); }
+        .item-row:focus-visible { outline: 2px solid #1a73e8; outline-offset: 2px; }
+        .item-row.flash { animation: addFlash 0.4s ease; }
+        @keyframes addFlash { 0%,100% { background: var(--card-bg); } 50% { background: rgba(26,115,232,0.18); } }
+        .row-thumb { width: 36px; height: 36px; object-fit: contain; border-radius: 4px; background: var(--img-placeholder); flex-shrink: 0; }
+        .item-row-info { min-width: 0; }
+        .item-row-name { font-size: 11px; font-weight: bold; text-transform: uppercase; color: var(--text-color); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+        .item-row-pn { font-size: 10px; color: var(--muted-color); font-family: monospace; margin-top: 2px; }
+        .unit-badge { display: inline-block; background: rgba(26,115,232,0.12); color: #1a73e8; font-size: 9px; font-weight: bold; padding: 2px 7px; border-radius: 4px; border: 1px solid rgba(26,115,232,0.3); white-space: nowrap; }
+        .add-row-btn { background: #1a73e8; color: white; border: none; width: 32px; height: 32px; border-radius: 8px; font-size: 22px; font-weight: bold; cursor: pointer; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+        .add-row-btn:focus-visible { outline: 2px solid #333; outline-offset: 2px; }
 
         .empty-msg { text-align: center; color: var(--muted-color); padding: 20px 0; font-size: 13px; grid-column: 1 / -1; margin: 0; }
 
@@ -107,86 +115,92 @@
 </div>
 
 <script>
-    const PREFIXES = { "ELECTRONICS": "EL_", "FASTENERS": "FD_", "CHEMIE": "CT_", "BATTERIJEN": "VT_" };
+    const PREFIXES = { "ELECTRONICS": "", "FASTENERS": "FD_", "CHEMIE": "CT_", "BATTERIJEN": "VT_" };
 
     const DATA = {
         "ELECTRONICS": {
             img: "https://loremflickr.com/320/240/electronics",
             sub: {
-                "ZEKERINGEN": {
-                    img: "https://loremflickr.com/320/240/fuses",
+                "FUSES": {
+                    img: "https://loremflickr.com/320/240/fuse",
                     sub: {
-                        "STANDARD": {
-                            img: "https://loremflickr.com/320/240/fuse-std",
+                        "FUSE LOW PROFILE MINI FAST": {
+                            img: "https://loremflickr.com/320/240/fuse",
                             sub: [
-                                { name: "Standard 5A Beige", pn: "S-05", specs: "Hella" },
-                                { name: "Standard 10A Rood", pn: "S-10", specs: "Hella" },
-                                { name: "Standard 15A Blauw", pn: "S-15", specs: "Hella" },
-                                { name: "Standard 20A Geel", pn: "S-20", specs: "Hella" },
-                                { name: "Standard 30A Groen", pn: "S-30", specs: "Hella" }
+                                { name: "LOW PROFILE MINI FAST GRIJS 2A",   pn: "8JS 728 596-262", specs: "HELLA", unit: "REF/5pc" },
+                                { name: "LOW PROFILE MINI FAST LILA 3A",    pn: "8JS 358 129-012", specs: "HELLA", unit: "REF/10pc" },
+                                { name: "LOW PROFILE MINI FAST ROSE 4A",    pn: "129TA7708",       specs: "TVH",   unit: "REF/100pc" },
+                                { name: "LOW PROFILE MINI FAST BEIGE 5A",   pn: "8JS 728 596-292", specs: "HELLA", unit: "REF/5pc" },
+                                { name: "LOW PROFILE MINI FAST BRUIN 7,5A", pn: "8JS 728 596-302", specs: "HELLA", unit: "REF/5pc" },
+                                { name: "LOW PROFILE MINI FAST ROOD 10A",   pn: "8JS 728 596-312", specs: "HELLA", unit: "REF/5pc" },
+                                { name: "LOW PROFILE MINI FAST BLAUW 15A",  pn: "8JS 728 596-322", specs: "HELLA", unit: "REF/5pc" },
+                                { name: "LOW PROFILE MINI FAST GEEL 20A",   pn: "8JS 728 596-332", specs: "HELLA", unit: "REF/5pc" },
+                                { name: "LOW PROFILE MINI FAST WIT 25A",    pn: "8JS 728 596-342", specs: "HELLA", unit: "REF/5pc" },
+                                { name: "LOW PROFILE MINI FAST GROEN 30A",  pn: "8JS 728 596-352", specs: "HELLA", unit: "REF/5pc" }
                             ]
                         },
-                        "MINI": {
-                            img: "https://loremflickr.com/320/240/fuse-mini",
+                        "FUSE MINI FAST DIN72581": {
+                            img: "https://loremflickr.com/320/240/fuse",
                             sub: [
-                                { name: "Mini 5A Beige", pn: "M-05", specs: "Hella" },
-                                { name: "Mini 10A Rood", pn: "M-10", specs: "Hella" },
-                                { name: "Mini 15A Blauw", pn: "M-15", specs: "Hella" }
+                                { name: "FUSE MINI FAST GRIJS 2A",   pn: "8JS 728 596-861", specs: "HELLA", unit: "REF/5pcs", img: "https://matecocloud-my.sharepoint.com/personal/kenny_phlips_tvhequipment_com/Documents/Bureaublad/OPERATIONS/APP%20BIB/AFBEELDINGEN/FUSES/MINI%20FAST%20DIN%2072581/FUSE%20MINI%20FAST%20DIN7258%20GRIJS%202A%20.jpg" },
+                                { name: "FUSE MINI FAST LILA 3A",    pn: "8JS 728 596-881", specs: "HELLA", unit: "REF/5pcs", img: "https://matecocloud-my.sharepoint.com/personal/kenny_phlips_tvhequipment_com/Documents/Bureaublad/OPERATIONS/APP%20BIB/AFBEELDINGEN/FUSES/MINI%20FAST%20DIN%2072581/FUSE%20MINI%20FAST%20DIN7258%20LILA%203A.jpg" },
+                                { name: "FUSE MINI FAST ROSE 4A",    pn: "8JS 728 596-801", specs: "HELLA", unit: "REF/5pcs", img: "https://matecocloud-my.sharepoint.com/personal/kenny_phlips_tvhequipment_com/Documents/Bureaublad/OPERATIONS/APP%20BIB/AFBEELDINGEN/FUSES/MINI%20FAST%20DIN%2072581/FUSE%20MINI%20FAST%20DIN7258%20ROZE%204A.jpg" },
+                                { name: "FUSE MINI FAST BEIGE 5A",   pn: "8JS 728 596-027", specs: "HELLA", unit: "REF/5pcs", img: "https://matecocloud-my.sharepoint.com/personal/kenny_phlips_tvhequipment_com/Documents/Bureaublad/OPERATIONS/APP%20BIB/AFBEELDINGEN/FUSES/MINI%20FAST%20DIN%2072581/FUSE%20MINI%20FAST%20DIN7258%20BEIGE%205A.jpg" },
+                                { name: "FUSE MINI FAST BRUIN 7,5A", pn: "8JS 728 596-891", specs: "HELLA", unit: "REF/5pcs", img: "https://matecocloud-my.sharepoint.com/personal/kenny_phlips_tvhequipment_com/Documents/Bureaublad/OPERATIONS/APP%20BIB/AFBEELDINGEN/FUSES/MINI%20FAST%20DIN%2072581/FUSE%20MINI%20FAST%20DIN7258%20BRUIN%207.5A%20.jpg" },
+                                { name: "FUSE MINI FAST ROOD 10A",   pn: "8JS 728 596-821", specs: "HELLA", unit: "REF/5pcs", img: "https://matecocloud-my.sharepoint.com/personal/kenny_phlips_tvhequipment_com/Documents/Bureaublad/OPERATIONS/APP%20BIB/AFBEELDINGEN/FUSES/MINI%20FAST%20DIN%2072581/FUSE%20MINI%20FAST%20DIN7258%20ROOD%2010A.jpg" },
+                                { name: "FUSE MINI FAST BLAUW 15A",  pn: "8JS 728 596-831", specs: "HELLA", unit: "REF/5pcs", img: "https://matecocloud-my.sharepoint.com/personal/kenny_phlips_tvhequipment_com/Documents/Bureaublad/OPERATIONS/APP%20BIB/AFBEELDINGEN/FUSES/MINI%20FAST%20DIN%2072581/FUSE%20MINI%20FAST%20DIN7258%20BLAUW%2015A.jpg" },
+                                { name: "FUSE MINI FAST GEEL 20A",   pn: "8JS 728 596-841", specs: "HELLA", unit: "REF/5pcs", img: "https://matecocloud-my.sharepoint.com/personal/kenny_phlips_tvhequipment_com/Documents/Bureaublad/OPERATIONS/APP%20BIB/AFBEELDINGEN/FUSES/MINI%20FAST%20DIN%2072581/FUSE%20MINI%20FAST%20DIN7258%20GEEL%2020A%20.jpg" },
+                                { name: "FUSE MINI FAST WIT 25A",    pn: "8JS 728 596-871", specs: "HELLA", unit: "REF/5pcs", img: "https://matecocloud-my.sharepoint.com/personal/kenny_phlips_tvhequipment_com/Documents/Bureaublad/OPERATIONS/APP%20BIB/AFBEELDINGEN/FUSES/MINI%20FAST%20DIN%2072581/FUSE%20MINI%20FAST%20DIN7258%20WIT%2025A.jpg" },
+                                { name: "FUSE MINI FAST GROEN 30A",  pn: "8JS 728 596-851", specs: "HELLA", unit: "REF/5pcs", img: "https://matecocloud-my.sharepoint.com/personal/kenny_phlips_tvhequipment_com/Documents/Bureaublad/OPERATIONS/APP%20BIB/AFBEELDINGEN/FUSES/MINI%20FAST%20DIN%2072581/FUSE%20MINI%20FAST%20DIN7258%20GROEN%2030A.jpg" }
                             ]
                         },
-                        "MAXI": {
-                            img: "https://loremflickr.com/320/240/fuse-maxi",
+                        "FUSE MEDIUM ATO FAST DIN72581": {
+                            img: "https://loremflickr.com/320/240/fuse",
                             sub: [
-                                { name: "Maxi 40A Oranje", pn: "MAX-40", specs: "Hella" },
-                                { name: "Maxi 60A Blauw", pn: "MAX-60", specs: "Hella" }
+                                { name: "FUSE MEDIUM ATO FAST ZWART 1A",    pn: "8JS 711 683-831", specs: "HELLA", unit: "REF/5pc" },
+                                { name: "FUSE MEDIUM ATO FAST GRIJS 2A",    pn: "8JS 711 683-841", specs: "HELLA", unit: "REF/5pc" },
+                                { name: "FUSE MEDIUM ATO FAST LILA 3A",     pn: "8JS 711 683-821", specs: "HELLA", unit: "REF/5pc" },
+                                { name: "FUSE MEDIUM ATO FAST ROSE 4A",     pn: "8JS 711 683-881", specs: "HELLA", unit: "REF/5pc" },
+                                { name: "FUSE MEDIUM ATO FAST BEIGE 5A",    pn: "8JS 711 684-821", specs: "HELLA", unit: "REF/5pc" },
+                                { name: "FUSE MEDIUM ATO FAST BRUIN 7,5A",  pn: "8JS 711 685-821", specs: "HELLA", unit: "REF/5pc" },
+                                { name: "FUSE MEDIUM ATO FAST ROOD 10A",    pn: "8JS 711 686-821", specs: "HELLA", unit: "REF/5pc" },
+                                { name: "FUSE MEDIUM ATO FAST BLAUW 15A",   pn: "8JS 711 687-821", specs: "HELLA", unit: "REF/5pc" },
+                                { name: "FUSE MEDIUM ATO FAST GEEL 20A",    pn: "8JS 711 688-821", specs: "HELLA", unit: "REF/5pc" },
+                                { name: "FUSE MEDIUM ATO FAST WIT 25A",     pn: "8JS 711 689-821", specs: "HELLA", unit: "REF/5pc" },
+                                { name: "FUSE MEDIUM ATO FAST GROEN 30A",   pn: "8JS 711 690-821", specs: "HELLA", unit: "REF/5pc" },
+                                { name: "FUSE MEDIUM ATO FAST BLAUW 35A",   pn: "8JS 711 683-042", specs: "HELLA", unit: "REF/5pc" },
+                                { name: "FUSE MEDIUM ATO FAST ORANJE 40A",  pn: "8JS 711 683-851", specs: "HELLA", unit: "REF/5pc" }
+                            ]
+                        },
+                        "ZEKERINGHOUDER ATO": {
+                            img: "https://loremflickr.com/320/240/fuse",
+                            sub: [
+                                { name: "ZKH ATO SPATWATER 20A 1,3mm²", pn: "8JD 743 557-021", specs: "HELLA", unit: "REF/1pc" },
+                                { name: "ZKH ATO SPATWATER 30A 3,3mm²", pn: "8JD 743 557-031", specs: "HELLA", unit: "REF/1pc" }
+                            ]
+                        },
+                        "FUSE MAXI FAST DIN72581": {
+                            img: "https://loremflickr.com/320/240/fuse",
+                            sub: [
+                                { name: "FUSE MAXI FAST GEEL 20A",    pn: "127TA2128",       specs: "TVH",   unit: "REF/100pc" },
+                                { name: "FUSE MAXI FAST GROEN 30A",   pn: "8JS 728 595-061", specs: "HELLA", unit: "REF/1pc" },
+                                { name: "FUSE MAXI FAST ORANJE 40A",  pn: "8JS 728 595-071", specs: "HELLA", unit: "REF/1pc" },
+                                { name: "FUSE MAXI FAST ROOD 50A",    pn: "8JS 728 595-081", specs: "HELLA", unit: "REF/1pc" },
+                                { name: "FUSE MAXI FAST BLAUW 60A",   pn: "8JS 728 595-091", specs: "HELLA", unit: "REF/1pc" },
+                                { name: "FUSE MAXI FAST BRUIN 70A",   pn: "8JS 728 595-101", specs: "HELLA", unit: "REF/1pc" },
+                                { name: "FUSE MAXI FAST WIT 80A",     pn: "8JS 728 595-111", specs: "HELLA", unit: "REF/1pc" },
+                                { name: "FUSE MAXI FAST 100A",        pn: "127TA2138",       specs: "TVH",   unit: "REF/100pc" }
+                            ]
+                        },
+                        "ZEKERINGHOUDER MAXI": {
+                            img: "https://loremflickr.com/320/240/fuse",
+                            sub: [
+                                { name: "ZKH MAXI SPATWATER 60A 2,5-10mm²", pn: "8JD 743 708-001", specs: "HELLA", unit: "REF/1pc" },
+                                { name: "ZKH MAXI 20-80A 4-6mm²",           pn: "8JD 743 710-001", specs: "HELLA", unit: "REF/1pc" },
+                                { name: "ZKH MAXI 20-80A 6-10mm²",          pn: "8JD 743 709-001", specs: "HELLA", unit: "REF/1pc" }
                             ]
                         }
                     }
-                },
-                "VERLICHTING": {
-                    img: "https://loremflickr.com/320/240/bulb",
-                    sub: {
-                        "LAMPEN 12V": {
-                            img: "https://loremflickr.com/320/240/12v",
-                            sub: [
-                                { name: "H7 12V", pn: "12-H7", specs: "Koplamp" },
-                                { name: "P21W 12V", pn: "12-P21", specs: "Stop/Pinker" },
-                                { name: "W5W 12V", pn: "12-W5W", specs: "Glasvoet" }
-                            ]
-                        },
-                        "LAMPEN 24V": {
-                            img: "https://loremflickr.com/320/240/24v",
-                            sub: [
-                                { name: "H7 24V", pn: "24-H7", specs: "Vrachtwagen" },
-                                { name: "H1 24V", pn: "24-H1", specs: "Vrachtwagen" },
-                                { name: "P21W 24V", pn: "24-P21", specs: "Stop/Pinker" }
-                            ]
-                        },
-                        "LAMPEN 48V": {
-                            img: "https://loremflickr.com/320/240/48v",
-                            sub: [
-                                { name: "48V 10W BA15s", pn: "48-10W", specs: "Heftruck" },
-                                { name: "48V 21W BA15s", pn: "48-21W", specs: "Heftruck" }
-                            ]
-                        }
-                    }
-                },
-                "STEKKERS & 230V": {
-                    img: "https://loremflickr.com/320/240/plugs",
-                    sub: [
-                        { name: "230V Stekker Man", pn: "230-M", specs: "Rubber" },
-                        { name: "230V Koppeling Vrouw", pn: "230-F", specs: "Rubber" },
-                        { name: "CEE 16A 5p Man", pn: "16-5M", specs: "400V Rood" },
-                        { name: "CEE 32A 5p Man", pn: "32-5M", specs: "400V Rood" }
-                    ]
-                },
-                "KABELSCHOENEN": {
-                    img: "https://loremflickr.com/320/240/connectors",
-                    sub: [
-                        { name: "Ringschoen Blauw M5", pn: "RB-5", specs: "1.5-2.5mm²" },
-                        { name: "Vlaksteker Blauw", pn: "VB-63", specs: "6.3mm" },
-                        { name: "Stootverbinder Blauw", pn: "SB-25", specs: "Krimp" }
-                    ]
                 }
             }
         },
@@ -269,6 +283,7 @@
         const backBtn = document.getElementById('backBtn');
         const titel = document.getElementById('titel');
         grid.innerHTML = '';
+        grid.style.gridTemplateColumns = ''; // reset to 2-column for category tiles
 
         let huidigeData = { sub: DATA };
         navigatiePad.forEach(stap => { huidigeData = huidigeData.sub[stap]; });
@@ -301,6 +316,9 @@
 
     function renderItems(items) {
         const grid = document.getElementById('itemGrid');
+        grid.style.gridTemplateColumns = '1fr';
+        grid.style.gap = '6px';
+
         if (items.length === 0) {
             const msg = document.createElement('p');
             msg.className = 'empty-msg';
@@ -308,25 +326,59 @@
             grid.appendChild(msg);
             return;
         }
+
         items.forEach(item => {
-            const div = document.createElement('div');
-            div.className = 'card is-item';
-            div.tabIndex = 0;
-            const p = document.createElement('p');
-            p.textContent = item.name;
-            const small = document.createElement('small');
-            small.textContent = `${item.specs} | P/N: ${item.pn}`;
-            div.appendChild(p);
-            div.appendChild(small);
+            const row = document.createElement('div');
+            row.className = 'item-row';
+            row.tabIndex = 0;
+
+            // Thumbnail (verborgen als URL niet laadt)
+            const img = document.createElement('img');
+            img.className = 'row-thumb';
+            img.src = item.img || '';
+            img.alt = item.name;
+            img.onerror = () => { img.style.display = 'none'; };
+            row.appendChild(img);
+
+            // Naam + artikelnummer
+            const info = document.createElement('div');
+            info.className = 'item-row-info';
+            const naam = document.createElement('div');
+            naam.className = 'item-row-name';
+            naam.textContent = item.name;
+            const pn = document.createElement('div');
+            pn.className = 'item-row-pn';
+            pn.textContent = `P/N: ${item.pn}`;
+            info.appendChild(naam);
+            info.appendChild(pn);
+            row.appendChild(info);
+
+            // Eenheid badge
+            if (item.unit) {
+                const badge = document.createElement('span');
+                badge.className = 'unit-badge';
+                badge.textContent = item.unit;
+                row.appendChild(badge);
+            }
+
+            // + knop
+            const addBtn = document.createElement('button');
+            addBtn.type = 'button';
+            addBtn.className = 'add-row-btn';
+            addBtn.textContent = '+';
+            addBtn.setAttribute('aria-label', `Voeg toe: ${item.name}`);
+            row.appendChild(addBtn);
+
             const handler = () => {
                 voegToe(item.name, item.pn, item.catPrefix);
-                div.classList.remove('flash');
-                void div.offsetWidth; // force reflow to restart animation
-                div.classList.add('flash');
+                row.classList.remove('flash');
+                void row.offsetWidth;
+                row.classList.add('flash');
             };
-            div.onclick = handler;
-            div.onkeydown = (e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); handler(); } };
-            grid.appendChild(div);
+            row.onclick = handler;
+            addBtn.onclick = (e) => { e.stopPropagation(); handler(); };
+            row.onkeydown = (e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); handler(); } };
+            grid.appendChild(row);
         });
     }
 
