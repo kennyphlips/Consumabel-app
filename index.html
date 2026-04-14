@@ -43,16 +43,19 @@
         .card:hover { transform: translateY(-2px); box-shadow: 0 4px 12px rgba(0,0,0,0.15); }
         .card:active { transform: translateY(0); }
         .card:focus-visible { outline: 2px solid #1a73e8; outline-offset: 2px; }
-        .card img { width: 100%; height: 90px; object-fit: cover; border-radius: 6px; margin-bottom: 8px; background-color: var(--img-placeholder); }
+        .card:not(.is-item) img { width: 100%; height: 90px; object-fit: cover; border-radius: 6px; margin-bottom: 8px; background-color: var(--img-placeholder); }
         .card p { margin: 0; font-weight: bold; font-size: 11px; text-transform: uppercase; color: var(--text-color); }
 
-        .card.is-item { border-left: 6px solid #1a73e8; text-align: left; padding: 10px; display: flex; align-items: center; gap: 10px; }
-        .item-thumb { width: 60px; height: 60px; object-fit: contain; border-radius: 6px; background: var(--img-placeholder); flex-shrink: 0; }
+        .card.is-item { border-left: 3px solid #1a73e8; text-align: left; padding: 12px; display: flex; align-items: center; gap: 10px; }
+        .item-thumb { width: 50px; height: 50px; object-fit: contain; border-radius: 6px; background: var(--img-placeholder); flex-shrink: 0; }
         .item-info { flex: 1; min-width: 0; }
-        .item-info p { margin: 0; font-weight: bold; font-size: 11px; text-transform: uppercase; color: var(--text-color); }
-        .item-info small { display: block; color: var(--muted-color); font-size: 9px; margin-top: 4px; font-weight: normal; }
+        .item-info p { margin: 0 0 4px 0; font-weight: bold; font-size: 12px; text-transform: uppercase; color: var(--text-color); }
+        .item-meta { display: flex; align-items: center; gap: 6px; flex-wrap: wrap; margin-bottom: 3px; }
+        .item-brand { font-size: 10px; color: var(--muted-color); }
+        .unit-badge { display: inline-block; background: rgba(26,115,232,0.12); color: #1a73e8; font-size: 9px; font-weight: bold; padding: 2px 7px; border-radius: 4px; border: 1px solid rgba(26,115,232,0.3); white-space: nowrap; }
+        .item-pn { font-size: 10px; color: var(--muted-color); font-family: monospace; }
         .card.is-item.flash { animation: addFlash 0.4s ease; }
-        @keyframes addFlash { 0%,100% { background: var(--card-bg); } 50% { background: rgba(26,115,232,0.2); border-color: #1a73e8; } }
+        @keyframes addFlash { 0%,100% { background: var(--card-bg); } 50% { background: rgba(26,115,232,0.15); } }
 
         .empty-msg { text-align: center; color: var(--muted-color); padding: 20px 0; font-size: 13px; grid-column: 1 / -1; margin: 0; }
 
@@ -122,16 +125,16 @@
                         "FUSE MINI FAST": {
                             img: "https://loremflickr.com/320/240/fuse",
                             sub: [
-                                { name: "FUSE MINI FAST GRIJS 2A",  pn: "8JS 728 596-861", specs: "HELLA | SET/5pcs", img: "https://matecocloud-my.sharepoint.com/personal/kenny_phlips_tvhequipment_com/Documents/Bureaublad/OPERATIONS/APP%20BIB/AFBEELDINGEN/FUSES/MINI%20FAST%20DIN%2072581/FUSE%20MINI%20FAST%20DIN7258%20GRIJS%202A%20.jpg" },
-                                { name: "FUSE MINI FAST LILA 3A",   pn: "8JS 728 596-881", specs: "HELLA | SET/5pcs", img: "https://matecocloud-my.sharepoint.com/personal/kenny_phlips_tvhequipment_com/Documents/Bureaublad/OPERATIONS/APP%20BIB/AFBEELDINGEN/FUSES/MINI%20FAST%20DIN%2072581/FUSE%20MINI%20FAST%20DIN7258%20LILA%203A.jpg" },
-                                { name: "FUSE MINI FAST ROSE 4A",   pn: "8JS 728 596-801", specs: "HELLA | SET/5pcs", img: "https://matecocloud-my.sharepoint.com/personal/kenny_phlips_tvhequipment_com/Documents/Bureaublad/OPERATIONS/APP%20BIB/AFBEELDINGEN/FUSES/MINI%20FAST%20DIN%2072581/FUSE%20MINI%20FAST%20DIN7258%20ROZE%204A.jpg" },
-                                { name: "FUSE MINI FAST BEIGE 5A",  pn: "8JS 728 596-027", specs: "HELLA | SET/5pcs", img: "https://matecocloud-my.sharepoint.com/personal/kenny_phlips_tvhequipment_com/Documents/Bureaublad/OPERATIONS/APP%20BIB/AFBEELDINGEN/FUSES/MINI%20FAST%20DIN%2072581/FUSE%20MINI%20FAST%20DIN7258%20BEIGE%205A.jpg" },
-                                { name: "FUSE MINI FAST BRUIN 7,5A",pn: "8JS 728 596-891", specs: "HELLA | SET/5pcs", img: "https://matecocloud-my.sharepoint.com/personal/kenny_phlips_tvhequipment_com/Documents/Bureaublad/OPERATIONS/APP%20BIB/AFBEELDINGEN/FUSES/MINI%20FAST%20DIN%2072581/FUSE%20MINI%20FAST%20DIN7258%20BRUIN%207.5A%20.jpg" },
-                                { name: "FUSE MINI FAST ROOD 10A",  pn: "8JS 728 596-821", specs: "HELLA | SET/5pcs", img: "https://matecocloud-my.sharepoint.com/personal/kenny_phlips_tvhequipment_com/Documents/Bureaublad/OPERATIONS/APP%20BIB/AFBEELDINGEN/FUSES/MINI%20FAST%20DIN%2072581/FUSE%20MINI%20FAST%20DIN7258%20ROOD%2010A.jpg" },
-                                { name: "FUSE MINI FAST BLAUW 15A", pn: "8JS 728 596-831", specs: "HELLA | SET/5pcs", img: "https://matecocloud-my.sharepoint.com/personal/kenny_phlips_tvhequipment_com/Documents/Bureaublad/OPERATIONS/APP%20BIB/AFBEELDINGEN/FUSES/MINI%20FAST%20DIN%2072581/FUSE%20MINI%20FAST%20DIN7258%20BLAUW%2015A.jpg" },
-                                { name: "FUSE MINI FAST GEEL 20A",  pn: "8JS 728 596-841", specs: "HELLA | SET/5pcs", img: "https://matecocloud-my.sharepoint.com/personal/kenny_phlips_tvhequipment_com/Documents/Bureaublad/OPERATIONS/APP%20BIB/AFBEELDINGEN/FUSES/MINI%20FAST%20DIN%2072581/FUSE%20MINI%20FAST%20DIN7258%20GEEL%2020A%20.jpg" },
-                                { name: "FUSE MINI FAST WIT 25A",   pn: "8JS 728 596-871", specs: "HELLA | SET/5pcs", img: "https://matecocloud-my.sharepoint.com/personal/kenny_phlips_tvhequipment_com/Documents/Bureaublad/OPERATIONS/APP%20BIB/AFBEELDINGEN/FUSES/MINI%20FAST%20DIN%2072581/FUSE%20MINI%20FAST%20DIN7258%20WIT%2025A.jpg" },
-                                { name: "FUSE MINI FAST GROEN 30A", pn: "8JS 728 596-851", specs: "HELLA | SET/5pcs", img: "https://matecocloud-my.sharepoint.com/personal/kenny_phlips_tvhequipment_com/Documents/Bureaublad/OPERATIONS/APP%20BIB/AFBEELDINGEN/FUSES/MINI%20FAST%20DIN%2072581/FUSE%20MINI%20FAST%20DIN7258%20GROEN%2030A.jpg" }
+                                { name: "FUSE MINI FAST GRIJS 2A",  pn: "8JS 728 596-861", specs: "HELLA", unit: "SET / 5pcs", img: "https://matecocloud-my.sharepoint.com/personal/kenny_phlips_tvhequipment_com/Documents/Bureaublad/OPERATIONS/APP%20BIB/AFBEELDINGEN/FUSES/MINI%20FAST%20DIN%2072581/FUSE%20MINI%20FAST%20DIN7258%20GRIJS%202A%20.jpg" },
+                                { name: "FUSE MINI FAST LILA 3A",   pn: "8JS 728 596-881", specs: "HELLA", unit: "SET / 5pcs", img: "https://matecocloud-my.sharepoint.com/personal/kenny_phlips_tvhequipment_com/Documents/Bureaublad/OPERATIONS/APP%20BIB/AFBEELDINGEN/FUSES/MINI%20FAST%20DIN%2072581/FUSE%20MINI%20FAST%20DIN7258%20LILA%203A.jpg" },
+                                { name: "FUSE MINI FAST ROSE 4A",   pn: "8JS 728 596-801", specs: "HELLA", unit: "SET / 5pcs", img: "https://matecocloud-my.sharepoint.com/personal/kenny_phlips_tvhequipment_com/Documents/Bureaublad/OPERATIONS/APP%20BIB/AFBEELDINGEN/FUSES/MINI%20FAST%20DIN%2072581/FUSE%20MINI%20FAST%20DIN7258%20ROZE%204A.jpg" },
+                                { name: "FUSE MINI FAST BEIGE 5A",  pn: "8JS 728 596-027", specs: "HELLA", unit: "SET / 5pcs", img: "https://matecocloud-my.sharepoint.com/personal/kenny_phlips_tvhequipment_com/Documents/Bureaublad/OPERATIONS/APP%20BIB/AFBEELDINGEN/FUSES/MINI%20FAST%20DIN%2072581/FUSE%20MINI%20FAST%20DIN7258%20BEIGE%205A.jpg" },
+                                { name: "FUSE MINI FAST BRUIN 7,5A",pn: "8JS 728 596-891", specs: "HELLA", unit: "SET / 5pcs", img: "https://matecocloud-my.sharepoint.com/personal/kenny_phlips_tvhequipment_com/Documents/Bureaublad/OPERATIONS/APP%20BIB/AFBEELDINGEN/FUSES/MINI%20FAST%20DIN%2072581/FUSE%20MINI%20FAST%20DIN7258%20BRUIN%207.5A%20.jpg" },
+                                { name: "FUSE MINI FAST ROOD 10A",  pn: "8JS 728 596-821", specs: "HELLA", unit: "SET / 5pcs", img: "https://matecocloud-my.sharepoint.com/personal/kenny_phlips_tvhequipment_com/Documents/Bureaublad/OPERATIONS/APP%20BIB/AFBEELDINGEN/FUSES/MINI%20FAST%20DIN%2072581/FUSE%20MINI%20FAST%20DIN7258%20ROOD%2010A.jpg" },
+                                { name: "FUSE MINI FAST BLAUW 15A", pn: "8JS 728 596-831", specs: "HELLA", unit: "SET / 5pcs", img: "https://matecocloud-my.sharepoint.com/personal/kenny_phlips_tvhequipment_com/Documents/Bureaublad/OPERATIONS/APP%20BIB/AFBEELDINGEN/FUSES/MINI%20FAST%20DIN%2072581/FUSE%20MINI%20FAST%20DIN7258%20BLAUW%2015A.jpg" },
+                                { name: "FUSE MINI FAST GEEL 20A",  pn: "8JS 728 596-841", specs: "HELLA", unit: "SET / 5pcs", img: "https://matecocloud-my.sharepoint.com/personal/kenny_phlips_tvhequipment_com/Documents/Bureaublad/OPERATIONS/APP%20BIB/AFBEELDINGEN/FUSES/MINI%20FAST%20DIN%2072581/FUSE%20MINI%20FAST%20DIN7258%20GEEL%2020A%20.jpg" },
+                                { name: "FUSE MINI FAST WIT 25A",   pn: "8JS 728 596-871", specs: "HELLA", unit: "SET / 5pcs", img: "https://matecocloud-my.sharepoint.com/personal/kenny_phlips_tvhequipment_com/Documents/Bureaublad/OPERATIONS/APP%20BIB/AFBEELDINGEN/FUSES/MINI%20FAST%20DIN%2072581/FUSE%20MINI%20FAST%20DIN7258%20WIT%2025A.jpg" },
+                                { name: "FUSE MINI FAST GROEN 30A", pn: "8JS 728 596-851", specs: "HELLA", unit: "SET / 5pcs", img: "https://matecocloud-my.sharepoint.com/personal/kenny_phlips_tvhequipment_com/Documents/Bureaublad/OPERATIONS/APP%20BIB/AFBEELDINGEN/FUSES/MINI%20FAST%20DIN%2072581/FUSE%20MINI%20FAST%20DIN7258%20GROEN%2030A.jpg" }
                             ]
                         }
                     }
@@ -250,7 +253,7 @@
 
     function renderItems(items) {
         const grid = document.getElementById('itemGrid');
-        grid.style.gridTemplateColumns = '1fr'; // single column for item cards
+        grid.style.gridTemplateColumns = '1fr';
         if (items.length === 0) {
             const msg = document.createElement('p');
             msg.className = 'empty-msg';
@@ -268,23 +271,42 @@
                 img.className = 'item-thumb';
                 img.src = item.img;
                 img.alt = item.name;
+                img.onerror = () => { img.style.display = 'none'; };
                 div.appendChild(img);
             }
 
             const info = document.createElement('div');
             info.className = 'item-info';
+
             const p = document.createElement('p');
             p.textContent = item.name;
-            const small = document.createElement('small');
-            small.textContent = `${item.specs} | P/N: ${item.pn}`;
+
+            const meta = document.createElement('div');
+            meta.className = 'item-meta';
+            const brand = document.createElement('span');
+            brand.className = 'item-brand';
+            brand.textContent = item.specs;
+            meta.appendChild(brand);
+            if (item.unit) {
+                const badge = document.createElement('span');
+                badge.className = 'unit-badge';
+                badge.textContent = item.unit;
+                meta.appendChild(badge);
+            }
+
+            const pn = document.createElement('div');
+            pn.className = 'item-pn';
+            pn.textContent = `P/N: ${item.pn}`;
+
             info.appendChild(p);
-            info.appendChild(small);
+            info.appendChild(meta);
+            info.appendChild(pn);
             div.appendChild(info);
 
             const handler = () => {
                 voegToe(item.name, item.pn, item.catPrefix);
                 div.classList.remove('flash');
-                void div.offsetWidth; // force reflow to restart animation
+                void div.offsetWidth;
                 div.classList.add('flash');
             };
             div.onclick = handler;
