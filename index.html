@@ -55,7 +55,10 @@
         .item-row-info { min-width: 0; }
         .item-row-name { font-size: 11px; font-weight: bold; text-transform: uppercase; color: var(--text-color); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
         .item-row-pn { font-size: 10px; color: var(--muted-color); font-family: monospace; margin-top: 2px; }
-        .unit-badge { display: inline-block; background: rgba(26,115,232,0.12); color: #1a73e8; font-size: 9px; font-weight: bold; padding: 2px 7px; border-radius: 4px; border: 1px solid rgba(26,115,232,0.3); white-space: nowrap; }
+        .variants-group { display: flex; gap: 4px; flex-wrap: wrap; justify-content: flex-end; }
+        .variant-badge { display: inline-block; font-size: 9px; font-weight: bold; padding: 3px 8px; border-radius: 4px; border: 1px solid rgba(26,115,232,0.5); white-space: nowrap; cursor: pointer; transition: background 0.15s, color 0.15s; color: #1a73e8; background: transparent; user-select: none; }
+        .variant-badge.active { background: #1a73e8; color: white; border-color: #1a73e8; }
+        .variant-badge:only-child { cursor: default; }
         .add-row-btn { background: #1a73e8; color: white; border: none; width: 32px; height: 32px; border-radius: 8px; font-size: 22px; font-weight: bold; cursor: pointer; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
         .add-row-btn:focus-visible { outline: 2px solid #333; outline-offset: 2px; }
 
@@ -208,33 +211,24 @@
                         "HALOGEN 12V": {
                             img: "images/cat-halogen-12v.jpg",
                             sub: [
-                                { name: "H1 HALOGEN BULB 12V 55W WIT",      pn: "8JS 728 596-262", specs: "HELLA | H1",  unit: "REF/PCS" },
-                                { name: "H3 HALOGEN BULB 12V 55W WIT",      pn: "8GH 980 333-001", specs: "HELLA | H3",  unit: "REF/PCS" },
-                                { name: "H4 HALOGEN BULB 12V 60/55W WIT",   pn: "GJ 980 324-001",  specs: "HELLA | H4",  unit: "REF/PCS" },
-                                { name: "H7 HALOGEN BULB 12V 55W WIT",      pn: "8GH 007 157-131", specs: "HELLA | H7",  unit: "REF/PCS" },
-                                { name: "H1 HALOGEN BULB 12V 55W WIT",      pn: "8GH 002 089-127", specs: "HELLA | H1",  unit: "REF/10pcs" },
-                                { name: "H3 HALOGEN BULB 12V 55W WIT",      pn: "8GH 002 090-147", specs: "HELLA | H3",  unit: "REF/10pcs" },
-                                { name: "H4 HALOGEN BULB 12V 60/55W WIT",   pn: "8GJ 980 324-007", specs: "HELLA | H4",  unit: "REF/10pcs" },
-                                { name: "H7 HALOGEN BULB 12V 55W WIT",      pn: "8GH 007 157-137", specs: "HELLA | H7",  unit: "REF/10pcs" }
+                                { name: "H1 HALOGEN BULB 12V 55W WIT",    specs: "HELLA | H1", variants: [{ pn: "8JS 728 596-262", unit: "REF/PCS" }, { pn: "8GH 002 089-127", unit: "REF/10pcs" }] },
+                                { name: "H3 HALOGEN BULB 12V 55W WIT",    specs: "HELLA | H3", variants: [{ pn: "8GH 980 333-001", unit: "REF/PCS" }, { pn: "8GH 002 090-147", unit: "REF/10pcs" }] },
+                                { name: "H4 HALOGEN BULB 12V 60/55W WIT", specs: "HELLA | H4", variants: [{ pn: "GJ 980 324-001",  unit: "REF/PCS" }, { pn: "8GJ 980 324-007", unit: "REF/10pcs" }] },
+                                { name: "H7 HALOGEN BULB 12V 55W WIT",    specs: "HELLA | H7", variants: [{ pn: "8GH 007 157-131", unit: "REF/PCS" }, { pn: "8GH 007 157-137", unit: "REF/10pcs" }] }
                             ]
                         },
                         "SIGNAL & MARKER": {
                             img: "images/cat-signal-marker.jpg",
                             sub: [
-                                { name: "BAYONET 12V 21W BA15s WIT",        pn: "8GA 002 073-163", specs: "HELLA | BA15s",   unit: "REF/PCS" },
-                                { name: "BAYONET 24V 21W BA15s WIT",        pn: "8GA 002 072-243", specs: "HELLA | BA15s",   unit: "REF/PCS" },
-                                { name: "BAYONET 24V 18W BA15s WIT",        pn: "8GA 002 072-243", specs: "HELLA | BA15s 18W", unit: "REF/PCS" },
-                                { name: "BAYONET 12V 21W BAU15s AMBER",     pn: "8GA 006 841-124", specs: "HELLA | BAU15s",  unit: "REF/PCS" },
-                                { name: "BAYONET 24V 21W BAU15s AMBER",     pn: "8GA 006 841-242", specs: "HELLA | BAU15s",  unit: "REF/PCS" },
-                                { name: "BAYONET 12V 21W BA15d WIT",        pn: "8GA 002 073-282", specs: "HELLA | BA15d",   unit: "REF/PCS" },
-                                { name: "BAYONET 12V 5W BAW15d ROOD",       pn: "8GD 002 078-401", specs: "HELLA | BAW15d",  unit: "REF/PCS" },
-                                { name: "BAYONET 12V 21/5W BAY15d WIT",     pn: "8GD 980 329-001", specs: "HELLA | BAY15d",  unit: "REF/PCS" },
-                                { name: "BAYONET 24V 21/5W BAY15d WIT",     pn: "8GD 002 078-242", specs: "HELLA | BAY15d",  unit: "REF/PCS" },
-                                { name: "BAYONET 12V 21W BA15s WIT",        pn: "8GA 002 073-168", specs: "HELLA | BA15s",   unit: "REF/10pcs" },
-                                { name: "BAYONET 24V 21W BA15s WIT",        pn: "8GA 002 073-247", specs: "HELLA | BA15s",   unit: "REF/10pcs" },
-                                { name: "BAYONET 12V 21W BAU15s AMBER",     pn: "8GA 006 841-127", specs: "HELLA | BAU15s",  unit: "REF/10pcs" },
-                                { name: "BAYONET 12V 21/5W BAY15d WIT",     pn: "8GD 980 329-007", specs: "HELLA | BAY15d",  unit: "REF/10pcs" },
-                                { name: "BAYONET 24V 21/5W BAY15d WIT",     pn: "8GD 980 329-021", specs: "HELLA | BAY15d",  unit: "REF/10pcs" }
+                                { name: "BAYONET 12V 21W BA15s WIT",    specs: "HELLA | BA15s",    variants: [{ pn: "8GA 002 073-163", unit: "REF/PCS" }, { pn: "8GA 002 073-168", unit: "REF/10pcs" }] },
+                                { name: "BAYONET 24V 21W BA15s WIT",    specs: "HELLA | BA15s",    variants: [{ pn: "8GA 002 072-243", unit: "REF/PCS" }, { pn: "8GA 002 073-247", unit: "REF/10pcs" }] },
+                                { name: "BAYONET 24V 18W BA15s WIT",    specs: "HELLA | BA15s 18W", pn: "8GA 002 072-243", unit: "REF/PCS" },
+                                { name: "BAYONET 12V 21W BAU15s AMBER", specs: "HELLA | BAU15s",   variants: [{ pn: "8GA 006 841-124", unit: "REF/PCS" }, { pn: "8GA 006 841-127", unit: "REF/10pcs" }] },
+                                { name: "BAYONET 24V 21W BAU15s AMBER", specs: "HELLA | BAU15s",   pn: "8GA 006 841-242", unit: "REF/PCS" },
+                                { name: "BAYONET 12V 21W BA15d WIT",    specs: "HELLA | BA15d",    pn: "8GA 002 073-282", unit: "REF/PCS" },
+                                { name: "BAYONET 12V 5W BAW15d ROOD",   specs: "HELLA | BAW15d",   pn: "8GD 002 078-401", unit: "REF/PCS" },
+                                { name: "BAYONET 12V 21/5W BAY15d WIT", specs: "HELLA | BAY15d",   variants: [{ pn: "8GD 980 329-001", unit: "REF/PCS" }, { pn: "8GD 980 329-007", unit: "REF/10pcs" }] },
+                                { name: "BAYONET 24V 21/5W BAY15d WIT", specs: "HELLA | BAY15d",   variants: [{ pn: "8GD 002 078-242", unit: "REF/PCS" }, { pn: "8GD 980 329-021", unit: "REF/10pcs" }] }
                             ]
                         },
                         "HALOGEN INTERIOR": {
@@ -382,11 +376,15 @@
         }
 
         items.forEach(item => {
+            // Normaliseer: zet losse pn+unit om naar variants-array
+            const variants = item.variants || [{ pn: item.pn, unit: item.unit }];
+            let activeIdx = 0;
+
             const row = document.createElement('div');
             row.className = 'item-row';
             row.tabIndex = 0;
 
-            // Thumbnail (verborgen als URL niet laadt)
+            // Thumbnail
             const img = document.createElement('img');
             img.className = 'row-thumb';
             img.src = item.img || '';
@@ -394,26 +392,36 @@
             img.onerror = () => { img.style.display = 'none'; };
             row.appendChild(img);
 
-            // Naam + artikelnummer
+            // Naam + artikelnummer (pn wisselt mee met geselecteerde variant)
             const info = document.createElement('div');
             info.className = 'item-row-info';
             const naam = document.createElement('div');
             naam.className = 'item-row-name';
             naam.textContent = item.name;
-            const pn = document.createElement('div');
-            pn.className = 'item-row-pn';
-            pn.textContent = `P/N: ${item.pn}`;
+            const pnEl = document.createElement('div');
+            pnEl.className = 'item-row-pn';
+            pnEl.textContent = `P/N: ${variants[0].pn}`;
             info.appendChild(naam);
-            info.appendChild(pn);
+            info.appendChild(pnEl);
             row.appendChild(info);
 
-            // Eenheid badge
-            if (item.unit) {
+            // Variant-badges (klikbaar als er meerdere zijn)
+            const badgesWrap = document.createElement('div');
+            badgesWrap.className = 'variants-group';
+            variants.forEach((v, idx) => {
+                if (!v.unit) return;
                 const badge = document.createElement('span');
-                badge.className = 'unit-badge';
-                badge.textContent = item.unit;
-                row.appendChild(badge);
-            }
+                badge.className = 'variant-badge' + (idx === 0 ? ' active' : '');
+                badge.textContent = v.unit;
+                badge.onclick = (e) => {
+                    e.stopPropagation();
+                    activeIdx = idx;
+                    badgesWrap.querySelectorAll('.variant-badge').forEach((b, i) => b.classList.toggle('active', i === idx));
+                    pnEl.textContent = `P/N: ${v.pn}`;
+                };
+                badgesWrap.appendChild(badge);
+            });
+            row.appendChild(badgesWrap);
 
             // + knop
             const addBtn = document.createElement('button');
@@ -424,7 +432,8 @@
             row.appendChild(addBtn);
 
             const handler = () => {
-                voegToe(item.name, item.pn, item.catPrefix);
+                const v = variants[activeIdx];
+                voegToe(item.name, v.pn, item.catPrefix);
                 row.classList.remove('flash');
                 void row.offsetWidth;
                 row.classList.add('flash');
@@ -444,7 +453,8 @@
         function scan(obj, catPrefix = "") {
             if (Array.isArray(obj)) {
                 obj.forEach(item => {
-                    if (item.name.toUpperCase().includes(term) || item.pn.toUpperCase().includes(term)) {
+                    const pns = item.variants ? item.variants.map(v => v.pn) : [item.pn];
+                    if (item.name.toUpperCase().includes(term) || pns.some(p => p.toUpperCase().includes(term))) {
                         resultaten.push({ ...item, catPrefix });
                     }
                 });
