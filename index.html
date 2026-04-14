@@ -115,7 +115,7 @@
 </div>
 
 <script>
-    const PREFIXES = { "ELECTRONICS": "", "FASTENERS": "FD_", "CHEMIE": "CT_", "BATTERIJEN": "VT_" };
+    const PREFIXES = { "ELECTRONICS": "", "FASTENERS": "FD_", "CHEMIE": "CT_" };
 
     const DATA = {
         "ELECTRONICS": {
@@ -124,19 +124,146 @@
                 "FUSES": {
                     img: "https://loremflickr.com/320/240/fuse",
                     sub: {
-                        "FUSE MINI FAST": {
+                        "FUSE LOW PROFILE MINI FAST": {
                             img: "https://loremflickr.com/320/240/fuse",
                             sub: [
-                                { name: "FUSE MINI FAST GRIJS 2A",  pn: "8JS 728 596-861", specs: "HELLA", unit: "SET / 5pcs", img: "https://matecocloud-my.sharepoint.com/personal/kenny_phlips_tvhequipment_com/Documents/Bureaublad/OPERATIONS/APP%20BIB/AFBEELDINGEN/FUSES/MINI%20FAST%20DIN%2072581/FUSE%20MINI%20FAST%20DIN7258%20GRIJS%202A%20.jpg" },
-                                { name: "FUSE MINI FAST LILA 3A",   pn: "8JS 728 596-881", specs: "HELLA", unit: "SET / 5pcs", img: "https://matecocloud-my.sharepoint.com/personal/kenny_phlips_tvhequipment_com/Documents/Bureaublad/OPERATIONS/APP%20BIB/AFBEELDINGEN/FUSES/MINI%20FAST%20DIN%2072581/FUSE%20MINI%20FAST%20DIN7258%20LILA%203A.jpg" },
-                                { name: "FUSE MINI FAST ROSE 4A",   pn: "8JS 728 596-801", specs: "HELLA", unit: "SET / 5pcs", img: "https://matecocloud-my.sharepoint.com/personal/kenny_phlips_tvhequipment_com/Documents/Bureaublad/OPERATIONS/APP%20BIB/AFBEELDINGEN/FUSES/MINI%20FAST%20DIN%2072581/FUSE%20MINI%20FAST%20DIN7258%20ROZE%204A.jpg" },
-                                { name: "FUSE MINI FAST BEIGE 5A",  pn: "8JS 728 596-027", specs: "HELLA", unit: "SET / 5pcs", img: "https://matecocloud-my.sharepoint.com/personal/kenny_phlips_tvhequipment_com/Documents/Bureaublad/OPERATIONS/APP%20BIB/AFBEELDINGEN/FUSES/MINI%20FAST%20DIN%2072581/FUSE%20MINI%20FAST%20DIN7258%20BEIGE%205A.jpg" },
-                                { name: "FUSE MINI FAST BRUIN 7,5A",pn: "8JS 728 596-891", specs: "HELLA", unit: "SET / 5pcs", img: "https://matecocloud-my.sharepoint.com/personal/kenny_phlips_tvhequipment_com/Documents/Bureaublad/OPERATIONS/APP%20BIB/AFBEELDINGEN/FUSES/MINI%20FAST%20DIN%2072581/FUSE%20MINI%20FAST%20DIN7258%20BRUIN%207.5A%20.jpg" },
-                                { name: "FUSE MINI FAST ROOD 10A",  pn: "8JS 728 596-821", specs: "HELLA", unit: "SET / 5pcs", img: "https://matecocloud-my.sharepoint.com/personal/kenny_phlips_tvhequipment_com/Documents/Bureaublad/OPERATIONS/APP%20BIB/AFBEELDINGEN/FUSES/MINI%20FAST%20DIN%2072581/FUSE%20MINI%20FAST%20DIN7258%20ROOD%2010A.jpg" },
-                                { name: "FUSE MINI FAST BLAUW 15A", pn: "8JS 728 596-831", specs: "HELLA", unit: "SET / 5pcs", img: "https://matecocloud-my.sharepoint.com/personal/kenny_phlips_tvhequipment_com/Documents/Bureaublad/OPERATIONS/APP%20BIB/AFBEELDINGEN/FUSES/MINI%20FAST%20DIN%2072581/FUSE%20MINI%20FAST%20DIN7258%20BLAUW%2015A.jpg" },
-                                { name: "FUSE MINI FAST GEEL 20A",  pn: "8JS 728 596-841", specs: "HELLA", unit: "SET / 5pcs", img: "https://matecocloud-my.sharepoint.com/personal/kenny_phlips_tvhequipment_com/Documents/Bureaublad/OPERATIONS/APP%20BIB/AFBEELDINGEN/FUSES/MINI%20FAST%20DIN%2072581/FUSE%20MINI%20FAST%20DIN7258%20GEEL%2020A%20.jpg" },
-                                { name: "FUSE MINI FAST WIT 25A",   pn: "8JS 728 596-871", specs: "HELLA", unit: "SET / 5pcs", img: "https://matecocloud-my.sharepoint.com/personal/kenny_phlips_tvhequipment_com/Documents/Bureaublad/OPERATIONS/APP%20BIB/AFBEELDINGEN/FUSES/MINI%20FAST%20DIN%2072581/FUSE%20MINI%20FAST%20DIN7258%20WIT%2025A.jpg" },
-                                { name: "FUSE MINI FAST GROEN 30A", pn: "8JS 728 596-851", specs: "HELLA", unit: "SET / 5pcs", img: "https://matecocloud-my.sharepoint.com/personal/kenny_phlips_tvhequipment_com/Documents/Bureaublad/OPERATIONS/APP%20BIB/AFBEELDINGEN/FUSES/MINI%20FAST%20DIN%2072581/FUSE%20MINI%20FAST%20DIN7258%20GROEN%2030A.jpg" }
+                                { name: "LOW PROFILE MINI FAST GRIJS 2A",   pn: "8JS 728 596-262", specs: "HELLA", unit: "REF/5pc" },
+                                { name: "LOW PROFILE MINI FAST LILA 3A",    pn: "8JS 358 129-012", specs: "HELLA", unit: "REF/10pc" },
+                                { name: "LOW PROFILE MINI FAST ROSE 4A",    pn: "129TA7708",       specs: "TVH",   unit: "REF/100pc" },
+                                { name: "LOW PROFILE MINI FAST BEIGE 5A",   pn: "8JS 728 596-292", specs: "HELLA", unit: "REF/5pc" },
+                                { name: "LOW PROFILE MINI FAST BRUIN 7,5A", pn: "8JS 728 596-302", specs: "HELLA", unit: "REF/5pc" },
+                                { name: "LOW PROFILE MINI FAST ROOD 10A",   pn: "8JS 728 596-312", specs: "HELLA", unit: "REF/5pc" },
+                                { name: "LOW PROFILE MINI FAST BLAUW 15A",  pn: "8JS 728 596-322", specs: "HELLA", unit: "REF/5pc" },
+                                { name: "LOW PROFILE MINI FAST GEEL 20A",   pn: "8JS 728 596-332", specs: "HELLA", unit: "REF/5pc" },
+                                { name: "LOW PROFILE MINI FAST WIT 25A",    pn: "8JS 728 596-342", specs: "HELLA", unit: "REF/5pc" },
+                                { name: "LOW PROFILE MINI FAST GROEN 30A",  pn: "8JS 728 596-352", specs: "HELLA", unit: "REF/5pc" }
+                            ]
+                        },
+                        "FUSE MINI FAST DIN72581": {
+                            img: "https://loremflickr.com/320/240/fuse",
+                            sub: [
+                                { name: "FUSE MINI FAST GRIJS 2A",   pn: "8JS 728 596-861", specs: "HELLA", unit: "REF/5pcs", img: "https://matecocloud-my.sharepoint.com/personal/kenny_phlips_tvhequipment_com/Documents/Bureaublad/OPERATIONS/APP%20BIB/AFBEELDINGEN/FUSES/MINI%20FAST%20DIN%2072581/FUSE%20MINI%20FAST%20DIN7258%20GRIJS%202A%20.jpg" },
+                                { name: "FUSE MINI FAST LILA 3A",    pn: "8JS 728 596-881", specs: "HELLA", unit: "REF/5pcs", img: "https://matecocloud-my.sharepoint.com/personal/kenny_phlips_tvhequipment_com/Documents/Bureaublad/OPERATIONS/APP%20BIB/AFBEELDINGEN/FUSES/MINI%20FAST%20DIN%2072581/FUSE%20MINI%20FAST%20DIN7258%20LILA%203A.jpg" },
+                                { name: "FUSE MINI FAST ROSE 4A",    pn: "8JS 728 596-801", specs: "HELLA", unit: "REF/5pcs", img: "https://matecocloud-my.sharepoint.com/personal/kenny_phlips_tvhequipment_com/Documents/Bureaublad/OPERATIONS/APP%20BIB/AFBEELDINGEN/FUSES/MINI%20FAST%20DIN%2072581/FUSE%20MINI%20FAST%20DIN7258%20ROZE%204A.jpg" },
+                                { name: "FUSE MINI FAST BEIGE 5A",   pn: "8JS 728 596-027", specs: "HELLA", unit: "REF/5pcs", img: "https://matecocloud-my.sharepoint.com/personal/kenny_phlips_tvhequipment_com/Documents/Bureaublad/OPERATIONS/APP%20BIB/AFBEELDINGEN/FUSES/MINI%20FAST%20DIN%2072581/FUSE%20MINI%20FAST%20DIN7258%20BEIGE%205A.jpg" },
+                                { name: "FUSE MINI FAST BRUIN 7,5A", pn: "8JS 728 596-891", specs: "HELLA", unit: "REF/5pcs", img: "https://matecocloud-my.sharepoint.com/personal/kenny_phlips_tvhequipment_com/Documents/Bureaublad/OPERATIONS/APP%20BIB/AFBEELDINGEN/FUSES/MINI%20FAST%20DIN%2072581/FUSE%20MINI%20FAST%20DIN7258%20BRUIN%207.5A%20.jpg" },
+                                { name: "FUSE MINI FAST ROOD 10A",   pn: "8JS 728 596-821", specs: "HELLA", unit: "REF/5pcs", img: "https://matecocloud-my.sharepoint.com/personal/kenny_phlips_tvhequipment_com/Documents/Bureaublad/OPERATIONS/APP%20BIB/AFBEELDINGEN/FUSES/MINI%20FAST%20DIN%2072581/FUSE%20MINI%20FAST%20DIN7258%20ROOD%2010A.jpg" },
+                                { name: "FUSE MINI FAST BLAUW 15A",  pn: "8JS 728 596-831", specs: "HELLA", unit: "REF/5pcs", img: "https://matecocloud-my.sharepoint.com/personal/kenny_phlips_tvhequipment_com/Documents/Bureaublad/OPERATIONS/APP%20BIB/AFBEELDINGEN/FUSES/MINI%20FAST%20DIN%2072581/FUSE%20MINI%20FAST%20DIN7258%20BLAUW%2015A.jpg" },
+                                { name: "FUSE MINI FAST GEEL 20A",   pn: "8JS 728 596-841", specs: "HELLA", unit: "REF/5pcs", img: "https://matecocloud-my.sharepoint.com/personal/kenny_phlips_tvhequipment_com/Documents/Bureaublad/OPERATIONS/APP%20BIB/AFBEELDINGEN/FUSES/MINI%20FAST%20DIN%2072581/FUSE%20MINI%20FAST%20DIN7258%20GEEL%2020A%20.jpg" },
+                                { name: "FUSE MINI FAST WIT 25A",    pn: "8JS 728 596-871", specs: "HELLA", unit: "REF/5pcs", img: "https://matecocloud-my.sharepoint.com/personal/kenny_phlips_tvhequipment_com/Documents/Bureaublad/OPERATIONS/APP%20BIB/AFBEELDINGEN/FUSES/MINI%20FAST%20DIN%2072581/FUSE%20MINI%20FAST%20DIN7258%20WIT%2025A.jpg" },
+                                { name: "FUSE MINI FAST GROEN 30A",  pn: "8JS 728 596-851", specs: "HELLA", unit: "REF/5pcs", img: "https://matecocloud-my.sharepoint.com/personal/kenny_phlips_tvhequipment_com/Documents/Bureaublad/OPERATIONS/APP%20BIB/AFBEELDINGEN/FUSES/MINI%20FAST%20DIN%2072581/FUSE%20MINI%20FAST%20DIN7258%20GROEN%2030A.jpg" }
+                            ]
+                        },
+                        "FUSE MEDIUM ATO FAST DIN72581": {
+                            img: "https://loremflickr.com/320/240/fuse",
+                            sub: [
+                                { name: "FUSE MEDIUM ATO FAST ZWART 1A",    pn: "8JS 711 683-831", specs: "HELLA", unit: "REF/5pc" },
+                                { name: "FUSE MEDIUM ATO FAST GRIJS 2A",    pn: "8JS 711 683-841", specs: "HELLA", unit: "REF/5pc" },
+                                { name: "FUSE MEDIUM ATO FAST LILA 3A",     pn: "8JS 711 683-821", specs: "HELLA", unit: "REF/5pc" },
+                                { name: "FUSE MEDIUM ATO FAST ROSE 4A",     pn: "8JS 711 683-881", specs: "HELLA", unit: "REF/5pc" },
+                                { name: "FUSE MEDIUM ATO FAST BEIGE 5A",    pn: "8JS 711 684-821", specs: "HELLA", unit: "REF/5pc" },
+                                { name: "FUSE MEDIUM ATO FAST BRUIN 7,5A",  pn: "8JS 711 685-821", specs: "HELLA", unit: "REF/5pc" },
+                                { name: "FUSE MEDIUM ATO FAST ROOD 10A",    pn: "8JS 711 686-821", specs: "HELLA", unit: "REF/5pc" },
+                                { name: "FUSE MEDIUM ATO FAST BLAUW 15A",   pn: "8JS 711 687-821", specs: "HELLA", unit: "REF/5pc" },
+                                { name: "FUSE MEDIUM ATO FAST GEEL 20A",    pn: "8JS 711 688-821", specs: "HELLA", unit: "REF/5pc" },
+                                { name: "FUSE MEDIUM ATO FAST WIT 25A",     pn: "8JS 711 689-821", specs: "HELLA", unit: "REF/5pc" },
+                                { name: "FUSE MEDIUM ATO FAST GROEN 30A",   pn: "8JS 711 690-821", specs: "HELLA", unit: "REF/5pc" },
+                                { name: "FUSE MEDIUM ATO FAST BLAUW 35A",   pn: "8JS 711 683-042", specs: "HELLA", unit: "REF/5pc" },
+                                { name: "FUSE MEDIUM ATO FAST ORANJE 40A",  pn: "8JS 711 683-851", specs: "HELLA", unit: "REF/5pc" }
+                            ]
+                        },
+                        "ZEKERINGHOUDER ATO": {
+                            img: "https://loremflickr.com/320/240/fuse",
+                            sub: [
+                                { name: "ZKH ATO SPATWATER 20A 1,3mm²", pn: "8JD 743 557-021", specs: "HELLA", unit: "REF/1pc" },
+                                { name: "ZKH ATO SPATWATER 30A 3,3mm²", pn: "8JD 743 557-031", specs: "HELLA", unit: "REF/1pc" }
+                            ]
+                        },
+                        "FUSE MAXI FAST DIN72581": {
+                            img: "https://loremflickr.com/320/240/fuse",
+                            sub: [
+                                { name: "FUSE MAXI FAST GEEL 20A",    pn: "127TA2128",       specs: "TVH",   unit: "REF/100pc" },
+                                { name: "FUSE MAXI FAST GROEN 30A",   pn: "8JS 728 595-061", specs: "HELLA", unit: "REF/1pc" },
+                                { name: "FUSE MAXI FAST ORANJE 40A",  pn: "8JS 728 595-071", specs: "HELLA", unit: "REF/1pc" },
+                                { name: "FUSE MAXI FAST ROOD 50A",    pn: "8JS 728 595-081", specs: "HELLA", unit: "REF/1pc" },
+                                { name: "FUSE MAXI FAST BLAUW 60A",   pn: "8JS 728 595-091", specs: "HELLA", unit: "REF/1pc" },
+                                { name: "FUSE MAXI FAST BRUIN 70A",   pn: "8JS 728 595-101", specs: "HELLA", unit: "REF/1pc" },
+                                { name: "FUSE MAXI FAST WIT 80A",     pn: "8JS 728 595-111", specs: "HELLA", unit: "REF/1pc" },
+                                { name: "FUSE MAXI FAST 100A",        pn: "127TA2138",       specs: "TVH",   unit: "REF/100pc" }
+                            ]
+                        },
+                        "ZEKERINGHOUDER MAXI": {
+                            img: "https://loremflickr.com/320/240/fuse",
+                            sub: [
+                                { name: "ZKH MAXI SPATWATER 60A 2,5-10mm²", pn: "8JD 743 708-001", specs: "HELLA", unit: "REF/1pc" },
+                                { name: "ZKH MAXI 20-80A 4-6mm²",           pn: "8JD 743 710-001", specs: "HELLA", unit: "REF/1pc" },
+                                { name: "ZKH MAXI 20-80A 6-10mm²",          pn: "8JD 743 709-001", specs: "HELLA", unit: "REF/1pc" }
+                            ]
+                        }
+                    }
+                },
+                "BULBS": {
+                    img: "https://loremflickr.com/320/240/lightbulb",
+                    sub: {
+                        "HALOGEN 12V": {
+                            img: "https://loremflickr.com/320/240/halogen",
+                            sub: [
+                                { name: "H1 HALOGEN BULB 12V 55W WIT",      pn: "8JS 728 596-262", specs: "HELLA | H1",  unit: "REF/PCS" },
+                                { name: "H3 HALOGEN BULB 12V 55W WIT",      pn: "8GH 980 333-001", specs: "HELLA | H3",  unit: "REF/PCS" },
+                                { name: "H4 HALOGEN BULB 12V 60/55W WIT",   pn: "GJ 980 324-001",  specs: "HELLA | H4",  unit: "REF/PCS" },
+                                { name: "H7 HALOGEN BULB 12V 55W WIT",      pn: "8GH 007 157-131", specs: "HELLA | H7",  unit: "REF/PCS" },
+                                { name: "H1 HALOGEN BULB 12V 55W WIT",      pn: "8GH 002 089-127", specs: "HELLA | H1",  unit: "REF/10pcs" },
+                                { name: "H3 HALOGEN BULB 12V 55W WIT",      pn: "8GH 002 090-147", specs: "HELLA | H3",  unit: "REF/10pcs" },
+                                { name: "H4 HALOGEN BULB 12V 60/55W WIT",   pn: "8GJ 980 324-007", specs: "HELLA | H4",  unit: "REF/10pcs" },
+                                { name: "H7 HALOGEN BULB 12V 55W WIT",      pn: "8GH 007 157-137", specs: "HELLA | H7",  unit: "REF/10pcs" }
+                            ]
+                        },
+                        "SIGNAL & MARKER": {
+                            img: "https://loremflickr.com/320/240/indicator",
+                            sub: [
+                                { name: "BAYONET 12V 21W BA15s WIT",        pn: "8GA 002 073-163", specs: "HELLA | BA15s",   unit: "REF/PCS" },
+                                { name: "BAYONET 24V 21W BA15s WIT",        pn: "8GA 002 072-243", specs: "HELLA | BA15s",   unit: "REF/PCS" },
+                                { name: "BAYONET 24V 18W BA15s WIT",        pn: "8GA 002 072-243", specs: "HELLA | BA15s 18W", unit: "REF/PCS" },
+                                { name: "BAYONET 12V 21W BAU15s AMBER",     pn: "8GA 006 841-124", specs: "HELLA | BAU15s",  unit: "REF/PCS" },
+                                { name: "BAYONET 24V 21W BAU15s AMBER",     pn: "8GA 006 841-242", specs: "HELLA | BAU15s",  unit: "REF/PCS" },
+                                { name: "BAYONET 12V 21W BA15d WIT",        pn: "8GA 002 073-282", specs: "HELLA | BA15d",   unit: "REF/PCS" },
+                                { name: "BAYONET 12V 5W BAW15d ROOD",       pn: "8GD 002 078-401", specs: "HELLA | BAW15d",  unit: "REF/PCS" },
+                                { name: "BAYONET 12V 21/5W BAY15d WIT",     pn: "8GD 980 329-001", specs: "HELLA | BAY15d",  unit: "REF/PCS" },
+                                { name: "BAYONET 24V 21/5W BAY15d WIT",     pn: "8GD 002 078-242", specs: "HELLA | BAY15d",  unit: "REF/PCS" },
+                                { name: "BAYONET 12V 21W BA15s WIT",        pn: "8GA 002 073-168", specs: "HELLA | BA15s",   unit: "REF/10pcs" },
+                                { name: "BAYONET 24V 21W BA15s WIT",        pn: "8GA 002 073-247", specs: "HELLA | BA15s",   unit: "REF/10pcs" },
+                                { name: "BAYONET 12V 21W BAU15s AMBER",     pn: "8GA 006 841-127", specs: "HELLA | BAU15s",  unit: "REF/10pcs" },
+                                { name: "BAYONET 12V 21/5W BAY15d WIT",     pn: "8GD 980 329-007", specs: "HELLA | BAY15d",  unit: "REF/10pcs" },
+                                { name: "BAYONET 24V 21/5W BAY15d WIT",     pn: "8GD 980 329-021", specs: "HELLA | BAY15d",  unit: "REF/10pcs" }
+                            ]
+                        },
+                        "HALOGEN INTERIOR": {
+                            img: "https://loremflickr.com/320/240/interior,lamp",
+                            sub: [
+                                { name: "HALOGEN INTERIOR 12V 5W BA9s WIT",  pn: "8GH 002 473-512", specs: "HELLA | BA9s",  unit: "REF/PCS" },
+                                { name: "HALOGEN INTERIOR 12V 10W BA9s WIT", pn: "8GH 002 473-221", specs: "HELLA | BA9s",  unit: "REF/PCS" },
+                                { name: "HALOGEN INTERIOR 12V 20W BA9s WIT", pn: "8GH 002 473-134", specs: "HELLA | BA9s",  unit: "REF/PCS" },
+                                { name: "HALOGEN INTERIOR 12V 6W BAX9s WIT", pn: "8GH 007 643-123", specs: "HELLA | BAX9s", unit: "REF/PCS" }
+                            ]
+                        },
+                        "SINGLE FILAMENT": {
+                            img: "https://loremflickr.com/320/240/bulb",
+                            sub: [
+                                { name: "SINGLE FILAMENT 12V 21W BAY9s WIT", pn: "8GH 008 417-003", specs: "HELLA | BAY9s", unit: "REF/PCS" },
+                                { name: "SINGLE FILAMENT 24V 21W BAY9s WIT", pn: "8GH 008 417-052", specs: "HELLA | BAY9s", unit: "REF/PCS" }
+                            ]
+                        }
+                    }
+                },
+                "BATTERIJEN": {
+                    img: "https://loremflickr.com/320/240/battery",
+                    sub: {
+                        "VARTA": {
+                            img: "https://loremflickr.com/320/240/varta,battery",
+                            sub: [
+                                { name: "AA Alkaline",  pn: "VT_VAA",   specs: "Varta" },
+                                { name: "AAA Alkaline", pn: "VT_VAAA",  specs: "Varta" },
+                                { name: "CR2032",       pn: "VT_V2032", specs: "Knoopcel" }
                             ]
                         }
                     }
@@ -187,19 +314,6 @@
                 }
             }
         },
-        "BATTERIJEN": {
-            img: "https://loremflickr.com/320/240/varta",
-            sub: {
-                "VARTA": {
-                    img: "https://loremflickr.com/320/240/battery",
-                    sub: [
-                        { name: "AA Alkaline", pn: "VAA", specs: "Varta" },
-                        { name: "AAA Alkaline", pn: "VAAA", specs: "Varta" },
-                        { name: "CR2032", pn: "V2032", specs: "Knoopcel" }
-                    ]
-                }
-            }
-        }
     };
 
     let winkelwagen = [];
