@@ -115,7 +115,7 @@
 </div>
 
 <script>
-    const PREFIXES = { "ELECTRONICS": "", "FASTENERS": "FD_", "CHEMIE": "CT_", "BATTERIJEN": "VT_" };
+    const PREFIXES = { "ELECTRONICS": "", "FASTENERS": "FD_", "CHEMIE": "CT_" };
 
     const DATA = {
         "ELECTRONICS": {
@@ -201,6 +201,72 @@
                             ]
                         }
                     }
+                },
+                "BULBS": {
+                    img: "https://loremflickr.com/320/240/lightbulb",
+                    sub: {
+                        "HALOGEN 12V": {
+                            img: "https://loremflickr.com/320/240/halogen",
+                            sub: [
+                                { name: "H1 HALOGEN BULB 12V 55W WIT",      pn: "8JS 728 596-262", specs: "HELLA | H1",  unit: "REF/PCS" },
+                                { name: "H3 HALOGEN BULB 12V 55W WIT",      pn: "8GH 980 333-001", specs: "HELLA | H3",  unit: "REF/PCS" },
+                                { name: "H4 HALOGEN BULB 12V 60/55W WIT",   pn: "GJ 980 324-001",  specs: "HELLA | H4",  unit: "REF/PCS" },
+                                { name: "H7 HALOGEN BULB 12V 55W WIT",      pn: "8GH 007 157-131", specs: "HELLA | H7",  unit: "REF/PCS" },
+                                { name: "H1 HALOGEN BULB 12V 55W WIT",      pn: "8GH 002 089-127", specs: "HELLA | H1",  unit: "REF/10pcs" },
+                                { name: "H3 HALOGEN BULB 12V 55W WIT",      pn: "8GH 002 090-147", specs: "HELLA | H3",  unit: "REF/10pcs" },
+                                { name: "H4 HALOGEN BULB 12V 60/55W WIT",   pn: "8GJ 980 324-007", specs: "HELLA | H4",  unit: "REF/10pcs" },
+                                { name: "H7 HALOGEN BULB 12V 55W WIT",      pn: "8GH 007 157-137", specs: "HELLA | H7",  unit: "REF/10pcs" }
+                            ]
+                        },
+                        "SIGNAL & MARKER": {
+                            img: "https://loremflickr.com/320/240/indicator",
+                            sub: [
+                                { name: "BAYONET 12V 21W BA15s WIT",        pn: "8GA 002 073-163", specs: "HELLA | BA15s",   unit: "REF/PCS" },
+                                { name: "BAYONET 24V 21W BA15s WIT",        pn: "8GA 002 072-243", specs: "HELLA | BA15s",   unit: "REF/PCS" },
+                                { name: "BAYONET 24V 18W BA15s WIT",        pn: "8GA 002 072-243", specs: "HELLA | BA15s 18W", unit: "REF/PCS" },
+                                { name: "BAYONET 12V 21W BAU15s AMBER",     pn: "8GA 006 841-124", specs: "HELLA | BAU15s",  unit: "REF/PCS" },
+                                { name: "BAYONET 24V 21W BAU15s AMBER",     pn: "8GA 006 841-242", specs: "HELLA | BAU15s",  unit: "REF/PCS" },
+                                { name: "BAYONET 12V 21W BA15d WIT",        pn: "8GA 002 073-282", specs: "HELLA | BA15d",   unit: "REF/PCS" },
+                                { name: "BAYONET 12V 5W BAW15d ROOD",       pn: "8GD 002 078-401", specs: "HELLA | BAW15d",  unit: "REF/PCS" },
+                                { name: "BAYONET 12V 21/5W BAY15d WIT",     pn: "8GD 980 329-001", specs: "HELLA | BAY15d",  unit: "REF/PCS" },
+                                { name: "BAYONET 24V 21/5W BAY15d WIT",     pn: "8GD 002 078-242", specs: "HELLA | BAY15d",  unit: "REF/PCS" },
+                                { name: "BAYONET 12V 21W BA15s WIT",        pn: "8GA 002 073-168", specs: "HELLA | BA15s",   unit: "REF/10pcs" },
+                                { name: "BAYONET 24V 21W BA15s WIT",        pn: "8GA 002 073-247", specs: "HELLA | BA15s",   unit: "REF/10pcs" },
+                                { name: "BAYONET 12V 21W BAU15s AMBER",     pn: "8GA 006 841-127", specs: "HELLA | BAU15s",  unit: "REF/10pcs" },
+                                { name: "BAYONET 12V 21/5W BAY15d WIT",     pn: "8GD 980 329-007", specs: "HELLA | BAY15d",  unit: "REF/10pcs" },
+                                { name: "BAYONET 24V 21/5W BAY15d WIT",     pn: "8GD 980 329-021", specs: "HELLA | BAY15d",  unit: "REF/10pcs" }
+                            ]
+                        },
+                        "HALOGEN INTERIOR": {
+                            img: "https://loremflickr.com/320/240/interior,lamp",
+                            sub: [
+                                { name: "HALOGEN INTERIOR 12V 5W BA9s WIT",  pn: "8GH 002 473-512", specs: "HELLA | BA9s",  unit: "REF/PCS" },
+                                { name: "HALOGEN INTERIOR 12V 10W BA9s WIT", pn: "8GH 002 473-221", specs: "HELLA | BA9s",  unit: "REF/PCS" },
+                                { name: "HALOGEN INTERIOR 12V 20W BA9s WIT", pn: "8GH 002 473-134", specs: "HELLA | BA9s",  unit: "REF/PCS" },
+                                { name: "HALOGEN INTERIOR 12V 6W BAX9s WIT", pn: "8GH 007 643-123", specs: "HELLA | BAX9s", unit: "REF/PCS" }
+                            ]
+                        },
+                        "SINGLE FILAMENT": {
+                            img: "https://loremflickr.com/320/240/bulb",
+                            sub: [
+                                { name: "SINGLE FILAMENT 12V 21W BAY9s WIT", pn: "8GH 008 417-003", specs: "HELLA | BAY9s", unit: "REF/PCS" },
+                                { name: "SINGLE FILAMENT 24V 21W BAY9s WIT", pn: "8GH 008 417-052", specs: "HELLA | BAY9s", unit: "REF/PCS" }
+                            ]
+                        }
+                    }
+                },
+                "BATTERIJEN": {
+                    img: "https://loremflickr.com/320/240/battery",
+                    sub: {
+                        "VARTA": {
+                            img: "https://loremflickr.com/320/240/varta,battery",
+                            sub: [
+                                { name: "AA Alkaline",  pn: "VT_VAA",   specs: "Varta" },
+                                { name: "AAA Alkaline", pn: "VT_VAAA",  specs: "Varta" },
+                                { name: "CR2032",       pn: "VT_V2032", specs: "Knoopcel" }
+                            ]
+                        }
+                    }
                 }
             }
         },
@@ -248,19 +314,6 @@
                 }
             }
         },
-        "BATTERIJEN": {
-            img: "https://loremflickr.com/320/240/varta",
-            sub: {
-                "VARTA": {
-                    img: "https://loremflickr.com/320/240/battery",
-                    sub: [
-                        { name: "AA Alkaline", pn: "VAA", specs: "Varta" },
-                        { name: "AAA Alkaline", pn: "VAAA", specs: "Varta" },
-                        { name: "CR2032", pn: "V2032", specs: "Knoopcel" }
-                    ]
-                }
-            }
-        }
     };
 
     let winkelwagen = [];
