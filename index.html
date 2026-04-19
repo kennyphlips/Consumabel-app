@@ -93,10 +93,6 @@
         .lang-btn.active { background: #1a73e8; color: white; border-color: #1a73e8; }
         .lang-btn:focus-visible { outline: 2px solid #1a73e8; outline-offset: 2px; }
 
-        .mail-method-toggle { display: flex; gap: 6px; margin-bottom: 8px; }
-        .method-btn { flex: 1; background: var(--container-bg); border: 1.5px solid var(--card-border); color: var(--muted-color); font-size: 12px; font-weight: bold; padding: 8px; border-radius: 10px; cursor: pointer; box-shadow: 0 2px 6px rgba(0,0,0,0.15); transition: background 0.15s, color 0.15s, border-color 0.15s; }
-        .method-btn.active { background: #1a73e8; color: white; border-color: #1a73e8; }
-        .method-btn:focus-visible { outline: 2px solid #1a73e8; outline-offset: 2px; }
     </style>
 </head>
 <body>
@@ -133,10 +129,6 @@
 </div>
 
 <div class="footer-btn">
-    <div class="mail-method-toggle">
-        <button id="method-mailto" type="button" class="method-btn active" onclick="setMailMethode('mailto')">📧 Mail app</button>
-        <button id="method-outlook" type="button" class="method-btn" onclick="setMailMethode('outlook')">🌐 Outlook Web</button>
-    </div>
     <button id="sendBtn" type="button" class="send-btn" onclick="verstuurBestelling()" disabled>
         <span id="sendBtnText">📧 BESTELLING VERSTUREN</span><span id="cartBadge" class="cart-badge">0</span>
     </button>
@@ -651,7 +643,6 @@
     let winkelwagen = [];
     let navigatiePad = [];
     let huidigeTaal = "NL";
-    let mailMethode  = "mailto";
 
     window.onload = () => {
         const opgeslagenNaam = localStorage.getItem("magazijnUser");
@@ -662,21 +653,12 @@
         if (opgeslagenWagen) { try { winkelwagen = JSON.parse(opgeslagenWagen); } catch(e) { winkelwagen = []; } }
         const opgeslagenTaal = localStorage.getItem("magazijnTaal");
         if (opgeslagenTaal && TAAL[opgeslagenTaal]) huidigeTaal = opgeslagenTaal;
-        const opgeslagenMethode = localStorage.getItem("magazijnMailMethode");
-        if (opgeslagenMethode === "outlook" || opgeslagenMethode === "mailto") mailMethode = opgeslagenMethode;
-        setMailMethode(mailMethode);
         setTaal(huidigeTaal);
     };
 
     function saveUser() { localStorage.setItem("magazijnUser", document.getElementById("userName").value); }
     function saveExtraInfo() { localStorage.setItem("magazijnExtraInfo", document.getElementById("extraInfo").value); }
     function saveWinkelwagen() { localStorage.setItem("magazijnWinkelwagen", JSON.stringify(winkelwagen)); }
-
-    function setMailMethode(methode) {
-        mailMethode = methode;
-        localStorage.setItem("magazijnMailMethode", methode);
-        ["mailto", "outlook"].forEach(m => document.getElementById(`method-${m}`).classList.toggle("active", m === methode));
-    }
 
     function setTaal(code) {
         huidigeTaal = code;
@@ -976,17 +958,10 @@
         if (bevestiging) {
             const mail = "request.backoffice@tvhequipment.com";
             const onderwerp = T.mail_onderwerp(name);
-            if (mailMethode === "outlook") {
-                let body = `${T.mail_technieker}: ${name}\n\n${T.mail_artikelen}:\n`;
-                winkelwagen.forEach(item => { body += `${item.aantal}x - ${item.id}\n`; });
-                if (extraInfo) body += `\n${T.mail_info}: ${extraInfo}`;
-                window.open(`https://outlook.office.com/mail/deeplink/compose?to=${encodeURIComponent(mail)}&subject=${encodeURIComponent(onderwerp)}&body=${encodeURIComponent(body)}`, '_blank');
-            } else {
-                let body = `${T.mail_technieker}: ${name}\r\n\r\n${T.mail_artikelen}:\r\n`;
-                winkelwagen.forEach(item => { body += `${item.aantal}x - ${item.id}\r\n`; });
-                if (extraInfo) body += `\r\n${T.mail_info}: ${extraInfo}`;
-                window.location.href = `mailto:${mail}?subject=${encodeURIComponent(onderwerp)}&body=${encodeURIComponent(body)}`;
-            }
+            let body = `${T.mail_technieker}: ${name}\n\n${T.mail_artikelen}:\n`;
+            winkelwagen.forEach(item => { body += `${item.aantal}x - ${item.id}\n`; });
+            if (extraInfo) body += `\n${T.mail_info}: ${extraInfo}`;
+            window.open(`https://outlook.office.com/mail/deeplink/compose?to=${encodeURIComponent(mail)}&subject=${encodeURIComponent(onderwerp)}&body=${encodeURIComponent(body)}`, '_blank');
         }
     }
 </script>
