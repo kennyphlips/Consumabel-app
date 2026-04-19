@@ -65,7 +65,10 @@
         .empty-msg { text-align: center; color: var(--muted-color); padding: 20px 0; font-size: 13px; grid-column: 1 / -1; margin: 0; }
 
         .order-list { margin-top: 25px; border-top: 3px solid #1a73e8; padding-top: 15px; }
-        .cart-header { font-size: 12px; font-weight: bold; color: #1a73e8; text-transform: uppercase; margin-bottom: 8px; letter-spacing: 0.5px; }
+        .cart-header { font-size: 12px; font-weight: bold; color: #1a73e8; text-transform: uppercase; margin-bottom: 8px; letter-spacing: 0.5px; display: flex; justify-content: space-between; align-items: center; }
+        .clear-cart-btn { background: none; border: none; color: var(--muted-color); font-size: 11px; cursor: pointer; padding: 2px 6px; border-radius: 4px; }
+        .clear-cart-btn:hover { color: #dc3545; }
+        .clear-cart-btn:focus-visible { outline: 2px solid #1a73e8; outline-offset: 2px; }
         .winkelmand-item { background: var(--nav-bg); padding: 10px; margin-bottom: 8px; border-radius: 8px; display: flex; justify-content: space-between; border: 1px solid var(--card-border); align-items: center; font-size: 12px; color: var(--text-color); }
         .winkelmand-item-naam { flex: 1; min-width: 0; margin-right: 8px; word-break: break-word; }
         .qty-controls { display: flex; align-items: center; gap: 8px; flex-shrink: 0; }
@@ -105,7 +108,10 @@
     <div id="itemGrid" class="grid"></div>
 
     <div class="order-list">
-        <div class="cart-header">🛒 Winkelwagen</div>
+        <div class="cart-header">
+            <span>🛒 Winkelwagen</span>
+            <button type="button" class="clear-cart-btn" onclick="leegmakenWinkelwagen()" aria-label="Winkelwagen leegmaken">✕ Leegmaken</button>
+        </div>
         <div id="selectedItems"></div>
         <textarea id="extraInfo" rows="2" placeholder="EXTRA INFO (Machine nr, opmerking...)" oninput="saveExtraInfo()"></textarea>
     </div>
@@ -118,7 +124,7 @@
 </div>
 
 <script>
-    const PREFIXES = { "ELECTRONICS": "", "FASTENERS": "FD_", "CHEMIE": "CT_" };
+    const PREFIXES = { "ELECTRONICS": "", "FASTENERS": "FD_", "CHEMIE": "CT_", "BATTERIJEN": "VT_", "DISPATCH": "DS_" };
 
     const DATA = {
         "ELECTRONICS": {
@@ -249,19 +255,6 @@
                         }
                     }
                 },
-                "BATTERIJEN": {
-                    img: "images/cat-batterijen.jpg",
-                    sub: {
-                        "VARTA": {
-                            img: "images/cat-varta.jpg",
-                            sub: [
-                                { name: "AA Alkaline",  pn: "VT_VAA",   specs: "Varta" },
-                                { name: "AAA Alkaline", pn: "VT_VAAA",  specs: "Varta" },
-                                { name: "CR2032",       pn: "VT_V2032", specs: "Knoopcel" }
-                            ]
-                        }
-                    }
-                }
             }
         },
         "FASTENERS": {
@@ -270,27 +263,27 @@
                 "BOUTEN": {
                     img: "images/cat-bouten.jpg",
                     sub: [
-                        { name: "Zeskant M8x30", pn: "933-08-30", specs: "8.8 Verzinkt" },
-                        { name: "Zeskant M10x40", pn: "933-10-40", specs: "8.8 Verzinkt" },
-                        { name: "Inbus M6x20", pn: "912-06-20", specs: "DIN 912" },
-                        { name: "Inbus M8x30", pn: "912-08-30", specs: "DIN 912" }
+                        { name: "ZESKANT M8x30",  pn: "933-08-30", specs: "8.8 Verzinkt", unit: "REF/1pc" },
+                        { name: "ZESKANT M10x40", pn: "933-10-40", specs: "8.8 Verzinkt", unit: "REF/1pc" },
+                        { name: "INBUS M6x20",    pn: "912-06-20", specs: "DIN 912",       unit: "REF/1pc" },
+                        { name: "INBUS M8x30",    pn: "912-08-30", specs: "DIN 912",       unit: "REF/1pc" }
                     ]
                 },
                 "MOEREN": {
                     img: "images/cat-moeren.jpg",
                     sub: [
-                        { name: "M8 Borgmoer", pn: "985-08", specs: "DIN 985" },
-                        { name: "M10 Borgmoer", pn: "985-10", specs: "DIN 985" },
-                        { name: "M8 Lage Moer", pn: "439-08", specs: "DIN 439 (Plat)" },
-                        { name: "M10 Lage Moer", pn: "439-10", specs: "DIN 439" }
+                        { name: "M8 BORGMOER",   pn: "985-08", specs: "DIN 985",       unit: "REF/1pc" },
+                        { name: "M10 BORGMOER",  pn: "985-10", specs: "DIN 985",       unit: "REF/1pc" },
+                        { name: "M8 LAGE MOER",  pn: "439-08", specs: "DIN 439 Plat",  unit: "REF/1pc" },
+                        { name: "M10 LAGE MOER", pn: "439-10", specs: "DIN 439",       unit: "REF/1pc" }
                     ]
                 },
-                "REVETTEN / RINGEN": {
+                "RINGEN / SLUITRINGEN": {
                     img: "images/cat-ringen.jpg",
                     sub: [
-                        { name: "M8 Sluitring", pn: "125-08", specs: "DIN 125A" },
-                        { name: "M10 Sluitring", pn: "125-10", specs: "DIN 125A" },
-                        { name: "M8 Vlootring Breed", pn: "9021-08", specs: "DIN 9021" }
+                        { name: "M8 SLUITRING",       pn: "125-08",  specs: "DIN 125A", unit: "REF/1pc" },
+                        { name: "M10 SLUITRING",      pn: "125-10",  specs: "DIN 125A", unit: "REF/1pc" },
+                        { name: "M8 VLAKRING BREED",  pn: "9021-08", specs: "DIN 9021", unit: "REF/1pc" }
                     ]
                 }
             }
@@ -301,9 +294,39 @@
                 "LOCTITE / INNOTEC": {
                     img: "images/cat-loctite.jpg",
                     sub: [
-                        { name: "Loctite 243", pn: "243", specs: "Borgmiddel" },
-                        { name: "Brake Clean", pn: "BC", specs: "Innotec" },
-                        { name: "High-Tef Oil", pn: "HTO", specs: "Innotec" }
+                        { name: "LOCTITE 243",   pn: "243", specs: "Borgmiddel medium sterk", unit: "REF/1pc" },
+                        { name: "BRAKE CLEAN",   pn: "BC",  specs: "Innotec remmenreiniger",   unit: "REF/1pc" },
+                        { name: "HIGH-TEF OIL",  pn: "HTO", specs: "Innotec PTFE smeermiddel", unit: "REF/1pc" }
+                    ]
+                }
+            }
+        },
+        "BATTERIJEN": {
+            img: "images/cat-batterijen.jpg",
+            sub: {
+                "VARTA": {
+                    img: "images/cat-varta.jpg",
+                    sub: [
+                        { name: "AA ALKALINE",  pn: "VAA",   specs: "Varta Industrial", unit: "REF/1pc" },
+                        { name: "AAA ALKALINE", pn: "VAAA",  specs: "Varta Industrial", unit: "REF/1pc" },
+                        { name: "CR2032",       pn: "V2032", specs: "Knoopcel 3V",      unit: "REF/1pc" }
+                    ]
+                }
+            }
+        },
+        "DISPATCH": {
+            img: "images/cat-dispatch.jpg",
+            sub: {
+                "VERPAKKING": {
+                    img: "images/cat-verpakking.jpg",
+                    sub: [
+                        // Voeg hier dispatch/verpakkingsproducten toe
+                    ]
+                },
+                "LABELS & TAPE": {
+                    img: "images/cat-labels.jpg",
+                    sub: [
+                        // Voeg hier labels en tape toe
                     ]
                 }
             }
@@ -318,12 +341,15 @@
         if (opgeslagenNaam) document.getElementById("userName").value = opgeslagenNaam;
         const opgeslagenInfo = localStorage.getItem("magazijnExtraInfo");
         if (opgeslagenInfo) document.getElementById("extraInfo").value = opgeslagenInfo;
+        const opgeslagenWagen = localStorage.getItem("magazijnWinkelwagen");
+        if (opgeslagenWagen) { try { winkelwagen = JSON.parse(opgeslagenWagen); } catch(e) { winkelwagen = []; } }
         renderMenu();
         updateWinkelwagenLayout();
     };
 
     function saveUser() { localStorage.setItem("magazijnUser", document.getElementById("userName").value); }
     function saveExtraInfo() { localStorage.setItem("magazijnExtraInfo", document.getElementById("extraInfo").value); }
+    function saveWinkelwagen() { localStorage.setItem("magazijnWinkelwagen", JSON.stringify(winkelwagen)); }
 
     function renderMenu() {
         const grid = document.getElementById('itemGrid');
@@ -342,7 +368,10 @@
         if (Array.isArray(content)) {
             renderItems(content);
         } else {
-            Object.keys(content).forEach(sleutel => {
+            Object.keys(content).filter(sleutel => {
+                const sub = content[sleutel].sub;
+                return Array.isArray(sub) ? sub.length > 0 : sub && Object.keys(sub).length > 0;
+            }).forEach(sleutel => {
                 const div = document.createElement('div');
                 div.className = 'card';
                 div.tabIndex = 0;
@@ -499,6 +528,7 @@
         } else {
             winkelwagen.push({ id: volledigeNaam, aantal: 1 });
         }
+        saveWinkelwagen();
         updateWinkelwagenLayout();
     }
 
@@ -507,11 +537,20 @@
         if (winkelwagen[index].aantal <= 0) {
             verwijderItem(index);
         } else {
+            saveWinkelwagen();
             updateWinkelwagenLayout();
         }
     }
 
-    function verwijderItem(index) { winkelwagen.splice(index, 1); updateWinkelwagenLayout(); }
+    function verwijderItem(index) { winkelwagen.splice(index, 1); saveWinkelwagen(); updateWinkelwagenLayout(); }
+
+    function leegmakenWinkelwagen() {
+        if (winkelwagen.length === 0) return;
+        if (!confirm("Winkelwagen leegmaken?")) return;
+        winkelwagen = [];
+        saveWinkelwagen();
+        updateWinkelwagenLayout();
+    }
 
     function updateWinkelwagenLayout() {
         const lijst = document.getElementById('selectedItems');
@@ -586,13 +625,14 @@
         winkelwagen.forEach(item => { lijstTekstCheck += `${item.aantal}x - ${item.id}\n`; });
 
         const extraInfo = document.getElementById("extraInfo").value.trim();
-        const bevestiging = confirm(`Bestelling versturen voor ${name}?\n\nArtikelen:\n${lijstTekstCheck}\nInfo: ${extraInfo}`);
+        const infoLijn = extraInfo ? `\nInfo: ${extraInfo}` : "";
+        const bevestiging = confirm(`Bestelling versturen voor ${name}?\n\nArtikelen:\n${lijstTekstCheck}${infoLijn}`);
 
         if (bevestiging) {
             const mail = "request.backoffice@tvhequipment.com";
             let body = `TECHNIEKER: ${name}\r\n\r\nARTIKELEN:\r\n`;
             winkelwagen.forEach(item => { body += `${item.aantal}x - ${item.id}\r\n`; });
-            body += `\r\nINFO: ${extraInfo}`;
+            if (extraInfo) body += `\r\nINFO: ${extraInfo}`;
             window.location.href = `mailto:${mail}?subject=${encodeURIComponent(`Magazijn Bestelling - ${name}`)}&body=${encodeURIComponent(body)}`;
         }
     }
