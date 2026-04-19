@@ -124,7 +124,7 @@
 </div>
 
 <script>
-    const PREFIXES = { "ELECTRONICS": "", "FASTENERS": "FD_", "CHEMIE": "CT_", "BATTERIJEN": "VT_", "DISPATCH": "DS_" };
+    const PREFIXES = { "ELECTRONICS": "", "FASTENERS": "FD_", "CHEMIE": "CT_", "BATTERIJEN": "", "DISPATCH": "DS_" };
 
     const DATA = {
         "ELECTRONICS": {
@@ -366,9 +366,13 @@
                 "VARTA": {
                     img: "images/cat-varta.jpg",
                     sub: [
-                        { name: "AA ALKALINE",  pn: "VAA",   specs: "Varta Industrial", unit: "REF/1pc" },
-                        { name: "AAA ALKALINE", pn: "VAAA",  specs: "Varta Industrial", unit: "REF/1pc" },
-                        { name: "CR2032",       pn: "V2032", specs: "Knoopcel 3V",      unit: "REF/1pc" }
+                        { name: "CR2025",   specs: "3V | Knoopcel | Varta",   variants: [{ pn: "VB_2025",      unit: "REF/1pc"  }, { pn: "VB_CR2025",     unit: "REF/10pc" }] },
+                        { name: "CR2032",   specs: "3V | Knoopcel | Varta",   variants: [{ pn: "VB_CR2032G",   unit: "REF/1pc"  }, { pn: "VB_CR2032",     unit: "REF/10pc" }] },
+                        { name: "CR2430",   specs: "3V | Knoopcel | Varta",   pn: "VB_CR2430",     unit: "REF/1pc"  },
+                        { name: "AA LR6",   specs: "1,5V | Alkaline | Varta", pn: "BV_4006/40",    unit: "REF/40pc" },
+                        { name: "AAA LR03", specs: "1,5V | Alkaline | Varta", pn: "TVH_33650698G", unit: "REF/10pc" },
+                        { name: "6LR22",    specs: "9V | Blok | Varta",       pn: "VB_6LP3146",    unit: "REF/1pc"  },
+                        { name: "CR123A",   specs: "3V | Lithium | Varta",    pn: "VB_CR123A",     unit: "REF/1pc"  }
                     ]
                 }
             }
