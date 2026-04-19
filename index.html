@@ -87,6 +87,11 @@
 
         textarea { background: var(--input-bg); color: var(--text-color); border: 1px solid var(--card-border); font-family: inherit; width: 100%; border-radius: 8px; padding: 10px; box-sizing: border-box; margin-top: 10px; }
         textarea:focus { outline: 2px solid #1a73e8; outline-offset: 1px; }
+
+        .lang-switcher { display: flex; gap: 4px; flex-shrink: 0; }
+        .lang-btn { background: none; border: 1.5px solid var(--card-border); color: var(--muted-color); font-size: 11px; font-weight: bold; padding: 5px 9px; border-radius: 5px; cursor: pointer; transition: background 0.15s, color 0.15s, border-color 0.15s; }
+        .lang-btn.active { background: #1a73e8; color: white; border-color: #1a73e8; }
+        .lang-btn:focus-visible { outline: 2px solid #1a73e8; outline-offset: 2px; }
     </style>
 </head>
 <body>
@@ -103,14 +108,19 @@
     <div class="nav-bar">
         <button id="backBtn" type="button" class="back-btn" onclick="gaTerug()" style="display:none;" aria-label="Terug naar vorige categorie">⬅</button>
         <h1 id="titel">MAGAZIJN MASTER</h1>
+        <div class="lang-switcher">
+            <button id="lang-NL" type="button" class="lang-btn active" onclick="setTaal('NL')">NL</button>
+            <button id="lang-EN" type="button" class="lang-btn" onclick="setTaal('EN')">EN</button>
+            <button id="lang-FR" type="button" class="lang-btn" onclick="setTaal('FR')">FR</button>
+        </div>
     </div>
 
     <div id="itemGrid" class="grid"></div>
 
     <div class="order-list">
         <div class="cart-header">
-            <span>🛒 Winkelwagen</span>
-            <button type="button" class="clear-cart-btn" onclick="leegmakenWinkelwagen()" aria-label="Winkelwagen leegmaken">✕ Leegmaken</button>
+            <span id="cartHeaderTitle">🛒 Winkelwagen</span>
+            <button type="button" id="clearCartBtn" class="clear-cart-btn" onclick="leegmakenWinkelwagen()" aria-label="Winkelwagen leegmaken">✕ Leegmaken</button>
         </div>
         <div id="selectedItems"></div>
         <textarea id="extraInfo" rows="2" placeholder="EXTRA INFO (Machine nr, opmerking...)" oninput="saveExtraInfo()"></textarea>
@@ -119,11 +129,98 @@
 
 <div class="footer-btn">
     <button id="sendBtn" type="button" class="send-btn" onclick="verstuurBestelling()" disabled>
-        📧 BESTELLING VERSTUREN <span id="cartBadge" class="cart-badge">0</span>
+        <span id="sendBtnText">📧 BESTELLING VERSTUREN</span><span id="cartBadge" class="cart-badge">0</span>
     </button>
 </div>
 
 <script>
+    const TAAL = {
+        NL: {
+            naam_placeholder:  "UW NAAM...",
+            zoek_placeholder:  "🔍 ZOEK ARTIKEL OF P/N...",
+            extra_placeholder: "EXTRA INFO (Machine nr, opmerking...)",
+            categorieen:       "CATEGORIEËN",
+            zoekresultaten:    n => `ZOEKRESULTATEN (${n})`,
+            geen_resultaten:   "Geen resultaten gevonden.",
+            winkelwagen_titel: "🛒 Winkelwagen",
+            winkelwagen_leeg:  "Nog geen artikelen toegevoegd.",
+            verstuur_tekst:    "📧 BESTELLING VERSTUREN",
+            leegmaken_knop:    "✕ Leegmaken",
+            leegmaken_confirm: "Winkelwagen leegmaken?",
+            naam_alert:        "Vul je naam in!",
+            geen_art_alert:    "Geen artikelen geselecteerd!",
+            bevestig_titel:    naam => `Bestelling versturen voor ${naam}?`,
+            bevestig_art:      "Artikelen",
+            bevestig_info:     info => `\nInfo: ${info}`,
+            mail_onderwerp:    naam => `Magazijn Bestelling - ${naam}`,
+            mail_technieker:   "TECHNIEKER",
+            mail_artikelen:    "ARTIKELEN",
+            mail_info:         "INFO",
+            terug_aria:        "Terug naar vorige categorie",
+            voeg_toe_aria:     naam => `Voeg toe: ${naam}`,
+            minder_aria:       id => `Minder van ${id}`,
+            meer_aria:         id => `Meer van ${id}`,
+            verwijder_aria:    id => `Verwijder ${id}`,
+            leegmaken_aria:    "Winkelwagen leegmaken",
+        },
+        EN: {
+            naam_placeholder:  "YOUR NAME...",
+            zoek_placeholder:  "🔍 SEARCH ARTICLE OR P/N...",
+            extra_placeholder: "EXTRA INFO (Machine no., comment...)",
+            categorieen:       "CATEGORIES",
+            zoekresultaten:    n => `SEARCH RESULTS (${n})`,
+            geen_resultaten:   "No results found.",
+            winkelwagen_titel: "🛒 Cart",
+            winkelwagen_leeg:  "No items added yet.",
+            verstuur_tekst:    "📧 SEND ORDER",
+            leegmaken_knop:    "✕ Clear",
+            leegmaken_confirm: "Clear cart?",
+            naam_alert:        "Please fill in your name!",
+            geen_art_alert:    "No items selected!",
+            bevestig_titel:    naam => `Send order for ${naam}?`,
+            bevestig_art:      "Items",
+            bevestig_info:     info => `\nInfo: ${info}`,
+            mail_onderwerp:    naam => `Warehouse Order - ${naam}`,
+            mail_technieker:   "TECHNICIAN",
+            mail_artikelen:    "ITEMS",
+            mail_info:         "INFO",
+            terug_aria:        "Back to previous category",
+            voeg_toe_aria:     naam => `Add: ${naam}`,
+            minder_aria:       id => `Less of ${id}`,
+            meer_aria:         id => `More of ${id}`,
+            verwijder_aria:    id => `Remove ${id}`,
+            leegmaken_aria:    "Clear cart",
+        },
+        FR: {
+            naam_placeholder:  "VOTRE NOM...",
+            zoek_placeholder:  "🔍 RECHERCHER ARTICLE OU P/N...",
+            extra_placeholder: "INFO SUPPLÉMENTAIRE (N° machine, remarque...)",
+            categorieen:       "CATÉGORIES",
+            zoekresultaten:    n => `RÉSULTATS (${n})`,
+            geen_resultaten:   "Aucun résultat trouvé.",
+            winkelwagen_titel: "🛒 Panier",
+            winkelwagen_leeg:  "Aucun article ajouté.",
+            verstuur_tekst:    "📧 ENVOYER LA COMMANDE",
+            leegmaken_knop:    "✕ Vider",
+            leegmaken_confirm: "Vider le panier?",
+            naam_alert:        "Veuillez entrer votre nom!",
+            geen_art_alert:    "Aucun article sélectionné!",
+            bevestig_titel:    naam => `Envoyer la commande pour ${naam}?`,
+            bevestig_art:      "Articles",
+            bevestig_info:     info => `\nInfo: ${info}`,
+            mail_onderwerp:    naam => `Commande Entrepôt - ${naam}`,
+            mail_technieker:   "TECHNICIEN",
+            mail_artikelen:    "ARTICLES",
+            mail_info:         "INFO",
+            terug_aria:        "Retour à la catégorie précédente",
+            voeg_toe_aria:     naam => `Ajouter: ${naam}`,
+            minder_aria:       id => `Moins de ${id}`,
+            meer_aria:         id => `Plus de ${id}`,
+            verwijder_aria:    id => `Supprimer ${id}`,
+            leegmaken_aria:    "Vider le panier",
+        }
+    };
+
     const PREFIXES = { "ELECTRONICS": "", "FASTENERS": "FD_", "CHEMIE": "CT_", "BATTERIJEN": "", "DISPATCH": "DS_", "TOOLS": "" };
 
     const DATA = {
@@ -544,6 +641,7 @@
 
     let winkelwagen = [];
     let navigatiePad = [];
+    let huidigeTaal = "NL";
 
     window.onload = () => {
         const opgeslagenNaam = localStorage.getItem("magazijnUser");
@@ -552,13 +650,31 @@
         if (opgeslagenInfo) document.getElementById("extraInfo").value = opgeslagenInfo;
         const opgeslagenWagen = localStorage.getItem("magazijnWinkelwagen");
         if (opgeslagenWagen) { try { winkelwagen = JSON.parse(opgeslagenWagen); } catch(e) { winkelwagen = []; } }
-        renderMenu();
-        updateWinkelwagenLayout();
+        const opgeslagenTaal = localStorage.getItem("magazijnTaal");
+        if (opgeslagenTaal && TAAL[opgeslagenTaal]) huidigeTaal = opgeslagenTaal;
+        setTaal(huidigeTaal);
     };
 
     function saveUser() { localStorage.setItem("magazijnUser", document.getElementById("userName").value); }
     function saveExtraInfo() { localStorage.setItem("magazijnExtraInfo", document.getElementById("extraInfo").value); }
     function saveWinkelwagen() { localStorage.setItem("magazijnWinkelwagen", JSON.stringify(winkelwagen)); }
+
+    function setTaal(code) {
+        huidigeTaal = code;
+        localStorage.setItem("magazijnTaal", code);
+        const T = TAAL[code];
+        document.getElementById("userName").placeholder       = T.naam_placeholder;
+        document.getElementById("searchInput").placeholder    = T.zoek_placeholder;
+        document.getElementById("extraInfo").placeholder      = T.extra_placeholder;
+        document.getElementById("sendBtnText").textContent    = T.verstuur_tekst;
+        document.getElementById("cartHeaderTitle").textContent = T.winkelwagen_titel;
+        document.getElementById("clearCartBtn").textContent   = T.leegmaken_knop;
+        document.getElementById("clearCartBtn").setAttribute("aria-label", T.leegmaken_aria);
+        document.getElementById("backBtn").setAttribute("aria-label", T.terug_aria);
+        ["NL", "EN", "FR"].forEach(c => document.getElementById(`lang-${c}`).classList.toggle("active", c === code));
+        renderMenu();
+        updateWinkelwagenLayout();
+    }
 
     function renderMenu() {
         const grid = document.getElementById('itemGrid');
@@ -570,7 +686,7 @@
         let huidigeData = { sub: DATA };
         navigatiePad.forEach(stap => { huidigeData = huidigeData.sub[stap]; });
 
-        titel.textContent = navigatiePad.length > 0 ? navigatiePad[navigatiePad.length - 1] : "CATEGORIEËN";
+        titel.textContent = navigatiePad.length > 0 ? navigatiePad[navigatiePad.length - 1] : TAAL[huidigeTaal].categorieen;
         backBtn.style.display = navigatiePad.length > 0 ? 'block' : 'none';
 
         const content = huidigeData.sub || huidigeData;
@@ -608,7 +724,7 @@
         if (items.length === 0) {
             const msg = document.createElement('p');
             msg.className = 'empty-msg';
-            msg.textContent = 'Geen resultaten gevonden.';
+            msg.textContent = TAAL[huidigeTaal].geen_resultaten;
             grid.appendChild(msg);
             return;
         }
@@ -666,7 +782,7 @@
             addBtn.type = 'button';
             addBtn.className = 'add-row-btn';
             addBtn.textContent = '+';
-            addBtn.setAttribute('aria-label', `Voeg toe: ${item.name}`);
+            addBtn.setAttribute('aria-label', TAAL[huidigeTaal].voeg_toe_aria(item.name));
             row.appendChild(addBtn);
 
             const handler = () => {
@@ -708,7 +824,7 @@
         const grid = document.getElementById('itemGrid');
         grid.innerHTML = '';
         document.getElementById('backBtn').style.display = 'block';
-        document.getElementById('titel').textContent = `ZOEKRESULTATEN (${resultaten.length})`;
+        document.getElementById('titel').textContent = TAAL[huidigeTaal].zoekresultaten(resultaten.length);
         renderItems(resultaten);
     }
 
@@ -755,7 +871,7 @@
 
     function leegmakenWinkelwagen() {
         if (winkelwagen.length === 0) return;
-        if (!confirm("Winkelwagen leegmaken?")) return;
+        if (!confirm(TAAL[huidigeTaal].leegmaken_confirm)) return;
         winkelwagen = [];
         saveWinkelwagen();
         updateWinkelwagenLayout();
@@ -775,7 +891,7 @@
         if (winkelwagen.length === 0) {
             const leeg = document.createElement('p');
             leeg.className = 'cart-leeg';
-            leeg.textContent = 'Nog geen artikelen toegevoegd.';
+            leeg.textContent = TAAL[huidigeTaal].winkelwagen_leeg;
             lijst.appendChild(leeg);
             return;
         }
@@ -798,21 +914,21 @@
             minBtn.type = 'button';
             minBtn.className = 'qty-btn';
             minBtn.textContent = '-';
-            minBtn.setAttribute('aria-label', `Minder van ${item.id}`);
+            minBtn.setAttribute('aria-label', TAAL[huidigeTaal].minder_aria(item.id));
             minBtn.onclick = () => aanpassenAantal(index, -1);
 
             const plusBtn = document.createElement('button');
             plusBtn.type = 'button';
             plusBtn.className = 'qty-btn';
             plusBtn.textContent = '+';
-            plusBtn.setAttribute('aria-label', `Meer van ${item.id}`);
+            plusBtn.setAttribute('aria-label', TAAL[huidigeTaal].meer_aria(item.id));
             plusBtn.onclick = () => aanpassenAantal(index, 1);
 
             const delBtn = document.createElement('button');
             delBtn.type = 'button';
             delBtn.className = 'delete-btn';
             delBtn.textContent = '🗑️';
-            delBtn.setAttribute('aria-label', `Verwijder ${item.id}`);
+            delBtn.setAttribute('aria-label', TAAL[huidigeTaal].verwijder_aria(item.id));
             delBtn.onclick = () => verwijderItem(index);
 
             controls.appendChild(minBtn);
@@ -826,23 +942,24 @@
     }
 
     function verstuurBestelling() {
+        const T = TAAL[huidigeTaal];
         const name = document.getElementById("userName").value.trim();
-        if (!name) return alert("Vul je naam in!");
-        if (winkelwagen.length === 0) return alert("Geen artikelen geselecteerd!");
+        if (!name) return alert(T.naam_alert);
+        if (winkelwagen.length === 0) return alert(T.geen_art_alert);
 
         let lijstTekstCheck = "";
         winkelwagen.forEach(item => { lijstTekstCheck += `${item.aantal}x - ${item.id}\n`; });
 
         const extraInfo = document.getElementById("extraInfo").value.trim();
-        const infoLijn = extraInfo ? `\nInfo: ${extraInfo}` : "";
-        const bevestiging = confirm(`Bestelling versturen voor ${name}?\n\nArtikelen:\n${lijstTekstCheck}${infoLijn}`);
+        const infoLijn = extraInfo ? T.bevestig_info(extraInfo) : "";
+        const bevestiging = confirm(`${T.bevestig_titel(name)}\n\n${T.bevestig_art}:\n${lijstTekstCheck}${infoLijn}`);
 
         if (bevestiging) {
             const mail = "request.backoffice@tvhequipment.com";
-            let body = `TECHNIEKER: ${name}\r\n\r\nARTIKELEN:\r\n`;
+            let body = `${T.mail_technieker}: ${name}\r\n\r\n${T.mail_artikelen}:\r\n`;
             winkelwagen.forEach(item => { body += `${item.aantal}x - ${item.id}\r\n`; });
-            if (extraInfo) body += `\r\nINFO: ${extraInfo}`;
-            window.location.href = `mailto:${mail}?subject=${encodeURIComponent(`Magazijn Bestelling - ${name}`)}&body=${encodeURIComponent(body)}`;
+            if (extraInfo) body += `\r\n${T.mail_info}: ${extraInfo}`;
+            window.location.href = `mailto:${mail}?subject=${encodeURIComponent(T.mail_onderwerp(name))}&body=${encodeURIComponent(body)}`;
         }
     }
 </script>
