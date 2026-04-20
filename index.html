@@ -46,16 +46,18 @@
         .card:not(.is-item) img { width: 100%; height: 90px; object-fit: contain; border-radius: 6px; margin-bottom: 8px; background-color: var(--img-placeholder); }
         .card p { margin: 0; font-weight: bold; font-size: 11px; text-transform: uppercase; color: var(--text-color); }
 
-        .item-row { display: grid; grid-template-columns: auto 1fr auto; align-items: center; gap: 10px; padding: 10px 12px; background: var(--card-bg); border: 1px solid var(--card-border); border-left: 3px solid #1a73e8; border-radius: 8px; cursor: pointer; transition: background 0.1s; }
+        .item-row { display: grid; grid-template-columns: 1fr auto auto; align-items: center; gap: 10px; padding: 10px 12px; background: var(--card-bg); border: 1px solid var(--card-border); border-left: 3px solid #1a73e8; border-radius: 8px; cursor: pointer; transition: background 0.1s; }
         .item-row:hover { background: rgba(26,115,232,0.06); }
         .item-row:focus-visible { outline: 2px solid #1a73e8; outline-offset: 2px; }
         .item-row.flash { animation: addFlash 0.4s ease; }
         @keyframes addFlash { 0%,100% { background: var(--card-bg); } 50% { background: rgba(26,115,232,0.18); } }
         .row-thumb { width: 36px; height: 36px; object-fit: contain; border-radius: 4px; background: var(--img-placeholder); flex-shrink: 0; }
-        .item-row-info { min-width: 0; }
+        .item-row-info { display: flex; align-items: center; gap: 8px; min-width: 0; }
+        .item-row-text { min-width: 0; flex: 1; }
         .item-row-name { font-size: 11px; font-weight: bold; text-transform: uppercase; color: var(--text-color); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
         .item-row-pn { font-size: 10px; color: var(--muted-color); font-family: monospace; margin-top: 2px; }
         .item-row-specs { font-size: 10px; color: var(--muted-color); margin-top: 1px; }
+        .item-qty-badge { font-size: 13px; font-weight: bold; color: #1a73e8; min-width: 28px; text-align: right; white-space: nowrap; }
         .variants-group { display: flex; gap: 6px; flex-wrap: wrap; margin-top: 6px; }
         .variant-badge { display: inline-flex; align-items: center; justify-content: center; font-size: 11px; font-weight: bold; padding: 5px 12px; min-height: 32px; border-radius: 6px; border: 1.5px solid #1a73e8; white-space: nowrap; cursor: pointer; transition: background 0.15s, color 0.15s; color: #1a73e8; background: transparent; user-select: none; -webkit-tap-highlight-color: transparent; }
         .variant-badge.active { background: #1a73e8; color: white; }
@@ -1005,33 +1007,35 @@
             row.className = 'item-row';
             row.tabIndex = 0;
 
-            // Thumbnail — alleen tonen als item.img aanwezig is
+            // Info kolom: optionele thumb links, tekst rechts
+            const info = document.createElement('div');
+            info.className = 'item-row-info';
+
             if (item.img) {
                 const img = document.createElement('img');
                 img.className = 'row-thumb';
                 img.src = item.img;
                 img.alt = item.name;
                 img.onerror = () => { img.style.display = 'none'; };
-                row.appendChild(img);
+                info.appendChild(img);
             }
 
-            // Naam + specs + artikelnummer + variant-badges (alles in info-kolom)
-            const info = document.createElement('div');
-            info.className = 'item-row-info';
+            const text = document.createElement('div');
+            text.className = 'item-row-text';
             const naam = document.createElement('div');
             naam.className = 'item-row-name';
             naam.textContent = item.name;
-            info.appendChild(naam);
+            text.appendChild(naam);
             if (item.specs) {
                 const specsEl = document.createElement('div');
                 specsEl.className = 'item-row-specs';
                 specsEl.textContent = item.specs;
-                info.appendChild(specsEl);
+                text.appendChild(specsEl);
             }
             const pnEl = document.createElement('div');
             pnEl.className = 'item-row-pn';
             pnEl.textContent = `P/N: ${variants[0].pn}`;
-            info.appendChild(pnEl);
+            text.appendChild(pnEl);
 
             // Variant-badges onder naam+pn, klikbaar als er meerdere zijn
             const badgesWrap = document.createElement('div');
@@ -1046,13 +1050,20 @@
                     activeIdx = idx;
                     badgesWrap.querySelectorAll('.variant-badge').forEach((b, i) => b.classList.toggle('active', i === idx));
                     pnEl.textContent = `P/N: ${v.pn}`;
+                    if (row._updateQty) row._updateQty();
                 };
                 badgesWrap.appendChild(badge);
             });
-            info.appendChild(badgesWrap);
+            text.appendChild(badgesWrap);
+            info.appendChild(text);
             row.appendChild(info);
 
-            // + knop
+            // Hoeveelheid-badge (midden kolom)
+            const qtyBadge = document.createElement('span');
+            qtyBadge.className = 'item-qty-badge';
+            row.appendChild(qtyBadge);
+
+            // + knop (rechter kolom)
             const addBtn = document.createElement('button');
             addBtn.type = 'button';
             addBtn.className = 'add-row-btn';
@@ -1060,12 +1071,22 @@
             addBtn.setAttribute('aria-label', TAAL[huidigeTaal].voeg_toe_aria(item.name));
             row.appendChild(addBtn);
 
+            // Bijwerken hoeveelheid-badge
+            row._updateQty = () => {
+                const prefix = item.catPrefix !== undefined ? item.catPrefix : (PREFIXES[navigatiePad[0]] || "");
+                const cartId = `${item.name} (${prefix}${variants[activeIdx].pn})`;
+                const cartItem = winkelwagen.find(i => i.id === cartId);
+                qtyBadge.textContent = (cartItem && cartItem.aantal > 0) ? `×${cartItem.aantal}` : '';
+            };
+            row._updateQty();
+
             const handler = () => {
                 const v = variants[activeIdx];
                 voegToe(item.name, v.pn, item.catPrefix);
                 row.classList.remove('flash');
                 void row.offsetWidth;
                 row.classList.add('flash');
+                row._updateQty();
             };
             row.onclick = handler;
             addBtn.onclick = (e) => { e.stopPropagation(); handler(); };
@@ -1132,6 +1153,10 @@
         updateWinkelwagenLayout();
     }
 
+    function updateAllRowBadges() {
+        document.querySelectorAll('.item-row').forEach(row => { if (row._updateQty) row._updateQty(); });
+    }
+
     function aanpassenAantal(index, delta) {
         winkelwagen[index].aantal += delta;
         if (winkelwagen[index].aantal <= 0) {
@@ -1139,10 +1164,11 @@
         } else {
             saveWinkelwagen();
             updateWinkelwagenLayout();
+            updateAllRowBadges();
         }
     }
 
-    function verwijderItem(index) { winkelwagen.splice(index, 1); saveWinkelwagen(); updateWinkelwagenLayout(); }
+    function verwijderItem(index) { winkelwagen.splice(index, 1); saveWinkelwagen(); updateWinkelwagenLayout(); updateAllRowBadges(); }
 
     function leegmakenWinkelwagen() {
         if (winkelwagen.length === 0) return;
@@ -1150,6 +1176,7 @@
         winkelwagen = [];
         saveWinkelwagen();
         updateWinkelwagenLayout();
+        updateAllRowBadges();
     }
 
     function updateWinkelwagenLayout() {
